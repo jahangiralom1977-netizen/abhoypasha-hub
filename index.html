@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>অভয় পাশা সরকারি প্রাথমিক বিদ্যালয় - ডিজিটাল হাব</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #f0f4f8; padding: 12px; color: #333; }
+        
+        /* আধুনিক উপরিভাগ (Top Header) স্টাইল */
+        .top-navbar {
+            background: linear-gradient(135deg, #004d4d, #006666);
+            color: white;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            margin-bottom: 12px;
+        }
+
+        .school-header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            padding-bottom: 8px;
+            margin-bottom: 8px;
+        }
+
+        .school-title-area { text-align: left; }
+        .school-title-area h1 { font-size: 17px; font-weight: bold; color: #ffffff; line-height: 1.2; }
+        .school-title-area p { font-size: 11px; opacity: 0.85; margin-top: 2px; }
+
+        .profile-icon {
+            width: 38px;
+            height: 38px;
+            background-color: #ffffff;
+            color: #006666;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        /* নোটিশ স্ক্রোলিং বার */
+        .notice-bar {
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 6px;
+            padding: 5px 10px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        .notice-label {
+            background-color: #ff9800;
+            color: #000;
+            font-weight: bold;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 10px;
+            margin-right: 8px;
+        }
+        .notice-text {
+            display: inline-block;
+            animation: marquee 15s linear infinite;
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        /* সার্চ বক্স */
+        .search-container { margin-bottom: 15px; }
+        .search-box { width: 100%; padding: 12px 15px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; outline: none; box-shadow: inset 0 1px 3px rgba(0,0,0,0.05); }
+
+        /* গ্রিড লেআউট */
+        .grid-container { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        
+        /* কার্ড স্টাইল */
+        .card { background: white; padding: 15px; border-radius: 10px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); border-top: 4px solid #006666; transition: transform 0.2s; cursor: pointer; }
+        .card:active { transform: scale(0.98); }
+        .card .icon { font-size: 28px; margin-bottom: 8px; }
+        .card h3 { font-size: 14px; color: #006666; margin-bottom: 4px; }
+        .card p { font-size: 11px; color: #64748b; line-height: 1.3; }
+
+        /* বোতাম */
+        .btn-upload { background-color: #28a745; color: white; border: none; width: 100%; padding: 14px; margin-top: 15px; border-radius: 8px; font-size: 15px; font-weight: bold; cursor: pointer; box-shadow: 0 3px 6px rgba(0,0,0,0.1); }
+        
+        /* পপ-আপ উইন্ডো (Modal) */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); justify-content: center; align-items: center; padding: 15px; z-index: 100; }
+        .modal-content { background: white; width: 100%; max-width: 450px; padding: 18px; border-radius: 12px; text-align: center; position: relative; max-height: 90vh; overflow-y: auto; }
+        .modal-header { font-size: 17px; color: #006666; margin-bottom: 12px; font-weight: bold; border-bottom: 2px solid #f0f4f8; padding-bottom: 8px; }
+        .class-btn-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 15px; }
+        .class-btn { background: #e2e8f0; color: #0f172a; border: none; padding: 10px; border-radius: 6px; font-size: 14px; font-weight: bold; cursor: pointer; text-align: left; padding-left: 15px; }
+        .class-btn:active { background: #006666; color: white; }
+        .close-btn { background: #dc3545; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 13px; width: 100%; margin-top: 10px; }
+
+        /* ফাইল ও তথ্য তালিকা স্টাইল */
+        .file-item { background: #f8fafc; border: 1px solid #e2e8f0; padding: 10px; border-radius: 8px; margin-bottom: 8px; text-align: left; display: flex; justify-content: space-between; align-items: center; }
+        .file-info h4 { font-size: 13px; color: #1e293b; }
+        .file-info p { font-size: 10px; color: #64748b; }
+        .download-btn { background: #006666; color: white; border: none; padding: 6px 10px; border-radius: 4px; font-size: 11px; cursor: pointer; text-decoration: none; }
+
+        /* টেবিল স্টাইল */
+        .data-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 12px; }
+        .data-table th, .data-table td { border: 1px solid #cbd5e1; padding: 8px; text-align: left; }
+        .data-table th { background-color: #006666; color: white; font-weight: 600; }
+        .data-table tr:nth-child(even) { background-color: #f8fafc; }
+
+        /* আপলোড ফর্ম স্টাইল */
+        .form-group { text-align: left; margin-bottom: 10px; }
+        .form-group label { display: block; font-size: 12px; font-weight: bold; margin-bottom: 4px; color: #334155; }
+        .form-control { width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px; }
+        .btn-submit { background: #006666; color: white; border: none; padding: 10px; width: 100%; border-radius: 6px; font-weight: bold; cursor: pointer; margin-top: 5px; }
+    </style>
+</head>
+<body>
+
+    <!-- সঠিক বানানসহ টপ হেডার -->
+    <div class="top-navbar">
+        <div class="school-header-top">
+            <div class="school-title-area">
+                <h1>🏫 অভয় পাশা স: প্রা: বিদ্যালয়</h1>
+                <p>📍 আটপাড়া, নেত্রকোণা | ডিজিটাল হাব</p>
+            </div>
+            <div class="profile-icon" title="প্রধান শিক্ষক প্রোফাইল">👨‍🏫</div>
+        </div>
+        <div class="notice-bar">
+            <span class="notice-label">জরুরি নোটিশ</span>
+            <div class="notice-text">স্বাগতম! অভয় পাশা সরকারি প্রাথমিক বিদ্যালয়ের ডিজিটাল ই-লার্নিং ও ফাইল আর্কাইভ প্ল্যাটফর্মে।</div>
+        </div>
+    </div>
+
+    <div class="search-container">
+        <input type="text" class="search-box" placeholder="🔍 ই-বুক, ফাইল বা তথ্য অনুসন্ধান করুন...">
+    </div>
+
+    <div class="grid-container">
+        <!-- ১. শ্রেণি ব্যবস্থাপনা -->
+        <div class="card" onclick="openClassModal()">
+            <div class="icon">📚</div>
+            <h3>শ্রেণি ব্যবস্থাপনা</h3>
+            <p>প্রাক-প্রাথমিক হতে ৫ম শ্রেণির ই-বুক ও নির্দেশিকা</p>
+        </div>
+        
+        <!-- ২. শিক্ষক ব্যবস্থাপনা -->
+        <div class="card" onclick="openModuleModal('teacherModal')">
+            <div class="icon">👨‍🏫</div>
+            <h3>শিক্ষক ব্যবস্থাপনা</h3>
+            <p>প্রোফাইল, ছুটি ও দায়িত্ব নির্দেশিকা</p>
+        </div>
+
+        <!-- ৩. ফাইল ও নথি আর্কাইভ -->
+        <div class="card" onclick="openModuleModal('archiveModal')">
+            <div class="icon">📁</div>
+            <h3>ফাইল ও নথি আর্কাইভ</h3>
+            <p>প্রজ্ঞাপন, স্লিপ (SLIP) ও রেজুলেশন</p>
+        </div>
+
+        <!-- ৪. শিক্ষার্থী ব্যবস্থাপনা -->
+        <div class="card" onclick="openModuleModal('studentModal')">
+            <div class="icon">🎓</div>
+            <h3>শিক্ষার্থী ব্যবস্থাপনা</h3>
+            <p>উপবৃত্তি, উপস্থিতি ও মূল্যায়ন</p>
+        </div>
+
+        <!-- ৫. সহ-শিক্ষাক্রমিক -->
+        <div class="card" onclick="openGeneralModal('🏆 সহ-শিক্ষাক্রমিক', 'কাব স্কাউট, চিত্রাঙ্কন, বিতর্ক ও ক্রীড়া প্রতিযোগিতা নির্দেশিকা।')">
+            <div class="icon">🏆</div>
+            <h3>সহ-শিক্ষাক্রমিক</h3>
+            <p>কাব স্কাউট, বিতর্ক ও ক্রীড়া</p>
+        </div>
+
+        <!-- ৬. অবকাঠামো -->
+        <div class="card" onclick="openGeneralModal('🏫 অবকাঠামো', 'বিদ্যালয় ভবন, ওয়াশ ব্লক ও মালামালের হিসাব মডিউল।')">
+            <div class="icon">🏫</div>
+            <h3>অবকাঠামো</h3>
+            <p>ভবন, ওয়াশ ব্লক ও মালামাল</p>
+        </div>
+    </div>
+
+    <button class="btn-upload" onclick="openUploadModal()">➕ নতুন নথি বা ফাইল আপলোড করুন</button>
+
+    <!-- ১. শ্রেণি নির্বাচনের পপ-আপ -->
+    <div class="modal" id="classModal">
+        <div class="modal-content">
+            <div class="modal-header">📚 শ্রেণি নির্বাচন করুন</div>
+            <div class="class-btn-group">
+                <button class="class-btn" onclick="showClassFiles('প্রাক-প্রাথমিক শ্রেণি')">🧸 প্রাক-প্রাথমিক শ্রেণি</button>
+                <button class="class-btn" onclick="showClassFiles('১ম শ্রেণি')">📘 ১ম শ্রেণি</button>
+                <button class="class-btn" onclick="showClassFiles('২য় শ্রেণি')">📗 ২য় শ্রেণি</button>
+                <button class="class-btn" onclick="showClassFiles('৩য় শ্রেণি')">📙 ৩য় শ্রেণি</button>
+                <button class="class-btn" onclick="showClassFiles('৪র্থ শ্রেণি')">📕 ৪র্থ শ্রেণি</button>
+                <button class="class-btn" onclick="showClassFiles('৫ম শ্রেণি')">📓 ৫ম শ্রেণি</button>
+            </div>
+            <button class="close-btn" onclick="closeModal('classModal')">বন্ধ করুন</button>
+        </div>
+    </div>
+
+    <!-- নির্দিষ্ট শ্রেণির ফাইল দেখার পপ-আপ -->
+    <div class="modal" id="fileModal">
+        <div class="modal-content">
+            <div class="modal-header" id="fileModalTitle">ফাইল ও লেসন প্ল্যান</div>
+            <div id="fileListContainer" style="margin-bottom: 10px;"></div>
+            <button class="close-btn" onclick="closeModal('fileModal')">পেছনে যান</button>
+        </div>
+    </div>
+
+    <!-- ২. শিক্ষক ব্যবস্থাপনা পপ-আপ -->
+    <div class="modal" id="teacherModal">
+        <div class="modal-content">
+            <div class="modal-header">👨‍🏫 শিক্ষক ব্যবস্থাপনা</div>
+            <div style="margin-bottom: 10px;">
+                <div class="file-item">
+                    <div class="file-info">
+                        <h4>📄 শিক্ষক তথ্য ও প্রোফাইল</h4>
+                        <p>সকল শিক্ষকের পদবী ও বিস্তারিত তথ্য</p>
+                    </div>
+                    <button class="download-btn" onclick="showTable('শিক্ষক তালিকা ও প্রোফাইল', ['ক্রমিক', 'শিক্ষকের নাম', 'পদবী', 'মোবাইল'], [ ['১', 'মো: মনিরুজ্জামান বাবুল', 'প্রধান শিক্ষক', '০১৭১...'], ['২', 'সহকারী শিক্ষক ১', 'সহকারী শিক্ষক', '০১৭০...'] ])">দেখুন</button>
+                </div>
+                <div class="file-item">
+                    <div class="file-info">
+                        <h4>📝 নৈমিত্তিক ও অর্জিত ছুটি</h4>
+                        <p>ছুটির হিসাব ও ব্যালেন্স</p>
+                    </div>
+                    <button class="download-btn" onclick="showTable('ছুটির হিসাব রেজিস্টার', ['শিক্ষকের নাম', 'মোট ছুটি', 'ভোগকৃত', 'অবশিষ্ট'], [ ['মো: মনিরুজ্জামান বাবুল', '২০', '২', '১৮'], ['সহকারী শিক্ষক ১', '২০', '৫', '১৫'] ])">দেখুন</button>
+                </div>
+            </div>
+            <button class="close-btn" onclick="closeModal('teacherModal')">বন্ধ করুন</button>
+        </div>
+    </div>
+
+    <!-- ৩. ফাইল ও নথি আর্কাইভ পপ-আপ -->
+    <div class="modal" id="archiveModal">
+        <div class="modal-content">
+            <div class="modal-header">📁 ফাইল ও নথি আর্কাইভ</div>
+            <div style="margin-bottom: 10px;">
+                <div class="file-item">
+                    <div class="file-info">
+                        <h4>📌 সরকারি প্রজ্ঞাপন ও পরিপত্র</h4>
+                        <p>সর্বশেষ নির্দেশনাবলী ও গেজেট</p>
+                    </div>
+                    <button class="download-btn" onclick="showTable('সরকারি প্রজ্ঞাপন সমূহের তালিকা', ['তারিখ', 'বিষয় / স্মারক', 'ফাইল'], [ ['১৫/০৫/২০২৬', 'গ্রীষ্মকালীন ছুটি সংক্রান্ত পরিপত্র', 'ডাউনলোড'], ['১০/০১/২০২৬', 'বিদ্যালয় পরিচালনা নির্দেশিকা', 'ডাউনলোড'] ])">দেখুন</button>
+                </div>
+                <div class="file-item">
+                    <div class="file-info">
+                        <h4>💰 স্লিপ (SLIP) ও রেজুলেশন</h4>
+                        <p>ফান্ড বরাদ্দ ও ব্যয় রেজুলেশন</p>
+                    </div>
+                    <button class="download-btn" onclick="showTable('SLIP ফান্ড ও মিটিং রেজুলেশন', ['তারিখ', 'রেজুলেশন বিষয়', 'অনুমোদিত টাকা'], [ ['৩০/০৯/২০২৫', 'SLIP ফান্ড বরাদ্দ ও উন্নয়ন পরিকল্পনা', '৭০,০০০/-'], ['১৫/০২/২০২৬', 'মেরামত ও নতুন উপকরণ ক্রয়', '২০,০০০/-'] ])">দেখুন</button>
+                </div>
+            </div>
+            <button class="close-btn" onclick="closeModal('archiveModal')">বন্ধ করুন</button>
+        </div>
+    </div>
+
+    <!-- ৪. শিক্ষার্থী ব্যবস্থাপনা পপ-আপ -->
+    <div class="modal" id="studentModal">
+        <div class="modal-content">
+            <div class="modal-header">🎓 শিক্ষার্থী ব্যবস্থাপনা</div>
+            <div style="margin-bottom: 10px;">
+                <div class="file-item">
+                    <div class="file-info">
+                        <h4>💳 উপবৃত্তি তালিকা</h4>
+                        <p>উপবৃত্তি প্রাপ্ত শিক্ষার্থীদের তালিকা</p>
+                    </div>
+                    <button class="download-btn" onclick="showTable('উপবৃত্তি তালিকা', ['শ্রেণি', 'মোট শিক্ষার্থী', 'উপবৃত্তি প্রাপ্ত'], [ ['প্রাক-প্রাথমিক', '২৫', '২৫'], ['১ম শ্রেণি', '৩০', '৩০'], ['২য় শ্রেণি', '২৮', '২৮'] ])">দেখুন</button>
+                </div>
+            </div>
+            <button class="close-btn" onclick="closeModal('studentModal')">বন্ধ করুন</button>
+        </div>
+    </div>
+
+    <!-- তথ্য প্রদর্শন টেবিল পপ-আপ -->
+    <div class="modal" id="tableModal">
+        <div class="modal-content">
+            <div class="modal-header" id="tableTitle">তথ্য তালিকা</div>
+            <div style="overflow-x: auto;">
+                <table class="data-table" id="dynamicTable">
+                    <!-- টেবিল ডাইনামিকভাবে আসবে -->
+                </table>
+            </div>
+            <button class="close-btn" onclick="closeModal('tableModal')">পেছনে যান</button>
+        </div>
+    </div>
+
+    <!-- নথি / ফাইল আপলোড পপ-আপ -->
+    <div class="modal" id="uploadModal">
+        <div class="modal-content">
+            <div class="modal-header">➕ নতুন নথি বা ফাইল যুক্ত করুন</div>
+            <form onsubmit="handleUpload(event)">
+                <div class="form-group">
+                    <label>ক্যাটাগরি নির্বাচন করুন:</label>
+                    <select class="form-control" id="uploadCategory" required>
+                        <option value="">নির্বাচন করুন...</option>
+                        <option value="শ্রেণি ব্যবস্থাপনা">শ্রেণি ব্যবস্থাপনা (ই-বুক / লেসন প্ল্যান)</option>
+                        <option value="শিক্ষক ব্যবস্থাপনা">শিক্ষক ব্যবস্থাপনা</option>
+                        <option value="ফাইল ও নথি আর্কাইভ">ফাইল ও নথি আর্কাইভ</option>
+                        <option value="শিক্ষার্থী ব্যবস্থাপনা">শিক্ষার্থী ব্যবস্থাপনা</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>নথি / ফাইলের নাম:</label>
+                    <input type="text" class="form-control" id="uploadTitle" placeholder="যেমন: SLIP মিটিং রেজুলেশন ২০২৬" required>
+                </div>
+                <div class="form-group">
+                    <label>ফাইল নির্বাচন করুন (PDF/Image):</label>
+                    <input type="file" class="form-control" id="uploadFile" required>
+                </div>
+                <button type="submit" class="btn-submit">সংরক্ষণ ও আপলোড করুন</button>
+            </form>
+            <button class="close-btn" onclick="closeModal('uploadModal')">বাতিল</button>
+        </div>
+    </div>
+
+    <script>
+        function openClassModal() { document.getElementById('classModal').style.display = 'flex'; }
+        function openModuleModal(id) { document.getElementById(id).style.display = 'flex'; }
+        function openUploadModal() { document.getElementById('uploadModal').style.display = 'flex'; }
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+
+        function showClassFiles(className) {
+            document.getElementById('classModal').style.display = 'none'; 
+            document.getElementById('fileModalTitle').innerText = className + ' - বই ও লেসন প্ল্যান';
+            let container = document.getElementById('fileListContainer');
+            container.innerHTML = `
+                <div class="file-item">
+                    <div class="file-info">
+                        <h4>📖 মূল পাঠ্যপুস্তক (PDF)</h4>
+                        <p>নরমাল ভার্সন - শিক্ষাবর্ষ</p>
+                    </div>
+                    <button class="download-btn" onclick="alert('বুকটি ওপেন হচ্ছে...')">ওপেন</button>
+                </div>
+                <div class="file-item">
+                    <div class="file-info">
+                        <h4>📝 শিক্ষক সহায়িকা ও লেসন প্ল্যান</h4>
+                        <p>বার্ষিক পাঠ পরিকল্পনা</p>
+                    </div>
+                    <button class="download-btn" onclick="alert('লেসন প্ল্যান ওপেন হচ্ছে...')">ওপেন</button>
+                </div>
+            `;
+            document.getElementById('fileModal').style.display = 'flex';
+        }
+
+        function showTable(title, headers, rows) {
+            document.getElementById('tableTitle').innerText = title;
+            let table = document.getElementById('dynamicTable');
+            
+            let html = '<thead><tr>';
+            headers.forEach(h => html += `<th>${h}</th>`);
+            html += '</tr></thead><tbody>';
+
+            rows.forEach(r => {
+                html += '<tr>';
+                r.forEach(cell => html += `<td>${cell}</td>`);
+                html += '</tr>';
+            });
+            html += '</tbody>';
+
+            table.innerHTML = html;
+            document.getElementById('tableModal').style.display = 'flex';
+        }
+
+        function handleUpload(e) {
+            e.preventDefault();
+            let cat = document.getElementById('uploadCategory').value;
+            let title = document.getElementById('uploadTitle').value;
+            alert(`সফলভাবে আপলোড হয়েছে!\n\nক্যাটাগরি: ${cat}\nফাইলের নাম: ${title}`);
+            closeModal('uploadModal');
+        }
+
+        function openGeneralModal(title, detail) {
+            alert(title + "\n\n" + detail);
+        }
+    </script>
+
+</body>
+</html>
