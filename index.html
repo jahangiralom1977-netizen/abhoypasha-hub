@@ -1,11 +1,11 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>অভয়পাশা সরকারি প্রাথমিক বিদ্যালয় - ডিজিটাল হাব</title>
     
-    <!-- মোবাইল অ্যাপ এবং ব্রাউজার লোগো (Favicon & Apple Touch Icon) -->
+    <!-- মোবাইল অ্যাপ ও ব্রাউজার আইকন -->
     <link rel="icon" type="image/jpeg" href="1769399341413.jpg">
     <link rel="apple-touch-icon" href="1769399341413.jpg">
     <link rel="shortcut icon" type="image/jpeg" href="1769399341413.jpg">
@@ -15,21 +15,22 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            background-color: #f4f6f9;
+            background-color: #f0f4f8;
             padding: 15px;
+            color: #333;
         }
 
-        /* আধুনিক উপরিভাগ (Top Header) */
+        /* হেডার ডিজাইন */
         .top-navbar {
             background: linear-gradient(135deg, #005c53, #042940);
             color: white;
-            padding: 15px;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            padding: 18px;
+            border-radius: 16px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.15);
             margin-bottom: 15px;
         }
 
@@ -38,14 +39,14 @@
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-            padding-bottom: 10px;
-            margin-bottom: 10px;
+            padding-bottom: 12px;
+            margin-bottom: 12px;
         }
 
         .school-info-title {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
 
         .school-info-title h1 {
@@ -54,8 +55,8 @@
         }
 
         .school-logo-top {
-            width: 45px;
-            height: 45px;
+            width: 48px;
+            height: 48px;
             border-radius: 50%;
             border: 2px solid #fff;
             object-fit: cover;
@@ -67,76 +68,80 @@
             margin-top: 3px;
         }
 
-        .notice-bar {
+        /* অ্যাকশন বার */
+        .action-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .btn-share {
+            flex: 1;
+            background: #ffffff;
+            color: #005c53;
+            border: 1px solid #005c53;
+            padding: 10px;
+            border-radius: 10px;
+            font-weight: bold;
             display: flex;
             align-items: center;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 6px 10px;
-            border-radius: 6px;
-            font-size: 0.85rem;
-            margin-top: 10px;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
 
-        .notice-badge {
-            background: #ff9f1c;
-            color: #000;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-weight: bold;
-            margin-right: 10px;
-            font-size: 0.75rem;
-        }
-
-        /* সার্চ বার */
+        /* সার্চ বক্স */
         .search-box {
             position: relative;
-            margin-bottom: 20px;
+            margin-bottom: 18px;
         }
 
         .search-box input {
             width: 100%;
-            padding: 12px 15px 12px 40px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
+            padding: 12px 15px 12px 42px;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
             font-size: 0.95rem;
             outline: none;
+            background: #fff;
         }
 
         .search-box::before {
             content: "🔍";
             position: absolute;
-            left: 12px;
+            left: 14px;
             top: 50%;
             transform: translateY(-50%);
             font-size: 1rem;
         }
 
-        /* কার্ড গ্রিড লেআউট */
+        /* গ্রিড ফোল্ডার */
         .grid-container {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
+            gap: 14px;
             margin-bottom: 20px;
         }
 
         .card {
             background: white;
-            padding: 15px 10px;
-            border-radius: 10px;
+            padding: 16px 12px;
+            border-radius: 14px;
             text-align: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            border: 1px solid #eef2f5;
-            text-decoration: none;
-            color: #333;
-            transition: transform 0.2s;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.04);
+            border: 1px solid #e2e8f0;
+            cursor: pointer;
+            transition: all 0.2s ease;
         }
 
         .card:active {
-            transform: scale(0.98);
+            transform: scale(0.97);
+            background: #f8fafc;
         }
 
         .card-icon {
-            font-size: 2rem;
+            font-size: 2.2rem;
             margin-bottom: 8px;
         }
 
@@ -149,28 +154,86 @@
 
         .card-desc {
             font-size: 0.75rem;
-            color: #666;
-            line-height: 1.2;
+            color: #64748b;
+            line-height: 1.3;
         }
 
-        /* নতুন ফাইল আপলোড বাটন */
+        /* পপ-আপ ফাইল সেকশন */
+        .content-section {
+            display: none;
+            background: white;
+            padding: 18px;
+            border-radius: 14px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            border-top: 4px solid #005c53;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 8px;
+        }
+
+        .section-title {
+            font-size: 1.05rem;
+            color: #005c53;
+            font-weight: bold;
+        }
+
+        .close-btn {
+            background: #e2e8f0;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .file-list {
+            list-style: none;
+        }
+
+        .file-item {
+            padding: 10px;
+            border-bottom: 1px dashed #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .file-item a {
+            color: #2563eb;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            background: #eff6ff;
+            padding: 4px 10px;
+            border-radius: 6px;
+        }
+
+        /* আপলোড বাটন */
         .btn-upload {
             display: block;
             width: 100%;
             background: #2ec4b6;
             color: white;
             text-align: center;
-            padding: 14px;
-            border-radius: 8px;
+            padding: 15px;
+            border-radius: 12px;
             font-weight: bold;
             text-decoration: none;
-            box-shadow: 0 4px 6px rgba(46, 196, 182, 0.3);
+            box-shadow: 0 4px 10px rgba(46, 196, 182, 0.3);
+            font-size: 1rem;
         }
     </style>
 </head>
 <body>
 
-    <!-- টপ হেডার -->
+    <!-- হেডার -->
     <div class="top-navbar">
         <div class="school-header-top">
             <div class="school-info-title">
@@ -180,65 +243,133 @@
                     <div class="location-tag">📍 আটপাড়া, নেত্রকোণা | ডিজিটাল হাব</div>
                 </div>
             </div>
-            <!-- প্রোফাইল / লোগো ছবি -->
             <img src="1769399341413.jpg" alt="Logo" class="school-logo-top">
         </div>
+    </div>
 
-        <div class="notice-bar">
-            <span class="notice-badge">জরুরি নোটিশ</span>
-            <marquee behavior="scroll" direction="left">স্বাগতম! অভয়পাশা সরকারি প্রাথমিক বিদ্যালয়ের ডিজিটাল হাবে।</marquee>
-        </div>
+    <!-- শেয়ার বাটন -->
+    <div class="action-bar">
+        <button class="btn-share" onclick="shareApp()">
+            🔗 ডিজিটাল হাব লিঙ্ক শেয়ার করুন
+        </button>
     </div>
 
     <!-- সার্চ বার -->
     <div class="search-box">
-        <input type="text" placeholder="ই-বুক, ফাইল বা তথ্য অনুসন্ধান করুন...">
+        <input type="text" id="searchInput" placeholder="ই-বুক, ফাইল বা তথ্য অনুসন্ধান করুন...">
     </div>
 
-    <!-- সার্ভিস কার্ড সমূহ -->
+    <!-- ফোল্ডার গ্রিড -->
     <div class="grid-container">
         
-        <a href="#" class="card">
+        <div class="card" onclick="openSection('govSection')">
+            <div class="card-icon">🏛️</div>
+            <div class="card-title">মন্ত্রণালয়, ডিপিই ও নেপ</div>
+            <div class="card-desc">DPE, NAPE, MOPME ও সরকারি পোর্টাল</div>
+        </div>
+
+        <div class="card" onclick="openSection('classSection')">
             <div class="card-icon">📚</div>
-            <div class="card-title">শ্রেণি ব্যবস্থাপনা</div>
-            <div class="card-desc">প্রাক-প্রাথমিক হতে ৫ম শ্রেণির ই-বুক ও নির্দেশিকা</div>
-        </a>
+            <div class="card-title">পাঠ্যবই ও ই-বুক</div>
+            <div class="card-desc">NCTB প্রাক-প্রাথমিক হতে ৫ম শ্রেণির বই</div>
+        </div>
 
-        <a href="#" class="card">
-            <div class="card-icon">👨‍🏫</div>
-            <div class="card-title">শিক্ষক ব্যবস্থাপনা</div>
-            <div class="card-desc">প্রোফাইল, ছুটি ও দায়িত্ব নির্দেশিকা</div>
-        </a>
+        <div class="card" onclick="openSection('youtubeSection')">
+            <div class="card-icon">▶️</div>
+            <div class="card-title">ইউটিউব ও শিক্ষামূলক ভিডিও</div>
+            <div class="card-desc">NAPE, DPE ও অনলাইন ক্লাস ভিডিও</div>
+        </div>
 
-        <a href="#" class="card">
+        <div class="card" onclick="openSection('archiveSection')">
             <div class="card-icon">📁</div>
-            <div class="card-title">ফাইল ও নথি আর্কাইভ</div>
-            <div class="card-desc">প্রজ্ঞাপন, স্লিপ (SLIP) ও রেজুলেশন</div>
-        </a>
-
-        <a href="#" class="card">
-            <div class="card-icon">🎓</div>
-            <div class="card-title">শিক্ষার্থী ব্যবস্থাপনা</div>
-            <div class="card-desc">উপবৃত্তি, উপস্থিতি ও মূল্যায়ন</div>
-        </a>
-
-        <a href="#" class="card">
-            <div class="card-icon">🏆</div>
-            <div class="card-title">সহ-শিক্ষাক্রমিক</div>
-            <div class="card-desc">কাব স্কাউট, বিতর্ক ও ক্রীড়া</div>
-        </a>
-
-        <a href="#" class="card">
-            <div class="card-icon">🏫</div>
-            <div class="card-title">অবকাঠামো</div>
-            <div class="card-desc">ভবন, ওয়াস ব্লক ও মালামাল</div>
-        </a>
+            <div class="card-title">ফাইল ও ড্রাইভ মেমোরি</div>
+            <div class="card-desc">স্লিপ, রেজুলেশন ও সংরক্ষিত ফাইল</div>
+        </div>
 
     </div>
 
-    <!-- নতুন ফাইল আপলোড বাটন -->
-    <a href="#" class="btn-upload">➕ নতুন নথি বা ফাইল আপলোড করুন</a>
+    <!-- ফোল্ডারের ভেতর বিস্তারিত অপশনসমূহ -->
 
+    <!-- ১. মন্ত্রণালয়, ডিপিই ও নেপ সেকশন -->
+    <div id="govSection" class="content-section">
+        <div class="section-header">
+            <span class="section-title">🏛️ সরকারি পোর্টাল ও প্রতিষ্ঠান</span>
+            <button class="close-btn" onclick="closeSections()">✖ বন্ধ করুন</button>
+        </div>
+        <ul class="file-list">
+            <li class="file-item"><span>🏛️ প্রাথমিক ও গণশিক্ষা মন্ত্রণালয়</span> <a href="https://mopme.gov.bd" target="_blank">প্রবেশ করুন</a></li>
+            <li class="file-item"><span>🏫 প্রাথমিক শিক্ষা অধিদপ্তর (DPE)</span> <a href="https://dpe.gov.bd" target="_blank">প্রবেশ করুন</a></li>
+            <li class="file-item"><span>🎓 ন্যাশনাল একাডেমি ফর প্রাইমারি এডুকেশন (NAPE)</span> <a href="https://nape.gov.bd" target="_blank">প্রবেশ করুন</a></li>
+            <li class="file-item"><span>💳 শিক্ষার্থী উপবৃত্তি পোর্টাল (HSP)</span> <a href="http://hsp.pmead.gov.bd" target="_blank">প্রবেশ করুন</a></li>
+        </ul>
+    </div>
+
+    <!-- ২. ই-বুক সেকশন -->
+    <div id="classSection" class="content-section">
+        <div class="section-header">
+            <span class="section-title">📚 পাঠ্যবই ও ই-বুক (NCTB)</span>
+            <button class="close-btn" onclick="closeSections()">✖ বন্ধ করুন</button>
+        </div>
+        <ul class="file-list">
+            <li class="file-item"><span>📖 এনসিটিবি (NCTB) ই-বুক পোর্টাল</span> <a href="https://nctb.gov.bd" target="_blank">ডাউনলোড</a></li>
+            <li class="file-item"><span>📁 ড্রাইভ ই-বুক ফোল্ডার</span> <a href="https://drive.google.com/drive/folders/1Q23TbwD0XKEcpgoDJ092mWvqYV6lKUHC" target="_blank">ওপেন করুন</a></li>
+        </ul>
+    </div>
+
+    <!-- ৩. ইউটিউব ও ভিডিও সেকশন -->
+    <div id="youtubeSection" class="content-section">
+        <div class="section-header">
+            <span class="section-title">▶️ ইউটিউব ও ভিডিও লিংকসমূহ</span>
+            <button class="close-btn" onclick="closeSections()">✖ বন্ধ করুন</button>
+        </div>
+        <ul class="file-list">
+            <li class="file-item"><span>🎓 নেপ (NAPE Mymensingh) ইউটিউব চ্যানেল</span> <a href="https://www.youtube.com/c/NAPEMymensingh" target="_blank">ভিডিও দেখুন</a></li>
+            <li class="file-item"><span>🖥️ ডিজিটাল প্রাইমারি এডুকেশন (DPE) চ্যানেল</span> <a href="https://www.youtube.com/c/digitalprimaryeducation" target="_blank">ভিডিও দেখুন</a></li>
+            <li class="file-item"><span>📺 ঘরে বসে শিখি (প্রাথমিক ক্লাস)</span> <a href="https://www.youtube.com/results?search_query=Ghore+Boshie+Shikhi" target="_blank">ভিডিও দেখুন</a></li>
+            <li class="file-item"><span>🎬 ইউটিউব হোম পেজ</span> <a href="https://www.youtube.com" target="_blank">ওপেন করুন</a></li>
+        </ul>
+    </div>
+
+    <!-- ৪. ড্রাইভ ও আর্কাইভ সেকশন -->
+    <div id="archiveSection" class="content-section">
+        <div class="section-header">
+            <span class="section-title">📁 ফাইল ও নথি ড্রাইভ</span>
+            <button class="close-btn" onclick="closeSections()">✖ বন্ধ করুন</button>
+        </div>
+        <ul class="file-list">
+            <li class="file-item"><span>📄 স্কুলে সংরক্ষিত সকল ফাইল ও নথি</span> <a href="https://drive.google.com/drive/folders/1Q23TbwD0XKEcpgoDJ092mWvqYV6lKUHC" target="_blank">ডাউনলোড/দেখুন</a></li>
+        </ul>
+    </div>
+
+    <!-- ফাইল আপলোড করার ডিরেক্ট বাটন -->
+    <a href="https://drive.google.com/drive/folders/1Q23TbwD0XKEcpgoDJ092mWvqYV6lKUHC" target="_blank" class="btn-upload">➕ যেকোনো ফাইল বা ভিডিও আপলোড করুন</a>
+
+    <script>
+        function openSection(sectionId) {
+            closeSections();
+            document.getElementById(sectionId).style.display = 'block';
+            window.scrollTo({ top: 300, behavior: 'smooth' });
+        }
+
+        function closeSections() {
+            var sections = document.querySelectorAll('.content-section');
+            sections.forEach(function(sec) {
+                sec.style.display = 'none';
+            });
+        }
+
+        function shareApp() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'অভয়পাশা স: প্রা: বিদ্যালয় - ডিজিটাল হাব',
+                    text: 'অভয়পাশা সরকারি প্রাথমিক বিদ্যালয়ের ডিজিটাল হাবে প্রবেশ করুন:',
+                    url: window.location.href
+                });
+            } else {
+                navigator.clipboard.writeText(window.location.href);
+                alert('ওয়েবসাইটের লিঙ্কটি কপি করা হয়েছে!');
+            }
+        }
+    </script>
 </body>
 </html>
-              
