@@ -262,27 +262,45 @@
     <!-- ফোল্ডার গ্রিড -->
     <div class="grid-container">
         
+        <div class="card" onclick="openSection('classSection')">
+            <div class="card-icon">📚</div>
+            <div class="card-title">শ্রেণি ব্যবস্থাপনা</div>
+            <div class="card-desc">প্রাক-প্রাথমিক হতে ৫ম শ্রেণির ই-বুক ও পাঠদান</div>
+        </div>
+
+        <div class="card" onclick="openSection('teacherSection')">
+            <div class="card-icon">👨‍🏫</div>
+            <div class="card-title">শিক্ষক ব্যবস্থাপনা</div>
+            <div class="card-desc">প্রোফাইল, ছুটি ও দায়িত্বাবলি</div>
+        </div>
+
+        <div class="card" onclick="openSection('studentSection')">
+            <div class="card-icon">🎓</div>
+            <div class="card-title">শিক্ষার্থী ব্যবস্থাপনা</div>
+            <div class="card-desc">উপবৃত্তি, উপস্থিতি ও মূল্যায়ন</div>
+        </div>
+
+        <div class="card" onclick="openSection('coCurricularSection')">
+            <div class="card-icon">⚽</div>
+            <div class="card-title">সহশিক্ষাক্রম কার্যক্রম</div>
+            <div class="card-desc">খেলাধুলা, স্কাউট ও সাংস্কৃতিক অনুষ্ঠান</div>
+        </div>
+
         <div class="card" onclick="openSection('govSection')">
             <div class="card-icon">🏛️</div>
             <div class="card-title">মন্ত্রণালয়, ডিপিই ও নেপ</div>
             <div class="card-desc">DPE, NAPE, MOPME ও সরকারি পোর্টাল</div>
         </div>
 
-        <div class="card" onclick="openSection('classSection')">
-            <div class="card-icon">📚</div>
-            <div class="card-title">পাঠ্যবই ও ই-বুক</div>
-            <div class="card-desc">NCTB প্রাক-প্রাথমিক হতে ৫ম শ্রেণির বই</div>
-        </div>
-
         <div class="card" onclick="openSection('youtubeSection')">
             <div class="card-icon">▶️</div>
-            <div class="card-title">ইউটিউব ও শিক্ষামূলক ভিডিও</div>
+            <div class="card-title">ইউটিউব ও ভিডিও শিক্ষা</div>
             <div class="card-desc">NAPE, DPE ও অনলাইন ক্লাস ভিডিও</div>
         </div>
 
         <div class="card" onclick="openSection('archiveSection')">
             <div class="card-icon">📁</div>
-            <div class="card-title">ফাইল ও ড্রাইভ মেমোরি</div>
+            <div class="card-title">ফাইল ও ড্রাইভ আর্কাইভ</div>
             <div class="card-desc">স্লিপ, রেজুলেশন ও সংরক্ষিত ফাইল</div>
         </div>
 
@@ -290,7 +308,54 @@
 
     <!-- ফোল্ডারের ভেতর বিস্তারিত অপশনসমূহ -->
 
-    <!-- ১. মন্ত্রণালয়, ডিপিই ও নেপ সেকশন -->
+    <!-- ১. শ্রেণি ব্যবস্থাপনা -->
+    <div id="classSection" class="content-section">
+        <div class="section-header">
+            <span class="section-title">📚 শ্রেণি ব্যবস্থাপনা ও ই-বুক</span>
+            <button class="close-btn" onclick="closeSections()">✖ বন্ধ করুন</button>
+        </div>
+        <ul class="file-list">
+            <li class="file-item"><span>📖 বোর্ড ই-বুক পোর্টাল (NCTB)</span> <a href="https://nctb.gov.bd" target="_blank">ডাউনলোড</a></li>
+            <li class="file-item"><span>📁 শ্রেণি ফাইল ও কাগজপত্র আপলোড/ডিলিট</span> <a href="https://drive.google.com/drive/folders/1Q23TbwD0XKEcpgoDJ092mWvqYV6lKUHC" target="_blank">ড্রাইভ খুলুন</a></li>
+        </ul>
+    </div>
+
+    <!-- ২. শিক্ষক ব্যবস্থাপনা -->
+    <div id="teacherSection" class="content-section">
+        <div class="section-header">
+            <span class="section-title">👨‍🏫 শিক্ষক ব্যবস্থাপনা</span>
+            <button class="close-btn" onclick="closeSections()">✖ বন্ধ করুন</button>
+        </div>
+        <ul class="file-list">
+            <li class="file-item"><span>📝 ছুটির আবেদন ও অন্যান্য ফর্ম</span> <a href="https://drive.google.com/drive/folders/1Q23TbwD0XKEcpgoDJ092mWvqYV6lKUHC" target="_blank">ড্রাইভ খুলুন</a></li>
+        </ul>
+    </div>
+
+    <!-- ৩. শিক্ষার্থী ব্যবস্থাপনা -->
+    <div id="studentSection" class="content-section">
+        <div class="section-header">
+            <span class="section-title">🎓 শিক্ষার্থী ব্যবস্থাপনা</span>
+            <button class="close-btn" onclick="closeSections()">✖ বন্ধ করুন</button>
+        </div>
+        <ul class="file-list">
+            <li class="file-item"><span>💳 উপবৃত্তি পোর্টাল (HSP)</span> <a href="http://hsp.pmead.gov.bd" target="_blank">প্রবেশ করুন</a></li>
+            <li class="file-item"><span>📊 মূল্যায়ন ও শিক্ষার্থীর কাগজ ড্রাইভ</span> <a href="https://drive.google.com/drive/folders/1Q23TbwD0XKEcpgoDJ092mWvqYV6lKUHC" target="_blank">ড্রাইভ খুলুন</a></li>
+        </ul>
+    </div>
+
+    <!-- ৪. সহশিক্ষাক্রম কার্যক্রম ও খেলাধুলা -->
+    <div id="coCurricularSection" class="content-section">
+        <div class="section-header">
+            <span class="section-title">⚽ সহশিক্ষাক্রম কার্যক্রম ও খেলাধুলা</span>
+            <button class="close-btn" onclick="closeSections()">✖ বন্ধ করুন</button>
+        </div>
+        <ul class="file-list">
+            <li class="file-item"><span>🏆 ক্রীড়া প্রতিযোগিতা ও স্কাউট ফাইল</span> <a href="https://drive.google.com/drive/folders/1Q23TbwD0XKEcpgoDJ092mWvqYV6lKUHC" target="_blank">ড্রাইভ খুলুন</a></li>
+            <li class="file-item"><span>🎨 সাংস্কৃতিক ও অন্যান্য কার্যক্রমের ছবি/ভিডিও</span> <a href="https://drive.google.com/drive/folders/1Q23TbwD0XKEcpgoDJ092mWvqYV6lKUHC" target="_blank">আপলোড/ডিলিট করুন</a></li>
+        </ul>
+    </div>
+
+    <!-- ৫. মন্ত্রণালয়, ডিপিই ও নেপ -->
     <div id="govSection" class="content-section">
         <div class="section-header">
             <span class="section-title">🏛️ সরকারি পোর্টাল ও প্রতিষ্ঠান</span>
@@ -300,49 +365,35 @@
             <li class="file-item"><span>🏛️ প্রাথমিক ও গণশিক্ষা মন্ত্রণালয়</span> <a href="https://mopme.gov.bd" target="_blank">প্রবেশ করুন</a></li>
             <li class="file-item"><span>🏫 প্রাথমিক শিক্ষা অধিদপ্তর (DPE)</span> <a href="https://dpe.gov.bd" target="_blank">প্রবেশ করুন</a></li>
             <li class="file-item"><span>🎓 ন্যাশনাল একাডেমি ফর প্রাইমারি এডুকেশন (NAPE)</span> <a href="https://nape.gov.bd" target="_blank">প্রবেশ করুন</a></li>
-            <li class="file-item"><span>💳 শিক্ষার্থী উপবৃত্তি পোর্টাল (HSP)</span> <a href="http://hsp.pmead.gov.bd" target="_blank">প্রবেশ করুন</a></li>
         </ul>
     </div>
 
-    <!-- ২. ই-বুক সেকশন -->
-    <div id="classSection" class="content-section">
-        <div class="section-header">
-            <span class="section-title">📚 পাঠ্যবই ও ই-বুক (NCTB)</span>
-            <button class="close-btn" onclick="closeSections()">✖ বন্ধ করুন</button>
-        </div>
-        <ul class="file-list">
-            <li class="file-item"><span>📖 এনসিটিবি (NCTB) ই-বুক পোর্টাল</span> <a href="https://nctb.gov.bd" target="_blank">ডাউনলোড</a></li>
-            <li class="file-item"><span>📁 ড্রাইভ ই-বুক ফোল্ডার</span> <a href="https://drive.google.com/drive/folders/1Q23TbwD0XKEcpgoDJ092mWvqYV6lKUHC" target="_blank">ওপেন করুন</a></li>
-        </ul>
-    </div>
-
-    <!-- ৩. ইউটিউব ও ভিডিও সেকশন -->
+    <!-- ৬. ইউটিউব ও ভিডিও -->
     <div id="youtubeSection" class="content-section">
         <div class="section-header">
             <span class="section-title">▶️ ইউটিউব ও ভিডিও লিংকসমূহ</span>
             <button class="close-btn" onclick="closeSections()">✖ বন্ধ করুন</button>
         </div>
         <ul class="file-list">
-            <li class="file-item"><span>🎓 নেপ (NAPE Mymensingh) ইউটিউব চ্যানেল</span> <a href="https://www.youtube.com/c/NAPEMymensingh" target="_blank">ভিডিও দেখুন</a></li>
-            <li class="file-item"><span>🖥️ ডিজিটাল প্রাইমারি এডুকেশন (DPE) চ্যানেল</span> <a href="https://www.youtube.com/c/digitalprimaryeducation" target="_blank">ভিডিও দেখুন</a></li>
-            <li class="file-item"><span>📺 ঘরে বসে শিখি (প্রাথমিক ক্লাস)</span> <a href="https://www.youtube.com/results?search_query=Ghore+Boshie+Shikhi" target="_blank">ভিডিও দেখুন</a></li>
-            <li class="file-item"><span>🎬 ইউটিউব হোম পেজ</span> <a href="https://www.youtube.com" target="_blank">ওপেন করুন</a></li>
+            <li class="file-item"><span>🎓 নেপ (NAPE Mymensingh) চ্যানেল</span> <a href="https://www.youtube.com/c/NAPEMymensingh" target="_blank">ভিডিও দেখুন</a></li>
+            <li class="file-item"><span>🖥️ ডিজিটাল প্রাইমারি এডুকেশন চ্যানেল</span> <a href="https://www.youtube.com/c/digitalprimaryeducation" target="_blank">ভিডিও দেখুন</a></li>
+            <li class="file-item"><span>📺 ঘরে বসে শিখি (অনলাইন ক্লাস)</span> <a href="https://www.youtube.com/results?search_query=Ghore+Boshie+Shikhi" target="_blank">ভিডিও দেখুন</a></li>
         </ul>
     </div>
 
-    <!-- ৪. ড্রাইভ ও আর্কাইভ সেকশন -->
+    <!-- ৭. ড্রাইভ ও আর্কাইভ -->
     <div id="archiveSection" class="content-section">
         <div class="section-header">
-            <span class="section-title">📁 ফাইল ও নথি ড্রাইভ</span>
+            <span class="section-title">📁 ফাইল ও নথি ড্রাইভ (আর্কাইভ)</span>
             <button class="close-btn" onclick="closeSections()">✖ বন্ধ করুন</button>
         </div>
         <ul class="file-list">
-            <li class="file-item"><span>📄 স্কুলে সংরক্ষিত সকল ফাইল ও নথি</span> <a href="https://drive.google.com/drive/folders/1Q23TbwD0XKEcpgoDJ092mWvqYV6lKUHC" target="_blank">ডাউনলোড/দেখুন</a></li>
+            <li class="file-item"><span>📄 সংরক্ষিত সকল ফাইল স্ক্যান ও ডিলিট করুন</span> <a href="https://drive.google.com/drive/folders/1Q23TbwD0XKEcpgoDJ092mWvqYV6lKUHC" target="_blank">ড্রাইভ খুলুন</a></li>
         </ul>
     </div>
 
-    <!-- ফাইল আপলোড করার ডিরেক্ট বাটন -->
-    <a href="https://drive.google.com/drive/folders/1Q23TbwD0XKEcpgoDJ092mWvqYV6lKUHC" target="_blank" class="btn-upload">➕ যেকোনো ফাইল বা ভিডিও আপলোড করুন</a>
+    <!-- মূল আপলোড বাটন -->
+    <a href="https://drive.google.com/drive/folders/1Q23TbwD0XKEcpgoDJ092mWvqYV6lKUHC" target="_blank" class="btn-upload">➕ যেকোনো ফাইল বা ভিডিও স্ক্যান করে আপলোড করুন</a>
 
     <script>
         function openSection(sectionId) {
