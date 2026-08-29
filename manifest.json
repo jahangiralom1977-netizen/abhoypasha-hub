@@ -1,0 +1,15 @@
+{
+  "name": "অভয়পাশা সরকারি প্রাথমিক বিদ্যালয়",
+  "short_name": "অভয়পাশা হাব",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f0f4f8",
+  "theme_color": "#005c53",
+  "icons": [
+    {
+      "src": "1769399341413.jpg",
+      "sizes": "192x192 512x512",
+      "type": "image/jpeg"
+    }
+  ]
+}
