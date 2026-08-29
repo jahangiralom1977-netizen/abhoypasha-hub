@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="bn">
-<head> 
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>অভয়পাশা সরকারি প্রাথমিক বিদ্যালয় - ডিজিটাল হাব</title>
     
-    <!-- মোবাইল অ্যাপ ও ব্রাউজার আইকন -->
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/jpeg" href="1769399341413.jpg">
     <link rel="apple-touch-icon" href="1769399341413.jpg">
@@ -44,19 +43,12 @@
             margin-bottom: 12px;
         }
 
-        .school-info-title {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
         .school-info-title h1 {
             font-size: 1.15rem;
             font-weight: bold;
             line-height: 1.3;
         }
 
-        /* লোগো ঠিক করার স্টাইল */
         .school-logo-top {
             width: 55px;
             height: 55px;
@@ -73,7 +65,7 @@
             margin-top: 3px;
         }
 
-        /* স্বাগতম স্ক্রলিং টেক্সট স্টাইল */
+        /* চলমান স্বাগতম বার্তা */
         .welcome-marquee-box {
             background: #ffffff;
             color: #005c53;
@@ -232,11 +224,30 @@
         .file-item a {
             color: #2563eb;
             text-decoration: none;
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             font-weight: 600;
             background: #eff6ff;
             padding: 4px 10px;
             border-radius: 6px;
+        }
+
+        /* টেবিল ডিজাইন (শিক্ষক ও শ্রেণি তথ্যের জন্য) */
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            font-size: 0.85rem;
+        }
+
+        .info-table th, .info-table td {
+            border: 1px solid #cbd5e1;
+            padding: 8px;
+            text-align: center;
+        }
+
+        .info-table th {
+            background-color: #005c53;
+            color: white;
         }
 
         /* আপলোড বাটন */
@@ -257,7 +268,6 @@
 </head>
 <body>
 
-    <!-- হেডার -->
     <div class="top-navbar">
         <div class="school-header-top">
             <div class="school-info-title">
@@ -270,38 +280,34 @@
         </div>
     </div>
 
-    <!-- চলমান স্বাগতম বার্তা (Scrolling Marquee) -->
     <div class="welcome-marquee-box">
         <marquee behavior="scroll" direction="left" scrollamount="4">
             🌟 অভয়পাশা সরকারি প্রাথমিক বিদ্যালয়ের ডিজিটাল হাবে আপনাকে স্বাগতম! শিক্ষা, শিক্ষক, শিক্ষার্থী ও দাপ্তরিক সকল কার্যক্রম এখন এক ঠিকানায়। 🌟
         </marquee>
     </div>
 
-    <!-- শেয়ার বাটন -->
     <div class="action-bar">
         <button class="btn-share" onclick="shareApp()">
             🔗 ডিজিটাল হাব লিঙ্ক শেয়ার করুন
         </button>
     </div>
 
-    <!-- সার্চ বার -->
     <div class="search-box">
         <input type="text" id="searchInput" placeholder="ই-বুক, ফাইল বা তথ্য অনুসন্ধান করুন...">
     </div>
 
-    <!-- ফোল্ডার গ্রিড -->
     <div class="grid-container">
         
         <div class="card" onclick="openSection('classSection')">
             <div class="card-icon">📚</div>
             <div class="card-title">শ্রেণি ব্যবস্থাপনা</div>
-            <div class="card-desc">প্রাক-প্রাথমিক হতে ৫ম শ্রেণির ই-বুক ও পাঠদান</div>
+            <div class="card-desc">প্রাক-প্রাথমিক হতে ৫ম শ্রেণির তালিকা ও ই-বুক</div>
         </div>
 
         <div class="card" onclick="openSection('teacherSection')">
             <div class="card-icon">👨‍🏫</div>
             <div class="card-title">শিক্ষক ব্যবস্থাপনা</div>
-            <div class="card-desc">প্রোফাইল, ছুটি ও দায়িত্বাবলি</div>
+            <div class="card-desc">প্রধান শিক্ষক, সহকারী শিক্ষক ও প্রোফাইল</div>
         </div>
 
         <div class="card" onclick="openSection('studentSection')">
@@ -336,32 +342,50 @@
 
     </div>
 
-    <!-- ফোল্ডারের ভেতর বিস্তারিত অপশনসমূহ -->
-
-    <!-- ১. শ্রেণি ব্যবস্থাপনা -->
     <div id="classSection" class="content-section">
         <div class="section-header">
-            <span class="section-title">📚 শ্রেণি ব্যবস্থাপনা ও ই-বুক</span>
+            <span class="section-title">📚 শ্রেণি ব্যবস্থাপনা (প্রাক-প্রাথমিক - ৫ম)</span>
             <button class="close-btn" onclick="closeSections()">✖ বন্ধ করুন</button>
         </div>
         <ul class="file-list">
-            <li class="file-item"><span>📖 বোর্ড ই-বুক পোর্টাল (NCTB)</span> <a href="https://nctb.gov.bd" target="_blank">ডাউনলোড</a></li>
-            <li class="file-item"><span>📁 শ্রেণি ফাইল ও কাগজপত্র আপলোড/ডিলিট</span> <a href="https://drive.google.com/drive/folders/1Q23TbwD0XKEcpgoDJ092mWvqYV6lKUHC" target="_blank">ড্রাইভ খুলুন</a></li>
+            <li class="file-item"><span>📖 প্রাক-প্রাথমিক শ্রেণি ও ছাত্রছাত্রী তালিকা</span> <a href="https://drive.google.com/drive/folders/1Q23TbwD0XKEcpgoDJ092mWvqYV6lKUHC" target="_blank">তালিকা ও ড্রাইভ</a></li>
+            <li class="file-item"><span>📖 ১ম শ্রেণি (ই-বুক ও শিক্ষার্থী তথ্য)</span> <a href="https://drive.google.com/drive/folders/1Q23TbwD0XKEcpgoDJ092mWvqYV6lKUHC" target="_blank">তালিকা ও ড্রাইভ</a></li>
+            <li class="file-item"><span>📖 ২য় শ্রেণি (ই-বুক ও শিক্ষার্থী তথ্য)</span> <a href="https://drive.google.com/drive/folders/1Q23TbwD0XKEcpgoDJ092mWvqYV6lKUHC" target="_blank">তালিকা ও ড্রাইভ</a></li>
+            <li class="file-item"><span>📖 ৩য় শ্রেণি (ই-বুক ও শিক্ষার্থী তথ্য)</span> <a href="https://drive.google.com/drive/folders/1Q23TbwD0XKEcpgoDJ092mWvqYV6lKUHC" target="_blank">তালিকা ও ড্রাইভ</a></li>
+            <li class="file-item"><span>📖 ৪র্থ শ্রেণি (ই-বুক ও শিক্ষার্থী তথ্য)</span> <a href="https://drive.google.com/drive/folders/1Q23TbwD0XKEcpgoDJ092mWvqYV6lKUHC" target="_blank">তালিকা ও ড্রাইভ</a></li>
+            <li class="file-item"><span>📖 ৫ম শ্রেণি (ই-বুক ও শিক্ষার্থী তথ্য)</span> <a href="https://drive.google.com/drive/folders/1Q23TbwD0XKEcpgoDJ092mWvqYV6lKUHC" target="_blank">তালিকা ও ড্রাইভ</a></li>
+            <li class="file-item"><span>🌐 অফিশিয়াল এনসিটিবি (NCTB) ই-বুক পোর্টাল</span> <a href="https://nctb.gov.bd" target="_blank">প্রবেশ করুন</a></li>
         </ul>
     </div>
 
-    <!-- ২. শিক্ষক ব্যবস্থাপনা -->
     <div id="teacherSection" class="content-section">
         <div class="section-header">
-            <span class="section-title">👨‍🏫 শিক্ষক ব্যবস্থাপনা</span>
+            <span class="section-title">👨‍🏫 শিক্ষক ব্যবস্থাপনা (প্রধান ও সহকারী শিক্ষক)</span>
             <button class="close-btn" onclick="closeSections()">✖ বন্ধ করুন</button>
         </div>
-        <ul class="file-list">
-            <li class="file-item"><span>📝 ছুটির আবেদন ও অন্যান্য ফর্ম</span> <a href="https://drive.google.com/drive/folders/1Q23TbwD0XKEcpgoDJ092mWvqYV6lKUHC" target="_blank">ড্রাইভ খুলুন</a></li>
+        <p style="font-size: 0.88rem; color: #555; margin-bottom: 10px;">বিদ্যালয়ের শিক্ষকবৃন্দের সংক্ষিপ্ত তথ্য:</p>
+        <table class="info-table">
+            <tr>
+                <th>পদবি</th>
+                <th>দায়িত্ব / বিবরণ</th>
+                <th>ফরম ও ড্রাইভ</th>
+            </tr>
+            <tr>
+                <td><b>প্রধান শিক্ষক</b></td>
+                <td>বিদ্যালয় পরিচালনা ও তদারকি</td>
+                <td><a href="https://drive.google.com/drive/folders/1Q23TbwD0XKEcpgoDJ092mWvqYV6lKUHC" target="_blank">ফাইল দেখুন</a></td>
+            </tr>
+            <tr>
+                <td><b>সহকারী শিক্ষকবৃন্দ</b></td>
+                <td>পাঠদান ও শ্রেণি কার্যক্রম পরিচালনা</td>
+                <td><a href="https://drive.google.com/drive/folders/1Q23TbwD0XKEcpgoDJ092mWvqYV6lKUHC" target="_blank">ফাইল দেখুন</a></td>
+            </tr>
+        </table>
+        <ul class="file-list" style="margin-top: 15px;">
+            <li class="file-item"><span>📝 শিক্ষকদের ছুটির আবেদন ফরম ও দাপ্তরিক নথি</span> <a href="https://drive.google.com/drive/folders/1Q23TbwD0XKEcpgoDJ092mWvqYV6lKUHC" target="_blank">ড্রাইভ খুলুন</a></li>
         </ul>
     </div>
 
-    <!-- ৩. শিক্ষার্থী ব্যবস্থাপনা -->
     <div id="studentSection" class="content-section">
         <div class="section-header">
             <span class="section-title">🎓 শিক্ষার্থী ব্যবস্থাপনা</span>
@@ -373,7 +397,6 @@
         </ul>
     </div>
 
-    <!-- ৪. সহশিক্ষাক্রম কার্যক্রম ও খেলাধুলা -->
     <div id="coCurricularSection" class="content-section">
         <div class="section-header">
             <span class="section-title">⚽ সহশিক্ষাক্রম কার্যক্রম ও খেলাধুলা</span>
@@ -385,7 +408,6 @@
         </ul>
     </div>
 
-    <!-- ৫. মন্ত্রণালয়, ডিপিই ও নেপ -->
     <div id="govSection" class="content-section">
         <div class="section-header">
             <span class="section-title">🏛️ সরকারি পোর্টাল ও প্রতিষ্ঠান</span>
@@ -398,7 +420,6 @@
         </ul>
     </div>
 
-    <!-- ৬. ইউটিউব ও ভিডিও -->
     <div id="youtubeSection" class="content-section">
         <div class="section-header">
             <span class="section-title">▶️ ইউটিউব ও ভিডিও লিংকসমূহ</span>
@@ -411,7 +432,6 @@
         </ul>
     </div>
 
-    <!-- ৭. ড্রাইভ ও আর্কাইভ -->
     <div id="archiveSection" class="content-section">
         <div class="section-header">
             <span class="section-title">📁 ফাইল ও নথি ড্রাইভ (আর্কাইভ)</span>
@@ -422,7 +442,6 @@
         </ul>
     </div>
 
-    <!-- মূল আপলোড বাটন -->
     <a href="https://drive.google.com/drive/folders/1Q23TbwD0XKEcpgoDJ092mWvqYV6lKUHC" target="_blank" class="btn-upload">➕ যেকোনো ফাইল বা ভিডিও স্ক্যান করে আপলোড করুন</a>
 
     <script>
