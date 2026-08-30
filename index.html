@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>৭ নং অভয়পাশা সরকারি প্রাথমিক বিদ্যালয় - ডিজিটাল মনিটরিং ও ম্যানেজমেন্ট অ্যাপস</title>
+    
+    <!-- PWA Manifest for App-like Home Screen Installation -->
+    <link rel="manifest" href='data:application/manifest+json;charset=utf-8,{"name":"৭ নং অভয়পাশা সরকারি প্রাথমিক বিদ্যালয়","short_name":"Abhoypasha School","start_url":".","display":"standalone","background_color":"#eef2f1","theme_color":"#0f4c3a"}'>
+
     <style>
         @import url('https://fonts.googleapis.com/css2?family=SolaimanLipi&display=swap');
         
@@ -44,7 +48,6 @@
             opacity: 0.9;
         }
 
-        /* চলমান স্ক্রলিং নোটিশ বার */
         .marquee-container {
             background-color: #083325;
             color: #ffb300;
@@ -104,6 +107,7 @@
         .action-btn.secondary { background-color: #0277bd; }
         .action-btn.share { background-color: #e65100; }
         .action-btn.warning { background-color: #c62828; }
+        .action-btn.install { background-color: #6a1b9a; }
         .action-btn.toggle-on { background-color: #2e7d32; }
         .action-btn.toggle-off { background-color: #7f8c8d; }
 
@@ -282,7 +286,6 @@
                 এডিট মোড সচল
             </div>
         </div>
-        <!-- চলমান স্ক্রলিং নোটিশ বার -->
         <div class="marquee-container">
             <marquee behavior="scroll" direction="left" scrollamount="5">
                 🏫 ৭ নং অভয়পাশা সরকারি প্রাথমিক বিদ্যালয়ের ডিজিটাল মনিটরিং ও ম্যানেজমেন্ট অ্যাপসে স্বাগতম। নিয়মিত শিক্ষা কার্যক্রম, শিক্ষক ব্যবস্থাপনা এবং তথ্য দেখতে নিচে স্ক্রল করুন।
@@ -296,6 +299,7 @@
         <div class="control-bar">
             <span id="instructionText">💡 হলুদ ঘরগুলোতে ক্লিক করে তথ্য পরিবর্তন করুন। তথ্য অটো-সেভ হবে।</span>
             <div class="btn-group">
+                <button id="installAppBtn" class="action-btn install" style="display:none;" onclick="installApp()">📱 অ্যাপস ইনস্টল</button>
                 <button id="toggleModeBtn" class="action-btn toggle-on" onclick="toggleEditMode()">🔒 এডিট লক করুন</button>
                 <button class="action-btn secondary" onclick="saveDataToFile()">📥 ডেটা ডাউনলোড</button>
                 <button class="action-btn warning" onclick="document.getElementById('uploadFile').click()">📤 ডেটা আপলোড</button>
@@ -434,7 +438,6 @@
         <div class="section-card">
             <div class="section-title">৪. শ্রেণিভিত্তিক শিক্ষার্থীর তালিকা (প্রাক-প্রাথমিক থেকে ৫ম শ্রেণি)</div>
             
-            <!-- প্রাক-প্রাথমিক শ্রেণি -->
             <div class="sub-title">
                 <span>প্রাক-প্রাথমিক শ্রেণি</span>
                 <button class="action-btn" onclick="addStudentRow('prePrimaryTable')">+ শিক্ষার্থী যোগ করুন</button>
@@ -462,7 +465,6 @@
                 </tbody>
             </table>
 
-            <!-- ১ম শ্রেণি -->
             <div class="sub-title" style="margin-top: 15px;">
                 <span>১ম শ্রেণি</span>
                 <button class="action-btn" onclick="addStudentRow('class1Table')">+ শিক্ষার্থী যোগ করুন</button>
@@ -490,7 +492,6 @@
                 </tbody>
             </table>
 
-            <!-- ২য় শ্রেণি -->
             <div class="sub-title" style="margin-top: 15px;">
                 <span>২য় শ্রেণি</span>
                 <button class="action-btn" onclick="addStudentRow('class2Table')">+ শিক্ষার্থী যোগ করুন</button>
@@ -518,7 +519,6 @@
                 </tbody>
             </table>
 
-            <!-- ৩য় শ্রেণি -->
             <div class="sub-title" style="margin-top: 15px;">
                 <span>৩য় শ্রেণি</span>
                 <button class="action-btn" onclick="addStudentRow('class3Table')">+ শিক্ষার্থী যোগ করুন</button>
@@ -546,7 +546,6 @@
                 </tbody>
             </table>
 
-            <!-- ৪র্থ শ্রেণি -->
             <div class="sub-title" style="margin-top: 15px;">
                 <span>৪র্থ শ্রেণি</span>
                 <button class="action-btn" onclick="addStudentRow('class4Table')">+ শিক্ষার্থী যোগ করুন</button>
@@ -574,7 +573,6 @@
                 </tbody>
             </table>
 
-            <!-- ৫ম শ্রেণি -->
             <div class="sub-title" style="margin-top: 15px;">
                 <span>৫ম শ্রেণি</span>
                 <button class="action-btn" onclick="addStudentRow('class5Table')">+ শিক্ষার্থী যোগ করুন</button>
@@ -633,7 +631,6 @@
                 <span>সংরক্ষিত ফাইল ও ড্রাইভ লিংকসমূহের তালিকা</span>
             </div>
             <ul class="link-list" id="customFileList">
-                <!-- আপলোড করা ফাইল বা লিংকগুলো এখানে যুক্ত হবে -->
             </ul>
         </div>
 
@@ -674,7 +671,28 @@
     </div>
 
     <script>
-        // অটো-সেভ ও রিস্টোর ফিচার
+        // PWA Install Prompt Logic
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            const installBtn = document.getElementById('installAppBtn');
+            if(installBtn) installBtn.style.display = 'inline-block';
+        });
+
+        function installApp() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('User accepted the install prompt');
+                    }
+                    deferredPrompt = null;
+                    document.getElementById('installAppBtn').style.display = 'none';
+                });
+            }
+        }
+
         window.onload = function() {
             if(localStorage.getItem('abhoypasha_school_data')) {
                 document.body.innerHTML = localStorage.getItem('abhoypasha_school_data');
@@ -687,7 +705,6 @@
 
         document.addEventListener('input', autoSave);
 
-        // এডিট মোড অন/অফ টগল
         let isEditable = true;
         function toggleEditMode() {
             isEditable = !isEditable;
@@ -714,7 +731,6 @@
             }
         }
 
-        // ফাইল ডাউনলোড (ব্যাকআপ)
         function saveDataToFile() {
             const htmlContent = "<!DOCTYPE html>\n<html lang='bn'>\n" + document.documentElement.innerHTML + "\n</html>";
             const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
@@ -724,7 +740,6 @@
             a.click();
         }
 
-        // ফাইল আপলোড (রিস্টোর)
         function loadDataFromFile(event) {
             const file = event.target.files[0];
             if (!file) return;
@@ -737,7 +752,6 @@
             reader.readAsText(file);
         }
 
-        // ডিভাইস থেকে ফাইল আপলোড করে ফোল্ডারে সংরক্ষণের ব্যবস্থা
         function handleFileUpload(event) {
             const file = event.target.files[0];
             if (!file) return;
@@ -758,7 +772,6 @@
             reader.readAsDataURL(file);
         }
 
-        // গুগল ড্রাইভ বা অনলাইন লিংক ফোল্ডারে যুক্ত করার ফাংশন
         function addDriveLink() {
             let nameInput = document.getElementById('driveLinkName');
             let urlInput = document.getElementById('driveLinkUrl');
