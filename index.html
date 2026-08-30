@@ -57,6 +57,8 @@
             justify-content: space-between;
             align-items: center;
             box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
         .control-bar span {
@@ -67,7 +69,8 @@
 
         .btn-group {
             display: flex;
-            gap: 10px;
+            gap: 8px;
+            flex-wrap: wrap;
         }
 
         .action-btn {
@@ -82,13 +85,11 @@
             font-weight: bold;
         }
 
-        .action-btn.secondary {
-            background-color: #0277bd;
-        }
-
-        .action-btn.share {
-            background-color: #e65100;
-        }
+        .action-btn.secondary { background-color: #0277bd; }
+        .action-btn.share { background-color: #e65100; }
+        .action-btn.warning { background-color: #c62828; }
+        .action-btn.toggle-on { background-color: #2e7d32; }
+        .action-btn.toggle-off { background-color: #7f8c8d; }
 
         .action-btn:hover {
             opacity: 0.9;
@@ -107,6 +108,16 @@
             font-size: 12pt;
             color: #1b5e20;
             margin-bottom: 12px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .sub-title {
+            font-size: 11pt;
+            color: #1b5e20;
+            margin: 10px 0 6px 0;
             font-weight: bold;
             display: flex;
             justify-content: space-between;
@@ -148,6 +159,17 @@
             border: 2px solid #2e7d32;
         }
 
+        .locked .editable {
+            background-color: transparent !important;
+            border: none !important;
+            padding: 0 !important;
+            pointer-events: none;
+        }
+
+        .locked .delete-btn, .locked button.action-btn, .locked .file-upload-section {
+            display: none !important;
+        }
+
         .delete-btn {
             background-color: #d32f2f;
             color: white;
@@ -166,6 +188,18 @@
 
         .link-list li {
             margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f9f9f9;
+            padding: 8px 10px;
+            border-radius: 4px;
+            border: 1px solid #e0e0e0;
+            gap: 10px;
+        }
+
+        .link-list .link-content {
+            flex-grow: 1;
         }
 
         .link-list a {
@@ -178,6 +212,22 @@
             text-decoration: underline;
         }
 
+        .file-upload-section {
+            background: #f1f8e9;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px dashed #7cb342;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .file-upload-section input[type="file"] {
+            font-size: 9pt;
+        }
+
         .footer-section {
             margin-top: 25px;
             text-align: right;
@@ -186,7 +236,7 @@
         }
 
         @media print {
-            .control-bar, .delete-btn, .action-btn {
+            .control-bar, .delete-btn, .action-btn, .file-upload-section {
                 display: none !important;
             }
             .editable {
@@ -200,14 +250,14 @@
         }
     </style>
 </head>
-<body>
+<body id="appBody">
 
     <div class="app-header">
         <div>
             <h1>৭ নং অভয়পাশা সরকারি প্রাথমিক বিদ্যালয়</h1>
-            <p>ডিজিটাল মনিটরিং ও ম্যানেজমেন্ট অ্যাপস (ইএমআইএস: ৯১৩০৪০১০১০৭)</p>
+            <p>ডিজিটাল মনিটরিং ও ম্যানেজমেন্ট অ্যাপস<br>ইএমআইএস: ৯১৩০৪০۱۰১০৭ | স্থাপিত: ১৯০৪ সাল</p>
         </div>
-        <div style="background: #ffb300; color: #000; padding: 5px 10px; font-weight: bold; border-radius: 4px; font-size: 9.5pt;">
+        <div id="modeIndicator" style="background: #ffb300; color: #000; padding: 5px 10px; font-weight: bold; border-radius: 4px; font-size: 9.5pt;">
             এডিট মোড সচল
         </div>
     </div>
@@ -216,10 +266,14 @@
 
         <!-- কন্ট্রোল প্যানেল -->
         <div class="control-bar">
-            <span>💡 হলুদ ঘরগুলোতে ক্লিক করে যেকোনো তথ্য পরিবর্তন করতে পারবেন</span>
+            <span id="instructionText">💡 হলুদ ঘরগুলোতে ক্লিক করে তথ্য পরিবর্তন করুন। তথ্য অটো-সেভ হবে।</span>
             <div class="btn-group">
-                <button class="action-btn share" onclick="shareApp()">🔗 শেয়ার লিংক</button>
-                <button class="action-btn secondary" onclick="window.print()">🖨️ প্রিন্ট / PDF</button>
+                <button id="toggleModeBtn" class="action-btn toggle-on" onclick="toggleEditMode()">🔒 এডিট লক করুন</button>
+                <button class="action-btn secondary" onclick="saveDataToFile()">📥 ডেটা ডাউনলোড</button>
+                <button class="action-btn warning" onclick="document.getElementById('uploadFile').click()">📤 ডেটা আপলোড</button>
+                <input type="file" id="uploadFile" style="display: none;" accept=".json, .html" onchange="loadDataFromFile(event)">
+                <button class="action-btn share" onclick="shareApp()">🔗 শেয়ার</button>
+                <button class="action-btn secondary" onclick="window.print()">🖨️ প্রিন্ট</button>
             </div>
         </div>
 
@@ -251,18 +305,6 @@
                         <td><div class="editable" contenteditable="true">৩য় গ্রেড[span_1](start_span)[span_1](end_span)</div></td>
                         <td style="text-align: center;"><button class="delete-btn" onclick="deleteRow(this)">মুছুন</button></td>
                     </tr>
-                    <tr>
-                        <td style="text-align: center; font-weight: bold;">৩</td>
-                        <td><div class="editable" contenteditable="true">প্রধান শিক্ষকের শিক্ষাগত যোগ্যতা</div></td>
-                        <td><div class="editable" contenteditable="true">এম.এস.সি, সি-ইন-এড[span_2](start_span)[span_2](end_span)</div></td>
-                        <td style="text-align: center;"><button class="delete-btn" onclick="deleteRow(this)">মুছুন</button></td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: center; font-weight: bold;">৪</td>
-                        <td><div class="editable" contenteditable="true">শিক্ষক / শিক্ষিকার তথ্যাদি</div></td>
-                        <td><div class="editable" contenteditable="true">অনুমোদিত পদ: প্র:শি: (০১), সহ:শি: (০৪)<br>কর্মরত: মোট (০৫), মহিলা (০৩)[span_3](start_span)[span_3](end_span)</div></td>
-                        <td style="text-align: center;"><button class="delete-btn" onclick="deleteRow(this)">মুছুন</button></td>
-                    </tr>
                 </tbody>
             </table>
         </div>
@@ -288,8 +330,8 @@
                     <tr>
                         <td style="text-align: center; font-weight: bold;">১</td>
                         <td><div class="editable" contenteditable="true">মো: জাহাঙ্গীর আলম</div></td>
-                        <td><div class="editable" contenteditable="true">প্রধান শিক্ষক[span_4](start_span)[span_4](end_span)</div></td>
-                        <td><div class="editable" contenteditable="true">এম.এস.সি, সি-ইন-এড[span_5](start_span)[span_5](end_span)</div></td>
+                        <td><div class="editable" contenteditable="true">প্রধান শিক্ষক[span_2](start_span)[span_2](end_span)</div></td>
+                        <td><div class="editable" contenteditable="true">এম.এস.সি, সি-ইন-এড[span_3](start_span)[span_3](end_span)</div></td>
                         <td><div class="editable" contenteditable="true">০১-০১-২০১০</div></td>
                         <td style="text-align: center;"><button class="delete-btn" onclick="deleteRow(this)">মুছুন</button></td>
                     </tr>
@@ -300,28 +342,283 @@
         <!-- ৩. শিক্ষক ব্যবস্থাপনা (দায়িত্ব ও ছুটি) -->
         <div class="section-card">
             <div class="section-title">৩. শিক্ষক ব্যবস্থাপনা (দায়িত্ব ও ছুটি)</div>
-            <div class="editable" contenteditable="true" style="padding: 10px;">
-                <b>ক) দায়িত্ব বণ্টন:</b> প্রধান শিক্ষক হিসেবে সার্বিক পরিচালনা, প্রশাসনিক দায়িত্ব এবং স্লিপ কমিটির সভাপতি[span_6](start_span)[span_6](end_span)।<br>
-                <b>খ) ছুটি সংক্রান্ত:</b> প্রাপ্ত নৈমিত্তিক ছুটি: ২০ দিন | ভোগকৃত ছুটি: ০৫ দিন | অবশিষ্ট ছুটি: ১৫ দিন।
+            
+            <div class="sub-title">
+                <span>ক) দায়িত্ব বণ্টন সংক্রান্ত</span>
+                <button class="action-btn" onclick="addRow('dutyTable')">+ দায়িত্ব যোগ করুন</button>
             </div>
+            <table id="dutyTable">
+                <thead>
+                    <tr>
+                        <th style="width: 8%;">ক্রমিক নং</th>
+                        <th style="width: 27%;">শিক্ষকের নাম</th>
+                        <th style="width: 35%;">পাঠদান সংক্রান্ত দায়িত্ব</th>
+                        <th style="width: 22%;">অন্যান্য দায়িত্ব</th>
+                        <th style="width: 8%; text-align: center;">অ্যাকশন</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="text-align: center; font-weight: bold;">১</td>
+                        <td><div class="editable" contenteditable="true">জাহাঙ্গীর আলম</div></td>
+                        <td><div class="editable" contenteditable="true">প্রধান শিক্ষক - সার্বিক পরিচালনা</div></td>
+                        <td><div class="editable" contenteditable="true">সভাপতি, স্লিপ কমিটি[span_4](start_span)[span_4](end_span)</div></td>
+                        <td style="text-align: center;"><button class="delete-btn" onclick="deleteRow(this)">মুছুন</button></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="sub-title" style="margin-top: 15px;">
+                <span>খ) ছুটি সংক্রান্ত</span>
+                <button class="action-btn" onclick="addRow('leaveTable')">+ ছুটি যোগ করুন</button>
+            </div>
+            <table id="leaveTable">
+                <thead>
+                    <tr>
+                        <th style="width: 8%;">ক্রমিক নং</th>
+                        <th style="width: 25%;">শিক্ষকের নাম</th>
+                        <th style="width: 15%;">প্রাপ্ত নৈ: ছুটি</th>
+                        <th style="width: 15%;">ভোগকৃত ছুটি</th>
+                        <th style="width: 15%;">অবশিষ্ট ছুটি</th>
+                        <th style="width: 14%;">মন্তব্য/স্বাক্ষর</th>
+                        <th style="width: 8%; text-align: center;">অ্যাকশন</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="text-align: center; font-weight: bold;">১</td>
+                        <td><div class="editable" contenteditable="true">জাহাঙ্গীর আলম</div></td>
+                        <td><div class="editable" contenteditable="true">২০ দিন</div></td>
+                        <td><div class="editable" contenteditable="true">০৫ দিন</div></td>
+                        <td><div class="editable" contenteditable="true">১৫ দিন</div></td>
+                        <td><div class="editable" contenteditable="true">স্বাক্ষরিত</div></td>
+                        <td style="text-align: center;"><button class="delete-btn" onclick="deleteRow(this)">মুছুন</button></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
 
-        <!-- ৪. সহশিক্ষাক্রমিক কার্যক্রম -->
+        <!-- ৪. শ্রেণিভিত্তিক শিক্ষার্থীর তালিকা (প্রাক-প্রাথমিক থেকে ৫ম শ্রেণি) -->
         <div class="section-card">
-            <div class="section-title">৪. সহশিক্ষাক্রমিক কার্যক্রম</div>
-            <div class="editable" contenteditable="true" style="padding: 10px;">
-                • নিয়মিত কাব দল পরিচালনা ও স্কাউটিং কার্যক্রম।<br>
+            <div class="section-title">৪. শ্রেণিভিত্তিক শিক্ষার্থীর তালিকা (প্রাক-প্রাথমিক থেকে ৫ম শ্রেণি)</div>
+            
+            <!-- প্রাক-প্রাথমিক শ্রেণি -->
+            <div class="sub-title">
+                <span>প্রাক-প্রাথমিক শ্রেণি</span>
+                <button class="action-btn" onclick="addStudentRow('prePrimaryTable')">+ শিক্ষার্থী যোগ করুন</button>
+            </div>
+            <table id="prePrimaryTable">
+                <thead>
+                    <tr>
+                        <th style="width: 8%;">ক্রমিক</th>
+                        <th style="width: 25%;">শিক্ষার্থীর নাম</th>
+                        <th style="width: 22%;">পিতার নাম</th>
+                        <th style="width: 22%;">মাতার নাম</th>
+                        <th style="width: 15%;">ঠিকানা</th>
+                        <th style="width: 8%; text-align: center;">অ্যাকশন</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="text-align: center; font-weight: bold;">০১</td>
+                        <td><div class="editable" contenteditable="true">শিশু শিক্ষার্থী</div></td>
+                        <td><div class="editable" contenteditable="true">পিতার নাম</div></td>
+                        <td><div class="editable" contenteditable="true">মাতার নাম</div></td>
+                        <td><div class="editable" contenteditable="true">অভয়পাশা</div></td>
+                        <td style="text-align: center;"><button class="delete-btn" onclick="deleteRow(this)">মুছুন</button></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- ১ম শ্রেণি -->
+            <div class="sub-title" style="margin-top: 15px;">
+                <span>১ম শ্রেণি</span>
+                <button class="action-btn" onclick="addStudentRow('class1Table')">+ শিক্ষার্থী যোগ করুন</button>
+            </div>
+            <table id="class1Table">
+                <thead>
+                    <tr>
+                        <th style="width: 8%;">ক্রমিক</th>
+                        <th style="width: 25%;">শিক্ষার্থীর নাম</th>
+                        <th style="width: 22%;">পিতার নাম</th>
+                        <th style="width: 22%;">মাতার নাম</th>
+                        <th style="width: 15%;">ঠিকানা</th>
+                        <th style="width: 8%; text-align: center;">অ্যাকশন</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="text-align: center; font-weight: bold;">০১</td>
+                        <td><div class="editable" contenteditable="true">শিক্ষার্থী নাম</div></td>
+                        <td><div class="editable" contenteditable="true">পিতার নাম</div></td>
+                        <td><div class="editable" contenteditable="true">মাতার নাম</div></td>
+                        <td><div class="editable" contenteditable="true">অভয়পাশা</div></td>
+                        <td style="text-align: center;"><button class="delete-btn" onclick="deleteRow(this)">মুছুন</button></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- ২য় শ্রেণি -->
+            <div class="sub-title" style="margin-top: 15px;">
+                <span>২য় শ্রেণি</span>
+                <button class="action-btn" onclick="addStudentRow('class2Table')">+ শিক্ষার্থী যোগ করুন</button>
+            </div>
+            <table id="class2Table">
+                <thead>
+                    <tr>
+                        <th style="width: 8%;">ক্রমিক</th>
+                        <th style="width: 25%;">শিক্ষার্থীর নাম</th>
+                        <th style="width: 22%;">পিতার নাম</th>
+                        <th style="width: 22%;">মাতার নাম</th>
+                        <th style="width: 15%;">ঠিকানা</th>
+                        <th style="width: 8%; text-align: center;">অ্যাকশন</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="text-align: center; font-weight: bold;">০১</td>
+                        <td><div class="editable" contenteditable="true">শিক্ষার্থী নাম</div></td>
+                        <td><div class="editable" contenteditable="true">পিতার নাম</div></td>
+                        <td><div class="editable" contenteditable="true">মাতার নাম</div></td>
+                        <td><div class="editable" contenteditable="true">অভয়পাশা</div></td>
+                        <td style="text-align: center;"><button class="delete-btn" onclick="deleteRow(this)">মুছুন</button></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- ৩য় শ্রেণি -->
+            <div class="sub-title" style="margin-top: 15px;">
+                <span>৩য় শ্রেণি</span>
+                <button class="action-btn" onclick="addStudentRow('class3Table')">+ শিক্ষার্থী যোগ করুন</button>
+            </div>
+            <table id="class3Table">
+                <thead>
+                    <tr>
+                        <th style="width: 8%;">ক্রমিক</th>
+                        <th style="width: 25%;">শিক্ষার্থীর নাম</th>
+                        <th style="width: 22%;">পিতার নাম</th>
+                        <th style="width: 22%;">মাতার নাম</th>
+                        <th style="width: 15%;">ঠিকানা</th>
+                        <th style="width: 8%; text-align: center;">অ্যাকশন</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="text-align: center; font-weight: bold;">০১</td>
+                        <td><div class="editable" contenteditable="true">শিক্ষার্থী নাম</div></td>
+                        <td><div class="editable" contenteditable="true">পিতার নাম</div></td>
+                        <td><div class="editable" contenteditable="true">মাতার নাম</div></td>
+                        <td><div class="editable" contenteditable="true">অভয়পাশা</div></td>
+                        <td style="text-align: center;"><button class="delete-btn" onclick="deleteRow(this)">মুছুন</button></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- ৪র্থ শ্রেণি -->
+            <div class="sub-title" style="margin-top: 15px;">
+                <span>৪র্থ শ্রেণি</span>
+                <button class="action-btn" onclick="addStudentRow('class4Table')">+ শিক্ষার্থী যোগ করুন</button>
+            </div>
+            <table id="class4Table">
+                <thead>
+                    <tr>
+                        <th style="width: 8%;">ক্রমিক</th>
+                        <th style="width: 25%;">শিক্ষার্থীর নাম</th>
+                        <th style="width: 22%;">পিতার নাম</th>
+                        <th style="width: 22%;">মাতার নাম</th>
+                        <th style="width: 15%;">ঠিকানা</th>
+                        <th style="width: 8%; text-align: center;">অ্যাকশন</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="text-align: center; font-weight: bold;">০১</td>
+                        <td><div class="editable" contenteditable="true">শিক্ষার্থী নাম</div></td>
+                        <td><div class="editable" contenteditable="true">পিতার নাম</div></td>
+                        <td><div class="editable" contenteditable="true">মাতার নাম</div></td>
+                        <td><div class="editable" contenteditable="true">অভয়পাশা</div></td>
+                        <td style="text-align: center;"><button class="delete-btn" onclick="deleteRow(this)">মুছুন</button></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- ৫ম শ্রেণি -->
+            <div class="sub-title" style="margin-top: 15px;">
+                <span>৫ম শ্রেণি</span>
+                <button class="action-btn" onclick="addStudentRow('class5Table')">+ শিক্ষার্থী যোগ করুন</button>
+            </div>
+            <table id="class5Table">
+                <thead>
+                    <tr>
+                        <th style="width: 8%;">ক্রমিক</th>
+                        <th style="width: 25%;">শিক্ষার্থীর নাম</th>
+                        <th style="width: 22%;">পিতার নাম</th>
+                        <th style="width: 22%;">মাতার নাম</th>
+                        <th style="width: 15%;">ঠিকানা</th>
+                        <th style="width: 8%; text-align: center;">অ্যাকশন</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="text-align: center; font-weight: bold;">০১</td>
+                        <td><div class="editable" contenteditable="true">সুমাইয়া আক্তার</div></td>
+                        <td><div class="editable" contenteditable="true">আব্দুল কাদির</div></td>
+                        <td><div class="editable" contenteditable="true">পরী বানু</div></td>
+                        <td><div class="editable" contenteditable="true">অভয়পাশা, আটপাড়া, নেত্রকোণা</div></td>
+                        <td style="text-align: center;"><button class="delete-btn" onclick="deleteRow(this)">মুছুন</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- ৫. সহশিক্ষাক্রমিক কার্যক্রম ও ফাইল ম্যানেজমেন্ট -->
+        <div class="section-card">
+            <div class="section-title">
+                <span>৫. সহশিক্ষাক্রমিক কার্যক্রম ও ফাইল আর্কাইভ ফোল্ডার</span>
+            </div>
+            
+            <div class="file-upload-section">
+                <span>📁 কম্পিউটার বা মোবাইল থেকে যেকোনো ফাইল (ছবি, ভিডিও, পিডিএফ, ডক) এখানে আপলোড করুন:</span>
+                <input type="file" id="localFilePicker" onchange="handleFileUpload(event)">
+            </div>
+
+            <div class="editable" contenteditable="true" style="padding: 10px; margin-bottom: 12px;">
+                • নিয়মিত কাব দল পরিচালনা ও স্কাউটিং কার্যক্রম。<br>
                 • বার্ষিক ক্রীড়া, সাংস্কৃতিক প্রতিযোগিতা এবং জাতীয় দিবসসমূহ উদযাপন।
             </div>
+            
+            <div class="sub-title">
+                <span>সংরক্ষিত ফাইলসমূহের তালিকা</span>
+            </div>
+            <ul class="link-list" id="customFileList">
+                <!-- আপলোড করা ফাইলগুলো এখানে যুক্ত হবে -->
+            </ul>
         </div>
 
-        <!-- ৫. ইউটিউব, শিক্ষণীয় ভিডিও ও গুরুত্বপূর্ণ লিংক -->
+        <!-- ৬. গুরুত্বপূর্ণ ওয়েবসাইট ও অনলাইন লিংক ফোল্ডার -->
         <div class="section-card">
-            <div class="section-title">৫. ইউটিউব, শিক্ষণীয় ভিডিও ও গুরুত্বপূর্ণ লিংক</div>
-            <ul class="link-list">
-                <li>▶ <a href="https://www.youtube.com" target="_blank">প্রাথমিক শিক্ষা পাঠশালা (YouTube Channel)</a> - টিউটোরিয়াল ও পাঠদান ভিডিও</li>
-                <li>▶ <a href="https://www.youtube.com" target="_blank">ঘরে বসে শিখি (YouTube Channel)</a> - শিক্ষার্থীদের সহায়ক অনলাইন ক্লাস</li>
-                <li>🔗 <a href="https://dpe.gov.bd" target="_blank">প্রাথমিক শিক্ষা অধিদপ্তর (DPE Official Website)</a>[span_7](start_span)[span_7](end_span)</li>
+            <div class="section-title">
+                <span>৬. গুরুত্বপূর্ণ ওয়েবসাইট ও অনলাইন লিংক ফোল্ডার</span>
+                <button class="action-btn" onclick="addLinkRow()">+ নতুন লিংক যোগ করুন</button>
+            </div>
+            
+            <ul class="link-list" id="customLinkList">
+                <li>
+                    <div class="link-content">🏫 <a href="https://nape.gov.bd" target="_blank"><span class="editable" contenteditable="true">জাতীয় প্রাথমিক শিক্ষা একাডেমি (NAPE Official Website)</span></a></div>
+                    <button class="delete-btn" onclick="deleteLinkRow(this)">মুছুন</button>
+                </li>
+                <li>
+                    <div class="link-content">📚 <a href="https://nctb.gov.bd" target="_blank"><span class="editable" contenteditable="true">জাতীয় শিক্ষাক্রম ও পাঠ্যপুস্তক বোর্ড (NCTB Official Website)</span></a></div>
+                    <button class="delete-btn" onclick="deleteLinkRow(this)">মুছুন</button>
+                </li>
+                <li>
+                    <div class="link-content">🔗 <a href="https://dpe.gov.bd" target="_blank"><span class="editable" contenteditable="true">প্রাথমিক শিক্ষা অধিদপ্তর (DPE Official Website)</span></a>[span_5](start_span)[span_5](end_span)</div>
+                    <button class="delete-btn" onclick="deleteLinkRow(this)">মুছুন</button>
+                </li>
+                <li>
+                    <div class="link-content">▶ <a href="https://www.youtube.com" target="_blank"><span class="editable" contenteditable="true">প্রাথমিক শিক্ষা পাঠশালা (YouTube Channel) - টিউটোরিয়াল ও পাঠদান ভিডিও</span></a></div>
+                    <button class="delete-btn" onclick="deleteLinkRow(this)">মুছুন</button>
+                </li>
             </ul>
         </div>
 
@@ -329,12 +626,96 @@
         <div class="footer-section">
             <p>প্রধান শিক্ষক</p>
             <p>৭ নং অভয়পাশা সরকারি প্রাথমিক বিদ্যালয়</p>
-            <p>আটপাড়া, নেত্রকোণা[span_8](start_span)[span_8](end_span)।</p>
+            <p>আটপাড়া, নেত্রকোণা[span_6](start_span)[span_6](end_span)</p>
         </div>
 
     </div>
 
     <script>
+        // অটো-সেভ ও রিস্টোর ফিচার
+        window.onload = function() {
+            if(localStorage.getItem('abhoypasha_school_data')) {
+                document.body.innerHTML = localStorage.getItem('abhoypasha_school_data');
+            }
+        };
+
+        function autoSave() {
+            localStorage.setItem('abhoypasha_school_data', document.body.innerHTML);
+        }
+
+        document.addEventListener('input', autoSave);
+
+        // এডিট মোড অন/অফ টগল
+        let isEditable = true;
+        function toggleEditMode() {
+            isEditable = !isEditable;
+            const body = document.getElementById('appBody');
+            const btn = document.getElementById('toggleModeBtn');
+            const indicator = document.getElementById('modeIndicator');
+            const instruction = document.getElementById('instructionText');
+
+            if (isEditable) {
+                body.classList.remove('locked');
+                btn.innerText = "🔒 এডিট লক করুন";
+                btn.className = "action-btn toggle-on";
+                indicator.innerText = "এডিট মোড সচল";
+                indicator.style.background = "#ffb300";
+                instruction.style.display = "inline";
+            } else {
+                body.classList.add('locked');
+                btn.innerText = "🔓 এডিট আনলক করুন";
+                btn.className = "action-btn toggle-off";
+                indicator.innerText = "এডিট মোড বন্ধ (লকড)";
+                indicator.style.background = "#e74c3c";
+                indicator.style.color = "#fff";
+                instruction.style.display = "none";
+            }
+        }
+
+        // ফাইল ডাউনলোড (ব্যাকআপ)
+        function saveDataToFile() {
+            const htmlContent = "<!DOCTYPE html>\n<html lang='bn'>\n" + document.documentElement.innerHTML + "\n</html>";
+            const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = "Abhoypasha_Primary_School_Data.html";
+            a.click();
+        }
+
+        // ফাইল আপলোড (রিস্টোর)
+        function loadDataFromFile(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.open();
+                document.write(e.target.result);
+                document.close();
+            };
+            reader.readAsText(file);
+        }
+
+        // সহশিক্ষাক্রমিক ফোল্ডারে ফাইল আপলোড করে সংরক্ষণের ব্যবস্থা
+        function handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const fileDataUrl = e.target.result;
+                let list = document.getElementById('customFileList');
+                let li = document.createElement('li');
+                li.innerHTML = `
+                    <div class="link-content">📎 <a href="${fileDataUrl}" download="${file.name}"><span class="editable" contenteditable="true">${file.name} (ডাউনলোড ফাইল)</span></a></div>
+                    <button class="delete-btn" onclick="deleteLinkRow(this)">মুছুন</button>
+                `;
+                list.appendChild(li);
+                autoSave();
+                alert("ফাইলটি সফলভাবে সহশিক্ষাক্রমিক ফোল্ডারে সংরক্ষিত হয়েছে। এখন 'ডেটা ডাউনলোড' করলে ফাইলটি স্থায়ীভাবে সেভ থাকবে।");
+            };
+            reader.readAsDataURL(file);
+        }
+
         function addRow(tableId) {
             let table = document.getElementById(tableId).getElementsByTagName('tbody')[0];
             let rowCount = table.rows.length + 1;
@@ -356,7 +737,60 @@
                     <td><div class="editable" contenteditable="true">[তারিখ]</div></td>
                     <td style="text-align: center;"><button class="delete-btn" onclick="deleteRow(this)">মুছুন</button></td>
                 `;
+            } else if (tableId === 'dutyTable') {
+                newRow.innerHTML = `
+                    <td style="text-align: center; font-weight: bold;">${rowCount}</td>
+                    <td><div class="editable" contenteditable="true">[শিক্ষকের নাম]</div></td>
+                    <td><div class="editable" contenteditable="true">[দায়িত্ব]</div></td>
+                    <td><div class="editable" contenteditable="true">[অন্যান্য দায়িত্ব]</div></td>
+                    <td style="text-align: center;"><button class="delete-btn" onclick="deleteRow(this)">মুছুন</button></td>
+                `;
+            } else if (tableId === 'leaveTable') {
+                newRow.innerHTML = `
+                    <td style="text-align: center; font-weight: bold;">${rowCount}</td>
+                    <td><div class="editable" contenteditable="true">[শিক্ষকের নাম]</div></td>
+                    <td><div class="editable" contenteditable="true">২০ দিন</div></td>
+                    <td><div class="editable" contenteditable="true">০ দিন</div></td>
+                    <td><div class="editable" contenteditable="true">২০ দিন</div></td>
+                    <td><div class="editable" contenteditable="true">স্বাক্ষরিত</div></td>
+                    <td style="text-align: center;"><button class="delete-btn" onclick="deleteRow(this)">মুছুন</button></td>
+                `;
             }
+            autoSave();
+        }
+
+        function addStudentRow(tableId) {
+            let table = document.getElementById(tableId).getElementsByTagName('tbody')[0];
+            let rowCount = table.rows.length + 1;
+            let formattedCount = rowCount < 10 ? '০' + rowCount : rowCount;
+            let newRow = table.insertRow();
+
+            newRow.innerHTML = `
+                <td style="text-align: center; font-weight: bold;">${formattedCount}</td>
+                <td><div class="editable" contenteditable="true">[নাম]</div></td>
+                <td><div class="editable" contenteditable="true">[পিতার নাম]</div></td>
+                <td><div class="editable" contenteditable="true">[মাতার নাম]</div></td>
+                <td><div class="editable" contenteditable="true">[ঠিকানা]</div></td>
+                <td style="text-align: center;"><button class="delete-btn" onclick="deleteRow(this)">মুছুন</button></td>
+            `;
+            autoSave();
+        }
+
+        function addLinkRow() {
+            let list = document.getElementById('customLinkList');
+            let li = document.createElement('li');
+            li.innerHTML = `
+                <div class="link-content">🔗 <a href="#" target="_blank"><span class="editable" contenteditable="true">[এখানে লিংকের বিবরণ লিখুন]</span></a></div>
+                <button class="delete-btn" onclick="deleteLinkRow(this)">মুছুন</button>
+            `;
+            list.appendChild(li);
+            autoSave();
+        }
+
+        function deleteLinkRow(btn) {
+            let li = btn.parentNode;
+            li.parentNode.removeChild(li);
+            autoSave();
         }
 
         function deleteRow(btn) {
@@ -365,8 +799,13 @@
             row.parentNode.removeChild(row);
             
             for (let i = 0; i < table.rows.length; i++) {
-                table.rows[i].cells[0].innerText = i + 1;
+                let cell = table.rows[i].cells[0];
+                if (cell) {
+                    let num = i + 1;
+                    cell.innerText = table.id.includes('Table') && table.id !== 'teacherTable' && table.id !== 'monitoringTable' && table.id !== 'dutyTable' && table.id !== 'leaveTable' ? (num < 10 ? '০' + num : num) : num;
+                }
             }
+            autoSave();
         }
 
         function shareApp() {
