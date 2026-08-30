@@ -44,7 +44,7 @@
             opacity: 0.9;
         }
 
-        /* স্ক্রলিং নোটিশ বার */
+        /* চলমান স্ক্রলিং নোটিশ বার */
         .marquee-container {
             background-color: #083325;
             color: #ffb300;
@@ -58,7 +58,7 @@
         }
 
         .container {
-            max-width: 1000px;
+            max-width: 1050px;
             margin: 20px auto;
             padding: 0 10px;
         }
@@ -149,8 +149,8 @@
 
         th, td {
             border: 1px solid #b0bec5;
-            padding: 8px 10px;
-            font-size: 10pt;
+            padding: 8px 8px;
+            font-size: 9.5pt;
             vertical-align: middle;
         }
 
@@ -165,7 +165,7 @@
             background-color: #fffde7;
             border: 1px dashed #fbc02d;
             outline: none;
-            padding: 5px;
+            padding: 4px;
             border-radius: 4px;
             min-height: 22px;
         }
@@ -276,7 +276,7 @@
         <div class="header-top">
             <div>
                 <h1>৭ নং অভয়পাশা সরকারি প্রাথমিক বিদ্যালয়</h1>
-                <p>ডিজিটাল মনিটরিং ও ম্যানেজমেন্ট অ্যাপস &nbsp;|&nbsp; ইএমআইএস: ৯১৩০৪০۱۰১০৭ &nbsp;|&nbsp; স্থাপিত: ১৯০৪ সাল[span_0](start_span)[span_0](end_span)</p>
+                <p>ডিজিটাল মনিটরিং ও ম্যানেজমেন্ট অ্যাপস &nbsp;|&nbsp; ইএমআইএস কোড: ৯১৩০৪০۱۰১০৭<br>স্থাপিত: ১৯০৪ সাল</p>
             </div>
             <div id="modeIndicator" style="background: #ffb300; color: #000; padding: 5px 10px; font-weight: bold; border-radius: 4px; font-size: 9.5pt;">
                 এডিট মোড সচল
@@ -324,13 +324,13 @@
                     <tr>
                         <td style="text-align: center; font-weight: bold;">১</td>
                         <td><div class="editable" contenteditable="true">এলাকার অবস্থানগত বৈশিষ্ট্য</div></td>
-                        <td><div class="editable" contenteditable="true">সুগম[span_1](start_span)[span_1](end_span)</div></td>
+                        <td><div class="editable" contenteditable="true">সুগম</div></td>
                         <td style="text-align: center;"><button class="delete-btn" onclick="deleteRow(this)">মুছুন</button></td>
                     </tr>
                     <tr>
                         <td style="text-align: center; font-weight: bold;">২</td>
                         <td><div class="editable" contenteditable="true">উপজেলার মূল্যায়ন মতে বিদ্যালয়ের গ্রেড</div></td>
-                        <td><div class="editable" contenteditable="true">৩য় গ্রেড[span_2](start_span)[span_2](end_span)</div></td>
+                        <td><div class="editable" contenteditable="true">৩য় গ্রেড</div></td>
                         <td style="text-align: center;"><button class="delete-btn" onclick="deleteRow(this)">মুছুন</button></td>
                     </tr>
                 </tbody>
@@ -346,11 +346,13 @@
             <table id="teacherTable">
                 <thead>
                     <tr>
-                        <th style="width: 8%;">ক্রমিক</th>
-                        <th style="width: 25%;">শিক্ষকের নাম</th>
-                        <th style="width: 22%;">পদবি</th>
-                        <th style="width: 25%;">শিক্ষাগত যোগ্যতা</th>
-                        <th style="width: 15%;">যোগদানের তারিখ</th>
+                        <th style="width: 6%;">ক্রমিক</th>
+                        <th style="width: 20%;">শিক্ষকের নাম</th>
+                        <th style="width: 15%;">পদবি</th>
+                        <th style="width: 18%;">শিক্ষাগত যোগ্যতা</th>
+                        <th style="width: 13%;">জন্ম তারিখ</th>
+                        <th style="width: 13%;">চাকরিয় যোগদানের তারিখ</th>
+                        <th style="width: 10%;">বিদ্যালয়ে যোগদানের তারিখ</th>
                         <th style="width: 5%; text-align: center;">অ্যাকশন</th>
                     </tr>
                 </thead>
@@ -358,9 +360,11 @@
                     <tr>
                         <td style="text-align: center; font-weight: bold;">১</td>
                         <td><div class="editable" contenteditable="true">মো: জাহাঙ্গীর আলম</div></td>
-                        <td><div class="editable" contenteditable="true">প্রধান শিক্ষক[span_3](start_span)[span_3](end_span)</div></td>
-                        <td><div class="editable" contenteditable="true">এম.এস.সি, সি-ইন-এড[span_4](start_span)[span_4](end_span)</div></td>
+                        <td><div class="editable" contenteditable="true">প্রধান শিক্ষক</div></td>
+                        <td><div class="editable" contenteditable="true">এম.এস.সি, সি-ইন-এড</div></td>
+                        <td><div class="editable" contenteditable="true">০১-০১-১৯৮০</div></td>
                         <td><div class="editable" contenteditable="true">০১-০১-২০১০</div></td>
+                        <td><div class="editable" contenteditable="true">০১-০১-২০১৫</div></td>
                         <td style="text-align: center;"><button class="delete-btn" onclick="deleteRow(this)">মুছুন</button></td>
                     </tr>
                 </tbody>
@@ -390,7 +394,7 @@
                         <td style="text-align: center; font-weight: bold;">১</td>
                         <td><div class="editable" contenteditable="true">জাহাঙ্গীর আলম</div></td>
                         <td><div class="editable" contenteditable="true">প্রধান শিক্ষক - সার্বিক পরিচালনা</div></td>
-                        <td><div class="editable" contenteditable="true">সভাপতি, স্লিপ কমিটি[span_5](start_span)[span_5](end_span)</div></td>
+                        <td><div class="editable" contenteditable="true">সভাপতি, স্লিপ কমিটি</div></td>
                         <td style="text-align: center;"><button class="delete-btn" onclick="deleteRow(this)">মুছুন</button></td>
                     </tr>
                 </tbody>
@@ -426,7 +430,7 @@
             </table>
         </div>
 
-        <!-- ৪. শ্রেণিভিত্তিক শিক্ষার্থীর তালিকা (প্রাক-প্রাথমিক থেকে ৫ম শ্রেণি) -->
+        <!-- ৪. শ্রেণিভিত্তিক শিক্ষার্থীর তালিকা -->
         <div class="section-card">
             <div class="section-title">৪. শ্রেণিভিত্তিক শিক্ষার্থীর তালিকা (প্রাক-প্রাথমিক থেকে ৫ম শ্রেণি)</div>
             
@@ -605,7 +609,6 @@
                 <span>৫. সহশিক্ষাক্রমিক কার্যক্রম ও ফাইল আর্কাইভ ফোল্ডার</span>
             </div>
             
-            <!-- ফাইল আপলোড ও ড্রাইভ লিংক যুক্ত করার অপ션 -->
             <div class="file-upload-section">
                 <div class="upload-row">
                     <span>📁 ডিভাইস থেকে ফাইল আপলোড:</span>
@@ -651,7 +654,7 @@
                     <button class="delete-btn" onclick="deleteLinkRow(this)">মুছুন</button>
                 </li>
                 <li>
-                    <div class="link-content">🔗 <a href="https://dpe.gov.bd" target="_blank"><span class="editable" contenteditable="true">প্রাথমিক শিক্ষা অধিদপ্তর (DPE Official Website)</span></a>[span_6](start_span)[span_6](end_span)</div>
+                    <div class="link-content">🔗 <a href="https://dpe.gov.bd" target="_blank"><span class="editable" contenteditable="true">প্রাথমিক শিক্ষা অধিদপ্তর (DPE Official Website)</span></a></div>
                     <button class="delete-btn" onclick="deleteLinkRow(this)">মুছুন</button>
                 </li>
                 <li>
@@ -665,7 +668,7 @@
         <div class="footer-section">
             <p>প্রধান শিক্ষক</p>
             <p>৭ নং অভয়পাশা সরকারি প্রাথমিক বিদ্যালয়</p>
-            <p>আটপাড়া, নেত্রকোণা[span_7](start_span)[span_7](end_span)</p>
+            <p>আটপাড়া, নেত্রকোণা</p>
         </div>
 
     </div>
@@ -775,7 +778,6 @@
             `;
             list.appendChild(li);
             
-            // ইনপুট ফিল্ড খালি করা
             nameInput.value = '';
             urlInput.value = '';
             autoSave();
@@ -800,7 +802,9 @@
                     <td><div class="editable" contenteditable="true">[নাম]</div></td>
                     <td><div class="editable" contenteditable="true">[পদবি]</div></td>
                     <td><div class="editable" contenteditable="true">[যোগ্যতা]</div></td>
-                    <td><div class="editable" contenteditable="true">[তারিখ]</div></td>
+                    <td><div class="editable" contenteditable="true">[জন্ম তারিখ]</div></td>
+                    <td><div class="editable" contenteditable="true">[চাকরিয় তারিখ]</div></td>
+                    <td><div class="editable" contenteditable="true">[বিদ্যালয় তারিখ]</div></td>
                     <td style="text-align: center;"><button class="delete-btn" onclick="deleteRow(this)">মুছুন</button></td>
                 `;
             } else if (tableId === 'dutyTable') {
