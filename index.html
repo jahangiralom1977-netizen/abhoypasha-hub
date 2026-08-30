@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>৭ নং অভয়পাশা সরকারি প্রাথমিক বিদ্যালয় - ডিজিটাল মনিটরিং ও ম্যানেজমেন্ট অ্যাপস</title>
     
-    <!-- PWA Manifest for App-like Home Screen Installation -->
-    <link rel="manifest" href='data:application/manifest+json;charset=utf-8,{"name":"৭ নং অভয়পাশা সরকারি প্রাথমিক বিদ্যালয়","short_name":"Abhoypasha School","start_url":".","display":"standalone","background_color":"#eef2f1","theme_color":"#0f4c3a"}'>
+    <!-- PWA Manifest with App Icon -->
+    <link rel="manifest" href='data:application/manifest+json;charset=utf-8,{"name":"৭ নং অভয়পাশা সরকারি প্রাথমিক বিদ্যালয়","short_name":"Abhoypasha","start_url":".","display":"standalone","background_color":"#eef2f1","theme_color":"#0f4c3a","icons":[{"src":"https://cdn-icons-png.flaticon.com/512/3135/3135715.png","sizes":"512x512","type":"image/png"}]}'>
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=SolaimanLipi&display=swap');
@@ -355,8 +355,8 @@
                         <th style="width: 15%;">পদবি</th>
                         <th style="width: 18%;">শিক্ষাগত যোগ্যতা</th>
                         <th style="width: 13%;">জন্ম তারিখ</th>
-                        <th style="width: 13%;">চাকরিয় যোগদানের তারিখ</th>
-                        <th style="width: 10%;">বিদ্যালয়ে যোগদানের তারিখ</th>
+                        <th style="width: 13%;">চাকরিতে ১ম যোগদানের তারিখ</th>
+                        <th style="width: 10%;">এই বিদ্যালয়ে যোগদানের তারিখ</th>
                         <th style="width: 5%; text-align: center;">অ্যাকশন</th>
                     </tr>
                 </thead>
@@ -863,7 +863,6 @@
             let list = document.getElementById('customLinkList');
             let li = document.createElement('li');
             li.innerHTML = `
-                <div class="link-content">🔗 <a href="#" target="_blank"><span class="editable" contenteditable="true">[এখানে লিংকের বিবরণ লিখুন]</span></a></div>
                 <button class="delete-btn" onclick="deleteLinkRow(this)">মুছুন</button>
             `;
             list.appendChild(li);
