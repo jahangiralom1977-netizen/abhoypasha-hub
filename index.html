@@ -708,6 +708,13 @@
         let isEditable = true;
         function toggleEditMode() {
             isEditable = !isEditable;
+                const indicatorElement = document.getElementById('modeIndicator');
+    if (indicatorElement) {
+        indicatorElement.style.cursor = 'pointer';
+        indicatorElement.onclick = function() {
+            toggleEditMode();
+        };
+    
             const body = document.getElementById('appBody');
             const btn = document.getElementById('toggleModeBtn');
             const indicator = document.getElementById('modeIndicator');
