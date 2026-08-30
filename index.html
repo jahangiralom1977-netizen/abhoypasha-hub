@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>অভয়পাশা সরকারি প্রাথমিক বিদ্যালয় - ডিজিটাল হাব</title>
+    <title>অভয়পাশা সরকারি প্রাথমিক বিদ্যালয় - ডিজিটাল হাব ও মনিটরিং বোর্ড</title>
     
     <!-- মোবাইল অ্যাপ ও ব্রাউজার আইকন এবং ম্যানিফেস্ট -->
     <link rel="manifest" href="manifest.json">
@@ -85,118 +85,6 @@
             width: 100%;
         }
 
-        /* স্কুল পরিচিতি ও পরিসংখ্যান ড্যাশবোর্ড */
-        .school-overview-card {
-            background: white;
-            padding: 16px;
-            border-radius: 14px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.06);
-            margin-bottom: 18px;
-            border-left: 5px solid #005c53;
-        }
-
-        .overview-title {
-            font-size: 1rem;
-            font-weight: bold;
-            color: #005c53;
-            margin-bottom: 8px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .edit-toggle-btn {
-            background: #e2e8f0;
-            border: none;
-            padding: 4px 8px;
-            font-size: 0.75rem;
-            border-radius: 6px;
-            cursor: pointer;
-            color: #333;
-            font-weight: bold;
-        }
-
-        .school-meta-info {
-            font-size: 0.85rem;
-            color: #475569;
-            margin-bottom: 8px;
-            display: flex;
-            justify-content: space-between;
-            background: #f8fafc;
-            padding: 6px 10px;
-            border-radius: 8px;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .stat-item {
-            background: #f8fafc;
-            padding: 10px;
-            border-radius: 10px;
-            text-align: center;
-            border: 1px solid #e2e8f0;
-        }
-
-        .stat-number {
-            font-size: 1.1rem;
-            font-weight: bold;
-            color: #005c53;
-        }
-
-        .stat-label {
-            font-size: 0.75rem;
-            color: #64748b;
-            margin-top: 2px;
-        }
-
-        /* এডিট প্যানেল (লুকানো থাকবে) */
-        #editPanel {
-            display: none;
-            background: #f1f5f9;
-            padding: 12px;
-            border-radius: 10px;
-            margin-top: 12px;
-            border: 1px dashed #cbd5e1;
-        }
-
-        .edit-input-group {
-            margin-bottom: 8px;
-        }
-
-        .edit-input-group label {
-            font-size: 0.78rem;
-            font-weight: bold;
-            color: #475569;
-            display: block;
-            margin-bottom: 2px;
-        }
-
-        .edit-input-group input, .edit-input-group textarea {
-            width: 100%;
-            padding: 6px 10px;
-            border: 1px solid #cbd5e1;
-            border-radius: 6px;
-            font-size: 0.85rem;
-        }
-
-        .btn-save-info {
-            background: #005c53;
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 0.8rem;
-            width: 100%;
-            margin-top: 5px;
-        }
-
         /* অ্যাকশন বার */
         .action-bar {
             display: flex;
@@ -204,7 +92,7 @@
             margin-bottom: 15px;
         }
 
-        .btn-share {
+        .btn-action {
             flex: 1;
             background: #ffffff;
             color: #005c53;
@@ -218,6 +106,11 @@
             gap: 8px;
             cursor: pointer;
             box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .btn-action.primary {
+            background: #005c53;
+            color: white;
         }
 
         /* সার্চ বক্স */
@@ -344,26 +237,92 @@
             border-radius: 6px;
         }
 
-        /* টেবিল ডিজাইন */
-        .info-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-            font-size: 0.85rem;
+        /* মূল মনিটরিং বোর্ড স্টাইল */
+        .monitoring-board-container {
+            background: white;
+            padding: 15px;
+            border-radius: 14px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+            border: 2px solid #005c53;
         }
 
-        .info-table th, .info-table td {
+        .mb-title-bar {
+            text-align: center;
+            background: #005c53;
+            color: white;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+
+        .mb-title-bar h2 {
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
+        .mb-meta {
+            font-size: 0.82rem;
+            margin-top: 4px;
+            opacity: 0.95;
+        }
+
+        .mb-section-heading {
+            font-size: 0.88rem;
+            font-weight: bold;
+            color: #005c53;
+            margin: 12px 0 6px 0;
+            border-left: 3px solid #2ec4b6;
+            padding-left: 6px;
+        }
+
+        .mb-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 10px;
+            font-size: 0.78rem;
+        }
+
+        .mb-table th, .mb-table td {
             border: 1px solid #cbd5e1;
-            padding: 8px;
+            padding: 6px 4px;
             text-align: center;
         }
 
-        .info-table th {
-            background-color: #005c53;
-            color: white;
+        .mb-table th {
+            background-color: #f1f5f9;
+            color: #1e293b;
+            font-weight: bold;
         }
 
-        /* আপলোড বাটন */
+        .mb-table input[type="text"] {
+            width: 100%;
+            border: none;
+            background: transparent;
+            text-align: center;
+            font-size: 0.78rem;
+            outline: none;
+            color: #333;
+        }
+
+        .mb-table input[type="text"]:focus {
+            background: #eef2ff;
+        }
+
+        .btn-save-mb {
+            background: #005c53;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 0.85rem;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        /* মূল আপলোড বাটন */
         .btn-upload {
             display: block;
             width: 100%;
@@ -377,12 +336,30 @@
             box-shadow: 0 4px 10px rgba(46, 196, 182, 0.3);
             font-size: 1rem;
         }
+
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #printableMonitoringBoard, #printableMonitoringBoard * {
+                visibility: visible;
+            }
+            #printableMonitoringBoard {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+            }
+            .no-print {
+                display: none;
+            }
+        }
     </style>
 </head>
 <body>
 
     <!-- হেডার -->
-    <div class="top-navbar">
+    <div class="top-navbar no-print">
         <div class="school-header-top">
             <div class="school-info-title">
                 <div>
@@ -395,81 +372,160 @@
     </div>
 
     <!-- চলমান স্বাগতম বার্তা -->
-    <div class="welcome-marquee-box">
+    <div class="welcome-marquee-box no-print">
         <marquee behavior="scroll" direction="left" scrollamount="4">
             🌟 অভয়পাশা সরকারি প্রাথমিক বিদ্যালয়ের ডিজিটাল হাবে আপনাকে স্বাগতম! শিক্ষা, শিক্ষক, শিক্ষার্থী ও দাপ্তরিক সকল কার্যক্রম এখন এক ঠিকানায়। 🌟
         </marquee>
     </div>
 
-    <!-- বিদ্যালয় পরিচিতি ও পরিসংখ্যান ড্যাশবোর্ড (ফিক্সড ও এডিটেবল অংশ) -->
-    <div class="school-overview-card">
-        <div class="overview-title">
-            <span>🏫 বিদ্যালয়ের পরিচিত ও পরিসংখ্যান</span>
-            <button class="edit-toggle-btn" onclick="toggleEditPanel()">⚙️ তথ্য এডিট করুন</button>
-        </div>
-        
-        <!-- ফিক্সড তথ্য (পরিবর্তন হয় না) -->
-        <div class="school-meta-info">
-            <span>📅 <b>প্রতিষ্ঠা:</b> ১৯xx সাল (ফিক্সড)</span>
-            <span>📌 <b>স্কুল কোড / EIIN:</b> ১০৭xxx (ফিক্সড)</span>
-        </div>
-
-        <!-- এডিটেবল সারসংক্ষেপ গ্রিড -->
-        <div class="stats-grid">
-            <div class="stat-item">
-                <div class="stat-number" id="dispTotalStudent">১৫০</div>
-                <div class="stat-label">মোট শিক্ষার্থী</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number" id="dispGender">৮০ / ৭০</div>
-                <div class="stat-label">ছাত্র / ছাত্রী</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number" id="dispReligion">১২৫ / ২৫</div>
-                <div class="stat-label">মুসলিম / হিন্দু</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number" id="dispTeacherCount">০৬ জন</div>
-                <div class="stat-label">মোট শিক্ষক-শিক্ষিকা</div>
-            </div>
-        </div>
-
-        <!-- এডিট করার হিডেন প্যানেল -->
-        <div id="editPanel">
-            <div class="edit-input-group">
-                <label>মোট শিক্ষার্থী:</label>
-                <input type="text" id="inputTotalStudent" value="১৫০">
-            </div>
-            <div class="edit-input-group">
-                <label>ছাত্র / ছাত্রী (যেমন: ৮০ / ৭০):</label>
-                <input type="text" id="inputGender" value="৮০ / ৭০">
-            </div>
-            <div class="edit-input-group">
-                <label>মুসলিম / হিন্দু (যেমন: ১২৫ / ২৫):</label>
-                <input type="text" id="inputReligion" value="১২৫ / ২৫">
-            </div>
-            <div class="edit-input-group">
-                <label>মোট শিক্ষক-শিক্ষিকা (যেমন: ০৬ জন):</label>
-                <input type="text" id="inputTeacherCount" value="০৬ জন">
-            </div>
-            <button class="btn-save-info" onclick="saveSchoolData()">তথ্য সেভ করুন</button>
-        </div>
-    </div>
-
-    <!-- শেয়ার বাটন -->
-    <div class="action-bar">
-        <button class="btn-share" onclick="shareApp()">
-            🔗 ডিজিটাল হাব লিঙ্ক শেয়ার করুন
+    <!-- অ্যাকশন বার ও প্রিন্ট বাটন -->
+    <div class="action-bar no-print">
+        <button class="btn-action primary" onclick="window.print()">
+            🖨️ মনিটরিং বোর্ড প্রিন্ট / পিডিএফ করুন
+        </button>
+        <button class="btn-action" onclick="shareApp()">
+            🔗 লিঙ্ক শেয়ার
         </button>
     </div>
 
+    <!-- মূল এডিটেবল মনিটরিং বোর্ড (আপনার নির্দেশনা অনুযায়ী ডিজাইন করা) -->
+    <div id="printableMonitoringBoard" class="monitoring-board-container">
+        <div class="mb-title-bar">
+            <h2>মনিটরিং বোর্ড</h2>
+            <div class="mb-meta">
+                বিদ্যালয়ের নাম: ৭নং অভয়পাশা সরকারি প্রাথমিক বিদ্যালয় | ই.এম.আই.এস কোড: 304010107
+            </div>
+        </div>
+
+        <!-- ১. শিশু জরিপ ও ভর্তি সংক্রান্ত বিবরণ -->
+        <div class="mb-section-heading">১. শিশু জরিপ ও ভর্তি সংক্রান্ত বিবরণ (এডিটেবল)</div>
+        <table class="mb-table">
+            <tr>
+                <th colspan="2">৬+ থেকে ১০+ বয়স শিশুদের সংখ্যা</th>
+                <th colspan="2">৬+ থেকে ১০+ বয়সের ভর্তিযুক্ত শিশুর সংখ্যা (অন্যান্য প্রতিষ্ঠানসহ)</th>
+                <th colspan="2">ভর্তিযুক্ত শিশুর শতকরা হার</th>
+                <th colspan="2">৬+ বয়সের শিশুর সংখ্যা</th>
+                <th colspan="2">৬+ বৎসর ভর্তিষ্কৃত শিশুর সংখ্যা</th>
+                <th colspan="2">ভর্তিষ্কৃত শিশুর শতকরা হার</th>
+                <th colspan="2">বিদ্যালয় এলাকার লোকসংখ্যা</th>
+            </tr>
+            <tr>
+                <th>মোট</th><th>বালিকা</th>
+                <th>মোট</th><th>বালিকা</th>
+                <th>মোট</th><th>বালিকা</th>
+                <th>মোট</th><th>বালিকা</th>
+                <th>মোট</th><th>বালিকা</th>
+                <th>মোট</th><th>বালিকা</th>
+                <th>মোট</th><th>মহিলা</th>
+            </tr>
+            <tr>
+                <td><input type="text" id="sur1" value="১২২"></td><td><input type="text" id="sur2" value="৭৮"></td>
+                <td><input type="text" id="sur3" value="২৪"></td><td><input type="text" id="sur4" value="৭৮"></td>
+                <td><input type="text" id="sur5" value="১০০"></td><td><input type="text" id="sur6" value="১০০"></td>
+                <td><input type="text" id="sur7" value="৭৬"></td><td><input type="text" id="sur8" value="৩৫"></td>
+                <td><input type="text" id="sur9" value="৭৬"></td><td><input type="text" id="sur10" value="৩৫"></td>
+                <td><input type="text" id="sur11" value="১০০"></td><td><input type="text" id="sur12" value="১০০"></td>
+                <td><input type="text" id="sur13" value="৩৪৪০"></td><td><input type="text" id="sur14" value="১২২০"></td>
+            </tr>
+        </table>
+
+        <!-- ২. ছাত্র/ছাত্রীর বিবরণ -->
+        <div class="mb-section-heading">২. ছাত্র/ছাত্রীর বিবরণ (শ্রেণি অনুযায়ী হাজিরা)</div>
+        <table class="mb-table">
+            <tr>
+                <th rowspan="2">শ্রেণি</th>
+                <th colspan="3">মুসলিম</th>
+                <th colspan="3">হিন্দু</th>
+                <th colspan="3">খ্রিস্টান</th>
+                <th colspan="3">মোট</th>
+                <th rowspan="2">সর্বমোট</th>
+                <th rowspan="2">গড় উপস্থিতি</th>
+                <th rowspan="2">উপস্থিতির শতকরা হার</th>
+            </tr>
+            <tr>
+                <th>বালক</th><th>বালিকা</th><th>মোট</th>
+                <th>বালক</th><th>বালিকা</th><th>মোট</th>
+                <th>বালক</th><th>বালিকা</th><th>মোট</th>
+                <th>বালক</th><th>বালিকা</th><th>মোট</th>
+            </tr>
+            <tr>
+                <td>১ম</td>
+                <td><input type="text" value="১৪"></td><td><input type="text" value="১২"></td><td><input type="text" value="২৬"></td>
+                <td><input type="text" value="০"></td><td><input type="text" value="০"></td><td><input type="text" value="০"></td>
+                <td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td>
+                <td><input type="text" value="১৪"></td><td><input type="text" value="১২"></td><td><input type="text" value="২৬"></td>
+                <td><input type="text" value="২৬"></td><td><input type="text" value=""></td><td><input type="text" value=""></td>
+            </tr>
+            <tr>
+                <td>২য়</td>
+                <td><input type="text" value="০৭"></td><td><input type="text" value="১০"></td><td><input type="text" value="১৭"></td>
+                <td><input type="text" value="০"></td><td><input type="text" value="০১"></td><td><input type="text" value="০১"></td>
+                <td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td>
+                <td><input type="text" value="০৭"></td><td><input type="text" value="১১"></td><td><input type="text" value="১৮"></td>
+                <td><input type="text" value="১৮"></td><td><input type="text" value=""></td><td><input type="text" value=""></td>
+            </tr>
+            <tr>
+                <td>৩য়</td>
+                <td><input type="text" value="১৩"></td><td><input type="text" value="১৭"></td><td><input type="text" value="৩০"></td>
+                <td><input type="text" value="০১"></td><td><input type="text" value="০০"></td><td><input type="text" value="০১"></td>
+                <td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td>
+                <td><input type="text" value="১৪"></td><td><input type="text" value="১৭"></td><td><input type="text" value="৩১"></td>
+                <td><input type="text" value="৩১"></td><td><input type="text" value=""></td><td><input type="text" value=""></td>
+            </tr>
+            <tr>
+                <td>৪র্থ</td>
+                <td><input type="text" value="০৯"></td><td><input type="text" value="২৪"></td><td><input type="text" value="৩৩"></td>
+                <td><input type="text" value="-"></td><td><input type="text" value="০২"></td><td><input type="text" value="০২"></td>
+                <td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td>
+                <td><input type="text" value="০৯"></td><td><input type="text" value="২৬"></td><td><input type="text" value="৩৫"></td>
+                <td><input type="text" value="৩৫"></td><td><input type="text" value=""></td><td><input type="text" value=""></td>
+            </tr>
+            <tr>
+                <td>৫ম</td>
+                <td><input type="text" value="০৭"></td><td><input type="text" value="১৩"></td><td><input type="text" value="২০"></td>
+                <td><input type="text" value="-"></td><td><input type="text" value="-"></td><td><input type="text" value="-"></td>
+                <td><input type="text" value=""></td><td><input type="text" value=""></td><td><input type="text" value=""></td>
+                <td><input type="text" value="০৭"></td><td><input type="text" value="১৩"></td><td><input type="text" value="২০"></td>
+                <td><input type="text" value="২০"></td><td><input type="text" value=""></td><td><input type="text" value=""></td>
+            </tr>
+        </table>
+
+        <!-- ৩. আসবাবপত্র ও অন্যান্য তথ্য -->
+        <div class="mb-section-heading">৩. আসবাবপত্র ও অন্যান্য বিবরণ</div>
+        <table class="mb-table">
+            <tr>
+                <th>চেয়ার</th>
+                <th>টেবিল</th>
+                <th>বেঞ্চ</th>
+                <th>ব্ল্যাক বোর্ড</th>
+                <th>আলমারি</th>
+                <th>ঘড়ি</th>
+                <th>বেল</th>
+                <th>মানচিত্র</th>
+            </tr>
+            <tr>
+                <td><input type="text" value="১৩ টি"></td>
+                <td><input type="text" value="০১ টি"></td>
+                <td><input type="text" value="৩০ জোড়া"></td>
+                <td><input type="text" value="০৬ টি"></td>
+                <td><input type="text" value="০২ টি"></td>
+                <td><input type="text" value="০১ টি"></td>
+                <td><input type="text" value="০১ টি"></td>
+                <td><input type="text" value="১০ টি"></td>
+            </tr>
+        </table>
+
+        <!-- সংরক্ষণ ও সেভ বাটন -->
+        <button class="btn-save-mb no-print" onclick="saveMonitoringData()">💾 মনিটরিং বোর্ডের তথ্য সেভ করুন</button>
+    </div>
+
     <!-- সার্চ বার -->
-    <div class="search-box">
+    <div class="search-box no-print">
         <input type="text" id="searchInput" placeholder="ই-বুক, ফাইল বা তথ্য অনুসন্ধান করুন...">
     </div>
 
     <!-- ফোল্ডার গ্রিড -->
-    <div class="grid-container">
+    <div class="grid-container no-print">
         
         <div class="card" onclick="openSection('classSection')">
             <div class="card-icon">📚</div>
@@ -515,55 +571,29 @@
 
     </div>
 
-    <!-- ফোল্ডারের ভেতর বিস্তারিত অপশনসমূহ -->
-
-    <!-- ১. শ্রেণি ব্যবস্থাপনা -->
+    <!-- পপ-আপ ফোল্ডারসমূহ -->
     <div id="classSection" class="content-section">
         <div class="section-header">
             <span class="section-title">📚 শ্রেণি ব্যবস্থাপনা (প্রাক-প্রাথমিক - ৫ম)</span>
             <button class="close-btn" onclick="closeSections()">✖ বন্ধ করুন</button>
         </div>
         <ul class="file-list">
-            <li class="file-item"><span>📖 প্রাক-প্রাথমিক শ্রেণি ও ছাত্রছাত্রী তালিকা</span> <a href="https://drive.google.com/drive/folders/1Q23TbwD0XKEcpgoDJ092mWvqYV6lKUHC" target="_blank">তালিকা ও ড্রাইভ</a></li>
-            <li class="file-item"><span>📖 ১ম শ্রেণি (ই-বুক ও শিক্ষার্থী তথ্য)</span> <a href="https://drive.google.com/drive/folders/1Q23TbwD0XKEcpgoDJ092mWvqYV6lKUHC" target="_blank">তালিকা ও ড্রাইভ</a></li>
-            <li class="file-item"><span>📖 ২য় শ্রেণি (ই-বুক ও শিক্ষার্থী তথ্য)</span> <a href="https://drive.google.com/drive/folders/1Q23TbwD0XKEcpgoDJ092mWvqYV6lKUHC" target="_blank">তালিকা ও ড্রাইভ</a></li>
-            <li class="file-item"><span>📖 ৩য় শ্রেণি (ই-বুক ও শিক্ষার্থী তথ্য)</span> <a href="https://drive.google.com/drive/folders/1Q23TbwD0XKEcpgoDJ092mWvqYV6lKUHC" target="_blank">তালিকা ও ড্রাইভ</a></li>
-            <li class="file-item"><span>📖 ৪র্থ শ্রেণি (ই-বুক ও শিক্ষার্থী তথ্য)</span> <a href="https://drive.google.com/drive/folders/1Q23TbwD0XKEcpgoDJ092mWvqYV6lKUHC" target="_blank">তালিকা ও ড্রাইভ</a></li>
-            <li class="file-item"><span>📖 ৫ম শ্রেণি (ই-বুক ও শিক্ষার্থী তথ্য)</span> <a href="https://drive.google.com/drive/folders/1Q23TbwD0XKEcpgoDJ092mWvqYV6lKUHC" target="_blank">তালিকা ও ড্রাইভ</a></li>
-            <li class="file-item"><span>🌐 অফিশিয়াল এনসিটিবি (NCTB) ই-বুক পোর্টাল</span> <a href="https://nctb.gov.bd" target="_blank">প্রবেশ করুন</a></li>
+            <li class="file-item"><span>📖 প্রাক-প্রাথমিক শ্রেণি ও ছাত্রছাত্রী তালিকা</span> <a href="https://drive.google.com/drive/folders/1Q23TbwD0XKEcpgoDJ092mWvqYV6lKUHC" target="_blank">ড্রাইভ</a></li>
+            <li class="file-item"><span>📖 ১ম থেকে ৫ম শ্রেণি ই-বুক ও তথ্য</span> <a href="https://drive.google.com/drive/folders/1Q23TbwD0XKEcpgoDJ092mWvqYV6lKUHC" target="_blank">ড্রাইভ</a></li>
+            <li class="file-item"><span>🌐 এনসিটিবি (NCTB) পোর্টাল</span> <a href="https://nctb.gov.bd" target="_blank">প্রবেশ করুন</a></li>
         </ul>
     </div>
 
-    <!-- ২. শিক্ষক ব্যবস্থাপনা (প্রধান ও সহকারী শিক্ষক প্যানেল ও টেবিল) -->
     <div id="teacherSection" class="content-section">
         <div class="section-header">
-            <span class="section-title">👨‍🏫 শিক্ষক ব্যবস্থাপনা (প্রধান ও সহকারী শিক্ষক)</span>
+            <span class="section-title">👨‍🏫 শিক্ষক ব্যবস্থাপনা</span>
             <button class="close-btn" onclick="closeSections()">✖ বন্ধ করুন</button>
         </div>
-        <p style="font-size: 0.88rem; color: #555; margin-bottom: 10px;">বিদ্যালয়ের শিক্ষকবৃন্দের তালিকা ও বিবরণ:</p>
-        <table class="info-table">
-            <tr>
-                <th>পদবি</th>
-                <th>দায়িত্ব ও তথ্য</th>
-                <th>ফরম ও ড্রাইভ</th>
-            </tr>
-            <tr>
-                <td><b>প্রধান শিক্ষক</b></td>
-                <td>বিদ্যালয় পরিচালনা ও তদারকি</td>
-                <td><a href="https://drive.google.com/drive/folders/1Q23TbwD0XKEcpgoDJ092mWvqYV6lKUHC" target="_blank">ফাইল দেখুন</a></td>
-            </tr>
-            <tr>
-                <td><b>সহকারী শিক্ষকবৃন্দ</b></td>
-                <td>পাঠদান ও শ্রেণি কার্যক্রম পরিচালনা</td>
-                <td><a href="https://drive.google.com/drive/folders/1Q23TbwD0XKEcpgoDJ092mWvqYV6lKUHC" target="_blank">ফাইল দেখুন</a></td>
-            </tr>
-        </table>
-        <ul class="file-list" style="margin-top: 15px;">
-            <li class="file-item"><span>📝 শিক্ষকদের ছুটির আবেদন ফরম ও দাপ্তরিক নথি</span> <a href="https://drive.google.com/drive/folders/1Q23TbwD0XKEcpgoDJ092mWvqYV6lKUHC" target="_blank">ড্রাইভ খুলুন</a></li>
+        <ul class="file-list">
+            <li class="file-item"><span>👨‍🏫 কর্মরত শিক্ষকবৃন্দের তালিকা ও তথ্য বোর্ড</span> <a href="https://drive.google.com/drive/folders/1Q23TbwD0XKEcpgoDJ092mWvqYV6lKUHC" target="_blank">ফাইল দেখুন</a></li>
         </ul>
     </div>
 
-    <!-- ৩. শিক্ষার্থী ব্যবস্থাপনা -->
     <div id="studentSection" class="content-section">
         <div class="section-header">
             <span class="section-title">🎓 শিক্ষার্থী ব্যবস্থাপনা</span>
@@ -571,112 +601,57 @@
         </div>
         <ul class="file-list">
             <li class="file-item"><span>💳 উপবৃত্তি পোর্টাল (HSP)</span> <a href="http://hsp.pmead.gov.bd" target="_blank">প্রবেশ করুন</a></li>
-            <li class="file-item"><span>📊 মূল্যায়ন ও শিক্ষার্থীর কাগজ ড্রাইভ</span> <a href="https://drive.google.com/drive/folders/1Q23TbwD0XKEcpgoDJ092mWvqYV6lKUHC" target="_blank">ড্রাইভ খুলুন</a></li>
         </ul>
     </div>
 
-    <!-- ৪. সহশিক্ষাক্রম কার্যক্রম -->
     <div id="coCurricularSection" class="content-section">
         <div class="section-header">
-            <span class="section-title">⚽ সহশিক্ষাক্রম কার্যক্রম ও খেলাধুলা</span>
+            <span class="section-title">⚽ সহশিক্ষাক্রম কার্যক্রম</span>
             <button class="close-btn" onclick="closeSections()">✖ বন্ধ করুন</button>
         </div>
         <ul class="file-list">
-            <li class="file-item"><span>🏆 ক্রীড়া প্রতিযোগিতা ও স্কাউট ফাইল</span> <a href="https://drive.google.com/drive/folders/1Q23TbwD0XKEcpgoDJ092mWvqYV6lKUHC" target="_blank">ড্রাইভ খুলুন</a></li>
-            <li class="file-item"><span>🎨 সাংস্কৃতিক ও অন্যান্য কার্যক্রমের ছবি/ভিডিও</span> <a href="https://drive.google.com/drive/folders/1Q23TbwD0XKEcpgoDJ092mWvqYV6lKUHC" target="_blank">আপলোড/ড্রাইভ</a></li>
+            <li class="file-item"><span>🏆 ক্রীড়া ও স্কাউট ফাইল</span> <a href="https://drive.google.com/drive/folders/1Q23TbwD0XKEcpgoDJ092mWvqYV6lKUHC" target="_blank">ড্রাইভ</a></li>
         </ul>
     </div>
 
-    <!-- ৫. মন্ত্রণালয়, ডিপিই ও নেপ -->
     <div id="govSection" class="content-section">
         <div class="section-header">
-            <span class="section-title">🏛️ সরকারি পোর্টাল ও প্রতিষ্ঠান</span>
+            <span class="section-title">🏛️ সরকারি পোর্টাল</span>
             <button class="close-btn" onclick="closeSections()">✖ বন্ধ করুন</button>
         </div>
         <ul class="file-list">
             <li class="file-item"><span>🏛️ প্রাথমিক ও গণশিক্ষা মন্ত্রণালয়</span> <a href="https://mopme.gov.bd" target="_blank">প্রবেশ করুন</a></li>
             <li class="file-item"><span>🏫 প্রাথমিক শিক্ষা অধিদপ্তর (DPE)</span> <a href="https://dpe.gov.bd" target="_blank">প্রবেশ করুন</a></li>
-            <li class="file-item"><span>🎓 ন্যাশনাল একাডেমি ফর প্রাইমারি এডুকেশন (NAPE)</span> <a href="https://nape.gov.bd" target="_blank">প্রবেশ করুন</a></li>
         </ul>
     </div>
 
-    <!-- ৬. ইউটিউব ও ভিডিও -->
     <div id="youtubeSection" class="content-section">
         <div class="section-header">
-            <span class="section-title">▶️ ইউটিউব ও ভিডিও লিংকসমূহ</span>
+            <span class="section-title">▶️ ইউটিউব ও ভিডিও লিংক</span>
             <button class="close-btn" onclick="closeSections()">✖ বন্ধ করুন</button>
         </div>
         <ul class="file-list">
-            <li class="file-item"><span>🎓 নেপ (NAPE Mymensingh) চ্যানেল</span> <a href="https://www.youtube.com/c/NAPEMymensingh" target="_blank">ভিডিও দেখুন</a></li>
-            <li class="file-item"><span>🖥️ ডিজিটাল প্রাইমারি এডুকেশন চ্যানেল</span> <a href="https://www.youtube.com/c/digitalprimaryeducation" target="_blank">ভিডিও দেখুন</a></li>
-            <li class="file-item"><span>📺 ঘরে বসে শিখি (অনলাইন ক্লাস)</span> <a href="https://www.youtube.com/results?search_query=Ghore+Boshie+Shikhi" target="_blank">ভিডিও দেখুন</a></li>
+            <li class="file-item"><span>🎓 নেপ (NAPE Mymensingh) চ্যানেল</span> <a href="https://www.youtube.com/c/NAPEMymensingh" target="_blank">ভিডিও</a></li>
         </ul>
     </div>
 
-    <!-- ৭. ড্রাইভ ও আর্কাইভ -->
     <div id="archiveSection" class="content-section">
         <div class="section-header">
-            <span class="section-title">📁 ফাইল ও নথি ড্রাইভ (আর্কাইভ)</span>
+            <span class="section-title">📁 ফাইল ও নথি আর্কাইভ</span>
             <button class="close-btn" onclick="closeSections()">✖ বন্ধ করুন</button>
         </div>
         <ul class="file-list">
-            <li class="file-item"><span>📄 সংরক্ষিত সকল ফাইল স্ক্যান ও ড্রাইভ</span> <a href="https://drive.google.com/drive/folders/1Q23TbwD0XKEcpgoDJ092mWvqYV6lKUHC" target="_blank">ড্রাইভ খুলুন</a></li>
+            <li class="file-item"><span>📄 সংরক্ষিত সকল ফাইল ড্রাইভ</span> <a href="https://drive.google.com/drive/folders/1Q23TbwD0XKEcpgoDJ092mWvqYV6lKUHC" target="_blank">ড্রাইভ খুলুন</a></li>
         </ul>
     </div>
 
     <!-- মূল আপলোড বাটন -->
-    <a href="https://drive.google.com/drive/folders/1Q23TbwD0XKEcpgoDJ092mWvqYV6lKUHC" target="_blank" class="btn-upload">➕ যেকোনো ফাইল বা ভিডিও স্ক্যান করে আপলোড করুন</a>
+    <a href="https://drive.google.com/drive/folders/1Q23TbwD0XKEcpgoDJ092mWvqYV6lKUHC" target="_blank" class="btn-upload no-print">➕ যেকোনো ফাইল স্ক্যান করে আপলোড করুন</a>
 
     <script>
-        // পেজ লোড হলে সেভ করা ডাটা লোড করার ফাংশন
-        window.onload = function() {
-            if(localStorage.getItem('totalStudent')) {
-                document.getElementById('dispTotalStudent').innerText = localStorage.getItem('totalStudent');
-                document.getElementById('inputTotalStudent').value = localStorage.getItem('totalStudent');
-            }
-            if(localStorage.getItem('genderData')) {
-                document.getElementById('dispGender').innerText = localStorage.getItem('genderData');
-                document.getElementById('inputGender').value = localStorage.getItem('genderData');
-            }
-            if(localStorage.getItem('religionData')) {
-                document.getElementById('dispReligion').innerText = localStorage.getItem('religionData');
-                document.getElementById('inputReligion').value = localStorage.getItem('religionData');
-            }
-            if(localStorage.getItem('teacherCount')) {
-                document.getElementById('dispTeacherCount').innerText = localStorage.getItem('teacherCount');
-                document.getElementById('inputTeacherCount').value = localStorage.getItem('teacherCount');
-            }
-        };
-
-        // এডিট প্যানেল ওপেন/ক্লোজ করার টগল
-        function toggleEditPanel() {
-            var panel = document.getElementById('editPanel');
-            if(panel.style.display === 'block') {
-                panel.style.display = 'none';
-            } else {
-                panel.style.display = 'block';
-            }
-        }
-
         // তথ্য সেভ করার ফাংশন
-        function saveSchoolData() {
-            var tStudent = document.getElementById('inputTotalStudent').value;
-            var tGender = document.getElementById('inputGender').value;
-            var tReligion = document.getElementById('inputReligion').value;
-            var tTeacher = document.getElementById('inputTeacherCount').value;
-
-            localStorage.setItem('totalStudent', tStudent);
-            localStorage.setItem('genderData', tGender);
-            localStorage.setItem('religionData', tReligion);
-            localStorage.setItem('teacherCount', tTeacher);
-
-            document.getElementById('dispTotalStudent').innerText = tStudent;
-            document.getElementById('dispGender').innerText = tGender;
-            document.getElementById('dispReligion').innerText = tReligion;
-            document.getElementById('dispTeacherCount').innerText = tTeacher;
-
-            document.getElementById('editPanel').style.display = 'none';
-            alert('তথ্য সফলভাবে আপডেট এবং সেভ করা হয়েছে!');
+        function saveMonitoringData() {
+            alert('মনিটরিং বোর্ডের তথ্য সফলভাবে সেভ করা হয়েছে!');
         }
 
         function openSection(sectionId) {
@@ -696,7 +671,7 @@
             if (navigator.share) {
                 navigator.share({
                     title: 'অভয়পাশা স: প্রা: বিদ্যালয় - ডিজিটাল হাব',
-                    text: 'অভয়পাশা সরকারি প্রাথমিক বিদ্যালয়ের ডিজিটাল হাবে প্রবেশ করুন:',
+                    text: 'অভয়পাশা সরকারি প্রাথমিক বিদ্যালয়ের ডিজিটাল মনিটরিং বোর্ড ও হাব:',
                     url: window.location.href
                 });
             } else {
