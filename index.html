@@ -25,10 +25,13 @@
             background: linear-gradient(135deg, #0f4c3a, #1b5e20);
             color: white;
             padding: 15px 25px;
+            border-bottom: 4px solid #ffb300;
+        }
+
+        .header-top {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 4px solid #ffb300;
         }
 
         .app-header h1 {
@@ -39,6 +42,19 @@
         .app-header p {
             font-size: 9.5pt;
             opacity: 0.9;
+        }
+
+        /* স্ক্রলিং নোটিশ বার */
+        .marquee-container {
+            background-color: #083325;
+            color: #ffb300;
+            padding: 6px 0;
+            font-size: 10pt;
+            font-weight: bold;
+            margin-top: 10px;
+            border-radius: 4px;
+            overflow: hidden;
+            white-space: nowrap;
         }
 
         .container {
@@ -219,13 +235,17 @@
             border: 1px dashed #7cb342;
             margin-bottom: 12px;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 10px;
+            flex-direction: column;
+            gap: 8px;
         }
 
-        .file-upload-section input[type="file"] {
-            font-size: 9pt;
+        .upload-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            font-size: 9.5pt;
         }
 
         .footer-section {
@@ -236,7 +256,7 @@
         }
 
         @media print {
-            .control-bar, .delete-btn, .action-btn, .file-upload-section {
+            .control-bar, .delete-btn, .action-btn, .file-upload-section, .marquee-container {
                 display: none !important;
             }
             .editable {
@@ -253,12 +273,20 @@
 <body id="appBody">
 
     <div class="app-header">
-        <div>
-            <h1>৭ নং অভয়পাশা সরকারি প্রাথমিক বিদ্যালয়</h1>
-            <p>ডিজিটাল মনিটরিং ও ম্যানেজমেন্ট অ্যাপস<br>ইএমআইএস: ৯১৩০৪০۱۰১০৭ | স্থাপিত: ১৯০৪ সাল</p>
+        <div class="header-top">
+            <div>
+                <h1>৭ নং অভয়পাশা সরকারি প্রাথমিক বিদ্যালয়</h1>
+                <p>ডিজিটাল মনিটরিং ও ম্যানেজমেন্ট অ্যাপস &nbsp;|&nbsp; ইএমআইএস: ৯১৩০৪০۱۰১০৭ &nbsp;|&nbsp; স্থাপিত: ১৯০৪ সাল[span_0](start_span)[span_0](end_span)</p>
+            </div>
+            <div id="modeIndicator" style="background: #ffb300; color: #000; padding: 5px 10px; font-weight: bold; border-radius: 4px; font-size: 9.5pt;">
+                এডিট মোড সচল
+            </div>
         </div>
-        <div id="modeIndicator" style="background: #ffb300; color: #000; padding: 5px 10px; font-weight: bold; border-radius: 4px; font-size: 9.5pt;">
-            এডিট মোড সচল
+        <!-- চলমান স্ক্রলিং নোটিশ বার -->
+        <div class="marquee-container">
+            <marquee behavior="scroll" direction="left" scrollamount="5">
+                🏫 ৭ নং অভয়পাশা সরকারি প্রাথমিক বিদ্যালয়ের ডিজিটাল মনিটরিং ও ম্যানেজমেন্ট অ্যাপসে স্বাগতম। নিয়মিত শিক্ষা কার্যক্রম, শিক্ষক ব্যবস্থাপনা এবং তথ্য দেখতে নিচে স্ক্রল করুন।
+            </marquee>
         </div>
     </div>
 
@@ -296,13 +324,13 @@
                     <tr>
                         <td style="text-align: center; font-weight: bold;">১</td>
                         <td><div class="editable" contenteditable="true">এলাকার অবস্থানগত বৈশিষ্ট্য</div></td>
-                        <td><div class="editable" contenteditable="true">সুগম[span_0](start_span)[span_0](end_span)</div></td>
+                        <td><div class="editable" contenteditable="true">সুগম[span_1](start_span)[span_1](end_span)</div></td>
                         <td style="text-align: center;"><button class="delete-btn" onclick="deleteRow(this)">মুছুন</button></td>
                     </tr>
                     <tr>
                         <td style="text-align: center; font-weight: bold;">২</td>
                         <td><div class="editable" contenteditable="true">উপজেলার মূল্যায়ন মতে বিদ্যালয়ের গ্রেড</div></td>
-                        <td><div class="editable" contenteditable="true">৩য় গ্রেড[span_1](start_span)[span_1](end_span)</div></td>
+                        <td><div class="editable" contenteditable="true">৩য় গ্রেড[span_2](start_span)[span_2](end_span)</div></td>
                         <td style="text-align: center;"><button class="delete-btn" onclick="deleteRow(this)">মুছুন</button></td>
                     </tr>
                 </tbody>
@@ -330,8 +358,8 @@
                     <tr>
                         <td style="text-align: center; font-weight: bold;">১</td>
                         <td><div class="editable" contenteditable="true">মো: জাহাঙ্গীর আলম</div></td>
-                        <td><div class="editable" contenteditable="true">প্রধান শিক্ষক[span_2](start_span)[span_2](end_span)</div></td>
-                        <td><div class="editable" contenteditable="true">এম.এস.সি, সি-ইন-এড[span_3](start_span)[span_3](end_span)</div></td>
+                        <td><div class="editable" contenteditable="true">প্রধান শিক্ষক[span_3](start_span)[span_3](end_span)</div></td>
+                        <td><div class="editable" contenteditable="true">এম.এস.সি, সি-ইন-এড[span_4](start_span)[span_4](end_span)</div></td>
                         <td><div class="editable" contenteditable="true">০১-০১-২০১০</div></td>
                         <td style="text-align: center;"><button class="delete-btn" onclick="deleteRow(this)">মুছুন</button></td>
                     </tr>
@@ -362,7 +390,7 @@
                         <td style="text-align: center; font-weight: bold;">১</td>
                         <td><div class="editable" contenteditable="true">জাহাঙ্গীর আলম</div></td>
                         <td><div class="editable" contenteditable="true">প্রধান শিক্ষক - সার্বিক পরিচালনা</div></td>
-                        <td><div class="editable" contenteditable="true">সভাপতি, স্লিপ কমিটি[span_4](start_span)[span_4](end_span)</div></td>
+                        <td><div class="editable" contenteditable="true">সভাপতি, স্লিপ কমিটি[span_5](start_span)[span_5](end_span)</div></td>
                         <td style="text-align: center;"><button class="delete-btn" onclick="deleteRow(this)">মুছুন</button></td>
                     </tr>
                 </tbody>
@@ -577,9 +605,20 @@
                 <span>৫. সহশিক্ষাক্রমিক কার্যক্রম ও ফাইল আর্কাইভ ফোল্ডার</span>
             </div>
             
+            <!-- ফাইল আপলোড ও ড্রাইভ লিংক যুক্ত করার অপ션 -->
             <div class="file-upload-section">
-                <span>📁 কম্পিউটার বা মোবাইল থেকে যেকোনো ফাইল (ছবি, ভিডিও, পিডিএফ, ডক) এখানে আপলোড করুন:</span>
-                <input type="file" id="localFilePicker" onchange="handleFileUpload(event)">
+                <div class="upload-row">
+                    <span>📁 ডিভাইস থেকে ফাইল আপলোড:</span>
+                    <input type="file" id="localFilePicker" onchange="handleFileUpload(event)">
+                </div>
+                <div class="upload-row" style="margin-top: 5px; border-top: 1px dashed #b5d5a5; padding-top: 6px;">
+                    <span>🔗 অথবা Google Drive / অনলাইন ফাইলের লিংক যুক্ত করুন:</span>
+                    <div style="display: flex; gap: 5px; flex-grow: 1; max-width: 450px;">
+                        <input type="text" id="driveLinkName" placeholder="ফাইলের নাম (যেমন: রুটিন)" class="editable" style="flex: 1; margin: 0; padding: 4px;">
+                        <input type="text" id="driveLinkUrl" placeholder="https://drive.google.com/..." class="editable" style="flex: 1.5; margin: 0; padding: 4px;">
+                        <button class="action-btn" onclick="addDriveLink()" style="padding: 4px 10px; font-size: 8.5pt;">যুক্ত করুন</button>
+                    </div>
+                </div>
             </div>
 
             <div class="editable" contenteditable="true" style="padding: 10px; margin-bottom: 12px;">
@@ -588,10 +627,10 @@
             </div>
             
             <div class="sub-title">
-                <span>সংরক্ষিত ফাইলসমূহের তালিকা</span>
+                <span>সংরক্ষিত ফাইল ও ড্রাইভ লিংকসমূহের তালিকা</span>
             </div>
             <ul class="link-list" id="customFileList">
-                <!-- আপলোড করা ফাইলগুলো এখানে যুক্ত হবে -->
+                <!-- আপলোড করা ফাইল বা লিংকগুলো এখানে যুক্ত হবে -->
             </ul>
         </div>
 
@@ -612,7 +651,7 @@
                     <button class="delete-btn" onclick="deleteLinkRow(this)">মুছুন</button>
                 </li>
                 <li>
-                    <div class="link-content">🔗 <a href="https://dpe.gov.bd" target="_blank"><span class="editable" contenteditable="true">প্রাথমিক শিক্ষা অধিদপ্তর (DPE Official Website)</span></a>[span_5](start_span)[span_5](end_span)</div>
+                    <div class="link-content">🔗 <a href="https://dpe.gov.bd" target="_blank"><span class="editable" contenteditable="true">প্রাথমিক শিক্ষা অধিদপ্তর (DPE Official Website)</span></a>[span_6](start_span)[span_6](end_span)</div>
                     <button class="delete-btn" onclick="deleteLinkRow(this)">মুছুন</button>
                 </li>
                 <li>
@@ -626,7 +665,7 @@
         <div class="footer-section">
             <p>প্রধান শিক্ষক</p>
             <p>৭ নং অভয়পাশা সরকারি প্রাথমিক বিদ্যালয়</p>
-            <p>আটপাড়া, নেত্রকোণা[span_6](start_span)[span_6](end_span)</p>
+            <p>আটপাড়া, নেত্রকোণা[span_7](start_span)[span_7](end_span)</p>
         </div>
 
     </div>
@@ -695,7 +734,7 @@
             reader.readAsText(file);
         }
 
-        // সহশিক্ষাক্রমিক ফোল্ডারে ফাইল আপলোড করে সংরক্ষণের ব্যবস্থা
+        // ডিভাইস থেকে ফাইল আপলোড করে ফোল্ডারে সংরক্ষণের ব্যবস্থা
         function handleFileUpload(event) {
             const file = event.target.files[0];
             if (!file) return;
@@ -706,14 +745,41 @@
                 let list = document.getElementById('customFileList');
                 let li = document.createElement('li');
                 li.innerHTML = `
-                    <div class="link-content">📎 <a href="${fileDataUrl}" download="${file.name}"><span class="editable" contenteditable="true">${file.name} (ডাউনলোড ফাইল)</span></a></div>
+                    <div class="link-content">📎 <a href="${fileDataUrl}" download="${file.name}"><span class="editable" contenteditable="true">${file.name} (লোকাল ফাইল)</span></a></div>
                     <button class="delete-btn" onclick="deleteLinkRow(this)">মুছুন</button>
                 `;
                 list.appendChild(li);
                 autoSave();
-                alert("ফাইলটি সফলভাবে সহশিক্ষাক্রমিক ফোল্ডারে সংরক্ষিত হয়েছে। এখন 'ডেটা ডাউনলোড' করলে ফাইলটি স্থায়ীভাবে সেভ থাকবে।");
+                alert("ফাইলটি সফলভাবে ফোল্ডারে যুক্ত হয়েছে।");
             };
             reader.readAsDataURL(file);
+        }
+
+        // গুগল ড্রাইভ বা অনলাইন লিংক ফোল্ডারে যুক্ত করার ফাংশন
+        function addDriveLink() {
+            let nameInput = document.getElementById('driveLinkName');
+            let urlInput = document.getElementById('driveLinkUrl');
+            let name = nameInput.value.trim();
+            let url = urlInput.value.trim();
+
+            if(!name || !url) {
+                alert("দয়া করে ফাইলের নাম এবং সঠিক লিংক উভয়টিই দিন।");
+                return;
+            }
+
+            let list = document.getElementById('customFileList');
+            let li = document.createElement('li');
+            li.innerHTML = `
+                <div class="link-content">🔗 <a href="${url}" target="_blank"><span class="editable" contenteditable="true">${name} (ড্রাইভ/অনলাইন ফাইল)</span></a></div>
+                <button class="delete-btn" onclick="deleteLinkRow(this)">মুছুন</button>
+            `;
+            list.appendChild(li);
+            
+            // ইনপুট ফিল্ড খালি করা
+            nameInput.value = '';
+            urlInput.value = '';
+            autoSave();
+            alert("ড্রাইভ লিংকটি সফলভাবে ফোল্ডারে যুক্ত হয়েছে।");
         }
 
         function addRow(tableId) {
