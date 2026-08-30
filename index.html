@@ -280,7 +280,7 @@
         <div class="header-top">
             <div>
                 <h1>৭ নং অভয়পাশা সরকারি প্রাথমিক বিদ্যালয়</h1>
-                <p>ডিজিটাল মনিটরিং ও ম্যানেজমেন্ট অ্যাপস &nbsp;|&nbsp; ইএমআইএস কোড: ৯১৩০৪০১০১০৭<br>স্থাপিত: ১৯০৪ খ্রী.</p>
+                <p>ডিজিটাল মনিটরিং ও ম্যানেজমেন্ট অ্যাপস &nbsp;|&nbsp; ইএমআইএস কোড: ৯১৩০৪০۱۰১০৭<br>স্থাপিত: ১৯০৪ সাল</p>
             </div>
             <div id="modeIndicator" style="background: #ffb300; color: #000; padding: 5px 10px; font-weight: bold; border-radius: 4px; font-size: 9.5pt;">
                 এডিট মোড সচল
@@ -355,8 +355,8 @@
                         <th style="width: 15%;">পদবি</th>
                         <th style="width: 18%;">শিক্ষাগত যোগ্যতা</th>
                         <th style="width: 13%;">জন্ম তারিখ</th>
-                        <th style="width: 13%;">চাকরিতে ১ম যোগদানের তারিখ</th>
-                        <th style="width: 10%;">এই বিদ্যালয়ে যোগদানের তারিখ</th>
+                        <th style="width: 13%;">চাকরিয় যোগদানের তারিখ</th>
+                        <th style="width: 10%;">বিদ্যালয়ে যোগদানের তারিখ</th>
                         <th style="width: 5%; text-align: center;">অ্যাকশন</th>
                     </tr>
                 </thead>
@@ -708,13 +708,6 @@
         let isEditable = true;
         function toggleEditMode() {
             isEditable = !isEditable;
-                const indicatorElement = document.getElementById('modeIndicator');
-    if (indicatorElement) {
-        indicatorElement.style.cursor = 'pointer';
-        indicatorElement.onclick = function() {
-            toggleEditMode();
-        };
-    
             const body = document.getElementById('appBody');
             const btn = document.getElementById('toggleModeBtn');
             const indicator = document.getElementById('modeIndicator');
