@@ -45,6 +45,55 @@
         .back-link:hover {
             text-decoration: underline;
         }
+        .upload-section {
+            background: #e9f7ef;
+            border: 1px solid #d4efdf;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+        .upload-section h3 {
+            margin-top: 0;
+            color: #1b4d3e;
+            font-size: 16px;
+        }
+        .form-group {
+            margin-bottom: 10px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            margin-bottom: 3px;
+            font-weight: bold;
+        }
+        .form-group input[type="text"], .form-group input[type="file"] {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .btn {
+            background-color: #1b4d3e;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .btn:hover {
+            background-color: #14382d;
+        }
+        .btn-danger {
+            background-color: #d9534f;
+            padding: 4px 8px;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+        .btn-danger:hover {
+            background-color: #c9302c;
+        }
         .section-title {
             background-color: #fff3cd;
             color: #856404;
@@ -68,22 +117,24 @@
             overflow: hidden;
             box-shadow: 0 1px 3px rgba(0,0,0,0.05);
             text-align: center;
-            cursor: pointer;
+            padding-bottom: 8px;
         }
         .gallery-item img {
             width: 100%;
-            height: 140px;
+            height: 130px;
             object-fit: cover;
             display: block;
+            cursor: pointer;
         }
         .gallery-item .caption {
-            padding: 8px;
+            padding: 6px;
             font-size: 13px;
             color: #555;
             background: #fafafa;
             border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 5px;
         }
-        /* মূল ডিসপ্লে স্ক্রিন */
         .display-screen {
             width: 100%;
             max-height: 400px;
@@ -95,7 +146,7 @@
             justify-content: center;
             align-items: center;
         }
-        .display-screen img, .display-screen iframe {
+        .display-screen img {
             width: 100%;
             max-height: 400px;
             object-fit: contain;
@@ -112,41 +163,102 @@
     <div class="container">
         <a href="index.html" class="back-link">← মূল ড্যাশবোর্ডে ফিরে যান</a>
 
-        <!-- বড় ডিসপ্লে যেখানে ছবি শো করবে -->
+        <!-- বড় ডিসপ্লে স্ক্রিন -->
         <div class="display-screen" id="mainDisplay">
             <img src="https://i.ibb.co.com/5xJkDXSw/IMG-20260829-073221-093.jpg" alt="ডিফল্ট ছবি" id="currentMedia">
         </div>
 
-        <div class="section-title">স্থায়ী সংরক্ষিত ফটো গ্যালারি</div>
-
-        <!-- স্থায়ী গ্যালারি আইটেমসমূহ (এগুলি কোডে স্থায়ীভাবে সেভ থাকবে, তাই আপডেট হলেও মুছবে না) -->
-        <div class="gallery-grid" id="permanentGallery">
-            
-            <!-- ছবি ১ (নতুন যুক্ত হওয়া ১) -->
-            <div class="gallery-item" onclick="showMedia('https://i.ibb.co.com/5xJkDXSw/IMG-20260829-073221-093.jpg', 'image')">
-                <img src="https://i.ibb.co.com/5xJkDXSw/IMG-20260829-073221-093.jpg" alt="স্কুলের ছবি">
-                <div class="caption">স্কুলের দৃশ্য - ১</div>
+        <!-- ছবি ও ক্যাপশন যুক্ত করার ফর্ম (সেভ ও আপলোড অপশনসহ) -->
+        <div class="upload-section">
+            <h3>নতুন ছবি ও ক্যাপশন যুক্ত করুন</h3>
+            <div class="form-group">
+                <label>ডিভাইস বা ড্রাইভ থেকে ছবি সিলেক্ট করুন:</label>
+                <input type="file" id="imageFileSelect" accept="image/*">
             </div>
-
-            <!-- ছবি ২ (নতুন যুক্ত হওয়া ২) -->
-            <div class="gallery-item" onclick="showMedia('https://i.ibb.co.com/9kyX8zWL/IMG-20260829-073503-400.jpg', 'image')">
-                <img src="https://i.ibb.co.com/9kyX8zWL/IMG-20260829-073503-400.jpg" alt="স্কুলের ছবি">
-                <div class="caption">স্কুলের দৃশ্য - ২</div>
+            <div class="form-group">Oros
+                <label>অথবা ছবির অনলাইন লিংক (Direct URL) দিন:</label>
+                <input type="text" id="imageUrlInput" placeholder="https://i.ibb.co/.../image.jpg">
             </div>
+            <div class="form-group">
+                <label>ছবির নিচের লেখা বা ক্যাপশন লিখুন:</label>
+                <input type="text" id="imageCaptionInput" placeholder="যেমন: বিদ্যালয়ের বার্ষিক ক্রীড়া প্রতিযোগিতা">
+            </div>
+            <button class="btn" onclick="addNewImage()">গ্যালারিতে সেভ করুন</button>
+        </div>
 
+        <div class="section-title">সংরক্ষিত ফটো গ্যালারি</div>
+
+        <!-- গ্যালারি গ্রিড যেখানে ছবি ও ডিলিট বাটন থাকবে -->
+        <div class="gallery-grid" id="galleryGrid">
+            <!-- জাভাস্ক্রিপ্টের মাধ্যমে এখানে আইটেমগুলো লোড হবে এবং সেভ থাকবে -->
         </div>
     </div>
 
     <script>
-        // ডিসপ্লেতে ছবি পরিবর্তন করার ফাংশন
-        function showMedia(url, type) {
-            const displayScreen = document.getElementById('mainDisplay');
-            if (type === 'image') {
-                displayScreen.innerHTML = `<img src="${url}" alt="গ্যালারি ছবি">`;
-            } else if (type === 'video') {
-                displayScreen.innerHTML = `<iframe src="${url}" frameborder="0" allowfullscreen></iframe>`;
+        // ডিফল্ট কিছু ছবি যাতে প্রথমবার ফাঁকা না দেখায়
+        let galleryData = JSON.parse(localStorage.getItem('schoolGallery')) || [
+            { url: 'https://i.ibb.co.com/5xJkDXSw/IMG-20260829-073221-093.jpg', caption: 'স্কুলের দৃশ্য - ১' },
+            { url: 'https://i.ibb.co.com/9kyX8zWL/IMG-20260829-073503-400.jpg', caption: 'স্কুলের দৃশ্য - ২' }
+        ];
+
+        function renderGallery() {
+            const grid = document.getElementById('galleryGrid');
+            grid.innerHTML = '';
+            galleryData.forEach((item, index) => {
+                grid.innerHTML += `
+                    <div class="gallery-item">
+                        <img src="${item.url}" alt="গ্যালারি ছবি" onclick="showMedia('${item.url}')">
+                        <div class="caption">${item.caption}</div>
+                        <button class="btn btn-danger" onclick="deleteImage(${index})">ডিলিট করুন</button>
+                    </div>
+                `;
+            });
+            // লোকাল স্টোরেজে স্থায়ীভাবে সেভ করে রাখা
+            localStorage.setItem('schoolGallery', JSON.stringify(galleryData));
+        }
+
+        function showMedia(url) {
+            document.getElementById('mainDisplay').innerHTML = `<img src="${url}" alt="বড় ছবি">`;
+        }
+
+        function addNewImage() {
+            const fileInput = document.getElementById('imageFileSelect');
+            const urlInput = document.getElementById('imageUrlInput');
+            const captionInput = document.getElementById('imageCaptionInput');
+            const caption = captionInput.value.trim() || 'বিদ্যালয়ের ছবি';
+
+            if (fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    galleryData.push({ url: e.target.result, caption: caption });
+                    renderGallery();
+                    clearForm();
+                };
+                reader.readAsDataURL(fileInput.files[0]);
+            } else if (urlInput.value.trim() !== '') {
+                galleryData.push({ url: urlInput.value.trim(), caption: caption });
+                renderGallery();
+                clearForm();
+            } else {
+                alert('দয়া করে ফাইল থেকে ছবি সিলেক্ট করুন অথবা সঠিক লিংক দিন।');
             }
         }
+
+        function clearForm() {
+            document.getElementById('imageFileSelect').value = '';
+            document.getElementById('imageUrlInput').value = '';
+            document.getElementById('imageCaptionInput').value = '';
+        }
+
+        function deleteImage(index) {
+            if (confirm('আপনি কি নিশ্চিতভাবেই এই ছবি ডিলিট করতে চান?')) {
+                galleryData.splice(index, 1);
+                renderGallery();
+            }
+        }
+
+        // পেজ লোড হওয়ার সাথে সাথে গ্যালারি দেখাবে
+        window.onload = renderGallery;
     </script>
 
 </body>
