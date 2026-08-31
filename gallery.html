@@ -49,6 +49,14 @@
             background-color: #000;
             margin-bottom: 15px;
         }
+        .main-video {
+            width: 100%;
+            height: 400px;
+            border-radius: 6px;
+            border: 2px solid #ddd;
+            margin-bottom: 15px;
+            display: none;
+        }
         .caption-box {
             font-size: 13pt;
             font-weight: bold;
@@ -100,6 +108,9 @@
             font-size: 10pt;
         }
         .btn-action:hover { background-color: #1b4d3e; }
+        .btn-video { background-color: #8e44ad; }
+        .btn-video:hover { background-color: #732d91; }
+        
         .thumbnail-container {
             display: flex;
             justify-content: center;
@@ -139,7 +150,7 @@
         <div class="header-top">
             <div class="header-title">
                 <h1>৭ নং অভয়পাশা সরকারি প্রাথমিক বিদ্যালয়</h1>
-                <p>স্মৃতিচারণ ও ফটো গ্যালারি</p>
+                <p>স্মৃতিচারণ ও ফটো ও ভিডিও গ্যালারি</p>
             </div>
         </div>
     </header>
@@ -147,47 +158,59 @@
     <div class="container">
         <a href="index.html" class="nav-back">← মূল ড্যাশবোর্ডে ফিরে যান</a>
 
-        <!-- ছবি যোগ করার কন্ট্রোল প্যানেল -->
         <div class="upload-panel">
-            <h3>➕ গ্যালারিতে নতুন ছবি যোগ করুন</h3>
+            <h3>➕ গ্যালারিতে ছবি বা ভিডিও যোগ করুন</h3>
             
-            <!-- মাধ্যম ১: মোবাইল বা কম্পিউটার থেকে ফাইল আপলোড -->
             <div class="upload-row">
-                <label style="font-size: 10pt; font-weight: bold;">ফাইল থেকে:</label>
-                <input type="file" id="imageFileज़ार" accept="image/*" onchange="uploadLocalImage(event)" style="font-size: 10pt;">
+                <label style="font-size: 10pt; font-weight: bold; min-width: 110px;">একাধিক ছবি:</label>
+                <input type="file" id="imageFileInput" accept="image/*" multiple onchange="uploadMultipleImages(event)" style="font-size: 10pt;">
             </div>
 
-            <!-- মাধ্যম ২: অনলাইন বা ইন্টারনেট ছবির লিংক -->
             <div class="upload-row">
-                <label style="font-size: 10pt; font-weight: bold;">অনলাইন লিংক:</label>
-                <input type="text" id="imageUrlInput" placeholder="এখানে ছবির অনলাইন লিংক (URL) পেস্ট করুন...">
-                <button class="btn-action" onclick="addOnlineImage()">লিংক থেকে যুক্ত করুন</button>
+                <label style="font-size: 10pt; font-weight: bold; min-width: 110px;">ছবির লিংক:</label>
+                <input type="text" id="imageUrlInput" placeholder="অনলাইন ছবির লিংক (URL) পেস্ট করুন...">
+                <button class="btn-action" onclick="addOnlineImage()">ছবি যুক্ত করুন</button>
+            </div>
+
+            <div class="upload-row">
+                <label style="font-size: 10pt; font-weight: bold; min-width: 110px;">ভিডিও লিংক:</label>
+                <input type="text" id="videoUrlInput" placeholder="ইউটিউব ভিডিওর লিংক এখানে পেস্ট করুন...">
+                <button class="btn-action btn-video" onclick="addVideoItem()">ভিডিও যুক্ত করুন</button>
             </div>
         </div>
 
         <div class="gallery-card">
-            <!-- বড় স্ক্রিনে প্রদর্শিত ছবি -->
             <img id="mainImage" src="1769399341413.jpg" alt="Gallery Image" class="main-display">
+            <iframe id="mainVideo" class="main-video" src="" frameborder="0" allowfullscreen></iframe>
             
-            <!-- ছবির ক্যাপশন (এডিটযোগ্য) -->
             <div id="imageCaption" class="caption-box" contenteditable="true">‘মৌলিক প্রশিক্ষণ’ কোর্স-২০২৬ এর ব্যাচ ভিত্তিক ফটো সেশন</div>
 
-            <!-- নিচের ছোট থাম্বনেইল বা প্রিভিউ ছবিগুলো -->
             <div class="thumbnail-container" id="thumbContainer">
                 <div class="thumb-wrapper">
-                    <img src="1769399341413.jpg" class="thumb active" onclick="changeImage(this, '‘মৌলিক প্রশিক্ষণ’ কোর্স-২০২৬ এর ব্যাচ ভিত্তিক ফটো সেশন')">
+                    <img src="1769399341413.jpg" class="thumb active" data-type="image" onclick="changeMedia(this, '‘মৌলিক প্রশিক্ষণ’ কোর্স-২০২৬ এর ব্যাচ ভিত্তিক ফটো সেশন')">
                 </div>
                 <div class="thumb-wrapper">
-                    <img src="1787923812582.jpg" class="thumb" onclick="changeImage(this, 'বিদ্যালয়ের বিভিন্ন কার্যক্রম ও মনিটরিং মুহূর্ত')">
+                    <img src="1787923812582.jpg" class="thumb" data-type="image" onclick="changeMedia(this, 'বিদ্যালয়ের বিভিন্ন কার্যক্রম ও মনিটরিং মুহূর্ত')">
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        function changeImage(element, defaultCaption) {
+        function changeMedia(element, defaultCaption) {
             const mainImg = document.getElementById('mainImage');
-            mainImg.src = element.src;
+            const mainVideo = document.getElementById('mainVideo');
+            const mediaType = element.getAttribute('data-type');
+
+            if (mediaType === 'video') {
+                mainImg.style.display = 'none';
+                mainVideo.style.display = 'block';
+                mainVideo.src = element.src; // এখানে ভিডিওর এমবেড লিংক থাকবে
+            } else {
+                mainVideo.style.display = 'none';
+                mainImg.style.display = 'block';
+                mainImg.src = element.src;
+            }
             
             const savedCaption = localStorage.getItem('caption_' + element.src);
             document.getElementById('imageCaption').innerText = savedCaption ? savedCaption : defaultCaption;
@@ -197,55 +220,93 @@
             element.classList.add('active');
         }
 
-        // লোকাল ফাইল আপলোড হ্যান্ডলার
-        function uploadLocalImage(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    addNewThumbToGallery(e.target.result, 'নতুন আপলোড করা ছবি');
+        // একসাথে একাধিক ছবি আপলোড হ্যান্ডলার
+        function uploadMultipleImages(event) {
+            const files = event.target.files;
+            if (files.length > 0) {
+                for (let i = 0; i < files.length; i++) {
+                    const file = files[i];
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        addNewThumbToGallery(e.target.result, 'আপলোড করা ছবি', 'image');
+                    }
+                    reader.readAsDataURL(file);
                 }
-                reader.readAsDataURL(file);
             }
         }
 
-        // অনলাইন লিংক হ্যান্ডলার
+        // অনলাইন লিংক থেকে ছবি যুক্ত করা
         function addOnlineImage() {
             const urlInput = document.getElementById('imageUrlInput');
             const url = urlInput.value.trim();
             if (url) {
-                addNewThumbToGallery(url, 'অনলাইন থেকে যুক্ত ছবি');
+                addNewThumbToGallery(url, 'অনলাইন থেকে যুক্ত ছবি', 'image');
                 urlInput.value = '';
             } else {
                 alert('দয়া করে একটি সঠিক ছবির লিংক দিন।');
             }
         }
 
-        // গ্যালারিতে থাম্বনেইল যুক্ত করার কমন ফাংশন
-        function addNewThumbToGallery(imgSrc, defaultCaption) {
+        // ইউটিউব ভিডিও লিংক যুক্ত করা
+        function addVideoItem() {
+            const urlInput = document.getElementById('videoUrlInput');
+            let url = urlInput.value.trim();
+            if (url) {
+                if (url.includes('watch?v=')) {
+                    url = url.replace('watch?v=', 'embed/');
+                } else if (url.includes('youtu.be/')) {
+                    url = url.replace('youtu.be/', 'www.youtube.com/embed/');
+                }
+                // ভিডিওর থাম্বনেইলের জন্য ইউটিউবের লোগো বা ডিফল্ট আইকন ব্যবহার করা যেতে পারে
+                addNewThumbToGallery(url, 'বিদ্যালয়ের ভিডিও ক্লিপ', 'video');
+                urlInput.value = '';
+            } else {
+                alert('দয়া করে একটি সঠিক ইউটিউব ভিডিও লিংক দিন।');
+            }
+        }
+
+        // গ্যালারিতে নতুন থাম্বনেইল যোগ করার কমন ফাংশন
+        function addNewThumbToGallery(mediaSrc, defaultCaption, type) {
             const container = document.getElementById('thumbContainer');
             
             const wrapper = document.createElement('div');
             wrapper.className = 'thumb-wrapper';
 
             const newThumb = document.createElement('img');
-            newThumb.src = imgSrc;
+            
+            if (type === 'video') {
+                // ভিডিওর জন্য থাম্বনেইলে একটি প্লে আইকনযুক্ত প্রিভিউ দেখানো বা ডিফল্ট ইমেজ সেট করা
+                newThumb.src = 'https://img.icons8.com/color/96/youtube-play.png';
+                newThumb.style.background = '#000';
+            } else {
+                newThumb.src = mediaSrc;
+            }
+
             newThumb.className = 'thumb';
+            newThumb.setAttribute('data-type', type);
+            // ভিডিওর ক্ষেত্রে সোর্স হিসেবে আসল এমবেড লিংকটি সেভ করে রাখা
+            if(type === 'video') {
+                newThumb.src = mediaSrc; // সরাসরি আইফ্রেমের সোর্স হিসেবে কাজ করবে
+            }
+
             newThumb.onclick = function() {
-                changeImage(this, defaultCaption);
+                changeMedia(this, defaultCaption);
             };
 
             wrapper.appendChild(newThumb);
             container.appendChild(wrapper);
 
-            // নতুন ছবিটিতে স্বয়ংক্রিয়ভাবে ক্লিক করে সিলেক্ট করে নেওয়া
             newThumb.click();
         }
 
-        // ক্যাপশন এডিট ও সেভ করা
+        // ক্যাপশন এডিট ও লোকালস্টোরেজে সেভ করা
         document.getElementById('imageCaption').addEventListener('input', function() {
             const mainImg = document.getElementById('mainImage');
-            localStorage.setItem('caption_' + mainImg.src, this.innerText);
+            const mainVideo = document.getElementById('mainVideo');
+            const activeThumb = document.querySelector('.thumb.active');
+            if (activeThumb) {
+                localStorage.setItem('caption_' + activeThumb.src, this.innerText);
+            }
         });
     </script>
 </body>
