@@ -26,6 +26,35 @@
         }
         .header-title h1 { font-size: 18pt; margin-bottom: 5px; }
         .header-title p { font-size: 10pt; opacity: 0.9; }
+
+        /* কন্ট্রোল বাটন বার */
+        .control-bar {
+            background: #ffffff;
+            padding: 10px 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+        }
+        .btn-action {
+            padding: 6px 14px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'SolaimanLipi', sans-serif;
+            font-size: 9.5pt;
+            font-weight: bold;
+            color: white;
+        }
+        .btn-save { background-color: #d35400; }
+        .btn-save:hover { background-color: #b54600; }
+        .btn-download { background-color: #2980b9; }
+        .btn-download:hover { background-color: #2471a3; }
+        .btn-upload { background-color: #8e44ad; }
+        .btn-upload:hover { background-color: #732d91; }
+
         .mode-indicator {
             background: #ffb300;
             color: #000;
@@ -115,6 +144,14 @@
         </div>
     </header>
 
+    <!-- নতুন ডেটা কন্ট্রোল বাটন বার -->
+    <div class="control-bar">
+        <button class="btn-action btn-save" onclick="manualSave()">💾 তথ্য সেভ করুন</button>
+        <button class="btn-action btn-download" onclick="downloadData()">📥 ডেটা ডাউনলোড</button>
+        <button class="btn-action btn-upload" onclick="document.getElementById('fileInput').click()">📤 ডেটা আপলোড</button>
+        <input type="file" id="fileInput" style="display: none;" onchange="uploadData(event)" accept=".html">
+    </div>
+
     <div class="container">
         <a href="index.html" class="nav-back">← মূল ড্যাশবোর্ডে ফিরে যান</a>
 
@@ -156,6 +193,32 @@
         }
         document.addEventListener('input', autoSave);
 
+        function manualSave() {
+            autoSave();
+            alert('সফলভাবে তথ্য সেভ করা হয়েছে!');
+        }
+
+        function downloadData() {
+            const htmlContent = '<!DOCTYPE html>\n<html lang="bn">\n' + document.documentElement.innerHTML + '\n</html>';
+            const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'Abhoypasha_Headmasters_Data.html';
+            a.click();
+        }
+
+        function uploadData(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.documentElement.innerHTML = e.target.result;
+                localStorage.setItem('abhoypasha_headmaster_data', document.body.innerHTML);
+                location.reload();
+            };
+            reader.readAsText(file);
+        }
+
         function addRow() {
             const table = document.getElementById('headmasterTable').getElementsByTagName('tbody')[0];
             const rowCount = table.rows.length + 1;
@@ -166,6 +229,17 @@
                 <td contenteditable="true">সময়কাল লিখুন</td>
                 <td><button class="action-btn" onclick="deleteRow(this)">মুছুন</button></td>
             `;
+            autoSave();
+        }
+
+        function deleteRow(btn) {
+            const row = btn.parentNode.parentNode;
+            const table = row.parentNode;
+            row.remove();
+            const rows = table.rows;
+            for (let i = 0; i < rows.length; i++) {
+                rows[i].cells[0].innerText = i + 1;
+            }
             autoSave();
         }
 
