@@ -108,6 +108,7 @@
         .action-btn.share { background-color: #e65100; }
         .action-btn.warning { background-color: #c62828; }
         .action-btn.install { background-color: #6a1b9a; }
+        .action-btn.save-permanent { background-color: #d68910; }
         .action-btn.toggle-on { background-color: #2e7d32; }
         .action-btn.toggle-off { background-color: #7f8c8d; }
 
@@ -280,7 +281,7 @@
         <div class="header-top">
             <div>
                 <h1>৭ নং অভয়পাশা সরকারি প্রাথমিক বিদ্যালয়</h1>
-                <p>ডিজিটাল মনিটরিং ও ম্যানেজমেন্ট অ্যাপস &nbsp;|&nbsp; ইএমআইএস কোড: ৯১৩০৪০১০১০৭<br>স্থাপিত: ১৯০৪ খ্রী.</p>
+                <p>ডিজিটাল মনিটরিং ও ম্যানেজমেন্ট অ্যাপস &nbsp;|&nbsp; ইএমআইএস কোড: ৯১৩০৪০۱۰১০৭<br>স্থাপিত: ১৯০৪ খ্রী.</p>
             </div>
             <div id="modeIndicator" style="background: #ffb300; color: #000; padding: 5px 10px; font-weight: bold; border-radius: 4px; font-size: 9.5pt;">
                 এডিট মোড সচল
@@ -294,16 +295,17 @@
     </div>
 
     <div class="container">
-<div style="margin: 10px 0; text-align: center;">
-    <a href="committee.html" class="action-btn" style="background-color: #2980b9; text-decoration: none; display: inline-block; padding: 8px 15px; border-radius: 4px; color: white; font-weight: bold; margin: 3px;">👥 ম্যানেজিং কমিটি</a>
-    <a href="headmasters.html" class="action-btn" style="background-color: #8e44ad; text-decoration: none; display: inline-block; padding: 8px 15px; border-radius: 4px; color: white; font-weight: bold; margin: 3px;">🏫 প্রধান শিক্ষকগণ</a>
-    <a href="gallery.html" class="action-btn" style="background-color: #d35400; text-decoration: none; display: inline-block; padding: 8px 15px; border-radius: 4px; color: white; font-weight: bold; margin: 3px;">🖼️ ফটো গ্যালারি</a>
-</div>
+        <div style="margin: 10px 0; text-align: center;">
+            <a href="committee.html" class="action-btn" style="background-color: #2980b9; text-decoration: none; display: inline-block; padding: 8px 15px; border-radius: 4px; color: white; font-weight: bold; margin: 3px;">👥 ম্যানেজিং কমিটি</a>
+            <a href="headmasters.html" class="action-btn" style="background-color: #8e44ad; text-decoration: none; display: inline-block; padding: 8px 15px; border-radius: 4px; color: white; font-weight: bold; margin: 3px;">🏫 প্রধান শিক্ষকগণ</a>
+            <a href="gallery.html" class="action-btn" style="background-color: #d35400; text-decoration: none; display: inline-block; padding: 8px 15px; border-radius: 4px; color: white; font-weight: bold; margin: 3px;">🖼️ ফটো গ্যালারি</a>
+        </div>
 
         <!-- কন্ট্রোল প্যানেল -->
         <div class="control-bar">
-            <span id="instructionText">💡 হলুদ ঘরগুলোতে ক্লিক করে তথ্য পরিবর্তন করুন। তথ্য অটো-সেভ হবে।</span>
+            <span id="instructionText">💡 তথ্য এন্ট্রি করে স্থায়ীভাবে সেভ রাখতে **"💾 তথ্য সেভ করুন"** বাটনে চাপুন।</span>
             <div class="btn-group">
+                <button class="action-btn save-permanent" onclick="manualSaveData()">💾 তথ্য সেভ করুন</button>
                 <button id="installAppBtn" class="action-btn install" style="display:none;" onclick="installApp()">📱 অ্যাপস ইনস্টল</button>
                 <button id="toggleModeBtn" class="action-btn toggle-on" onclick="toggleEditMode()">🔒 এডিট লক করুন</button>
                 <button class="action-btn secondary" onclick="saveDataToFile()">📥 ডেটা ডাউনলোড</button>
@@ -698,17 +700,18 @@
             }
         }
 
+        // পেজ লোড হলে লোকাল স্টোরেজ থেকে ডেটা ফিরিয়ে আনা
         window.onload = function() {
             if(localStorage.getItem('abhoypasha_school_data')) {
-                document.body.innerHTML = localStorage.getItem('abhoypasha_school_data');
+                document.getElementById('appBody').innerHTML = localStorage.getItem('abhoypasha_school_data');
             }
         };
 
-        function autoSave() {
-            localStorage.setItem('abhoypasha_school_data', document.body.innerHTML);
+        // ম্যানুয়াল সেভ বাটন ফাংশন
+        function manualSaveData() {
+            localStorage.setItem('abhoypasha_school_data', document.getElementById('appBody').innerHTML);
+            alert("✅ আপনার সমস্ত তথ্য সফলভাবে এবং স্থায়ীভাবে সেভ (সংরক্ষণ) হয়েছে!");
         }
-
-        document.addEventListener('input', autoSave);
 
         let isEditable = true;
         function toggleEditMode() {
@@ -771,8 +774,7 @@
                     <button class="delete-btn" onclick="deleteLinkRow(this)">মুছুন</button>
                 `;
                 list.appendChild(li);
-                autoSave();
-                alert("ফাইলটি সফলভাবে ফোল্ডারে যুক্ত হয়েছে।");
+                alert("ফাইলটি সফলভাবে ফোল্ডারে যুক্ত হয়েছে। সেভ করতে 'তথ্য সেভ করুন' বাটনে চাপুন।");
             };
             reader.readAsDataURL(file);
         }
@@ -798,8 +800,7 @@
             
             nameInput.value = '';
             urlInput.value = '';
-            autoSave();
-            alert("ড্রাইভ লিংকটি সফলভাবে ফোল্ডারে যুক্ত হয়েছে।");
+            alert("ড্রাইভ লিংকটি সফলভাবে ফোল্ডারে যুক্ত হয়েছে। সেভ করতে 'তথ্য সেভ করুন' বাটনে চাপুন।");
         }
 
         function addRow(tableId) {
@@ -844,7 +845,6 @@
                     <td style="text-align: center;"><button class="delete-btn" onclick="deleteRow(this)">মুছুন</button></td>
                 `;
             }
-            autoSave();
         }
 
         function addStudentRow(tableId) {
@@ -861,23 +861,21 @@
                 <td><div class="editable" contenteditable="true">[ঠিকানা]</div></td>
                 <td style="text-align: center;"><button class="delete-btn" onclick="deleteRow(this)">মুছুন</button></td>
             `;
-            autoSave();
         }
 
         function addLinkRow() {
             let list = document.getElementById('customLinkList');
             let li = document.createElement('li');
             li.innerHTML = `
+                <div class="link-content">🔗 <a href="#" target="_blank"><span class="editable" contenteditable="true">নতুন লিংক বা শিরোনাম</span></a></div>
                 <button class="delete-btn" onclick="deleteLinkRow(this)">মুছুন</button>
             `;
             list.appendChild(li);
-            autoSave();
         }
 
         function deleteLinkRow(btn) {
             let li = btn.parentNode;
             li.parentNode.removeChild(li);
-            autoSave();
         }
 
         function deleteRow(btn) {
@@ -892,7 +890,6 @@
                     cell.innerText = table.id.includes('Table') && table.id !== 'teacherTable' && table.id !== 'monitoringTable' && table.id !== 'dutyTable' && table.id !== 'leaveTable' ? (num < 10 ? '০' + num : num) : num;
                 }
             }
-            autoSave();
         }
 
         function shareApp() {
