@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ফটো গ্যালারি ও আর্काइভ - ৭ নং অভয়পাশা সরকারি প্রাথমিক বিদ্যালয়</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'SolaimanLipi', Arial, sans-serif;
+            background-color: #eef2f1;
+            color: #2c3e50;
+            line-height: 1.5;
+            font-size: 11pt;
+        }
+        .app-header {
+            background: linear-gradient(135deg, #1b4d3e, #2d6a4f);
+            color: white;
+            padding: 15px 25px;
+            border-bottom: 4px solid #ffb300;
+        }
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header-title h1 { font-size: 18pt; margin-bottom: 5px; }
+        .header-title p { font-size: 10pt; opacity: 0.9; }
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+        .gallery-card {
+            background: #ffffff;
+            border-radius: 6px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            border-top: 3px solid #2d6a4f;
+            text-align: center;
+        }
+        .main-display {
+            width: 100%;
+            max-height: 450px;
+            object-fit: contain;
+            border-radius: 6px;
+            border: 2px solid #ddd;
+            background-color: #000;
+            margin-bottom: 15px;
+        }
+        .caption-box {
+            font-size: 13pt;
+            font-weight: bold;
+            color: #1b4d3e;
+            margin-bottom: 20px;
+            padding: 10px;
+            background: #f4f6f6;
+            border-radius: 4px;
+            border-left: 4px solid #ffb300;
+        }
+        .thumbnail-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .thumb {
+            width: 90px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 4px;
+            cursor: pointer;
+            border: 2px solid #ccc;
+            transition: 0.2s;
+        }
+        .thumb:hover, .thumb.active {
+            border-color: #ffb300;
+            transform: scale(1.05);
+        }
+        .nav-back {
+            display: inline-block;
+            margin-bottom: 15px;
+            color: #1b4d3e;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .nav-back:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+    <header class="app-header">
+        <div class="header-top">
+            <div class="header-title">
+                <h1>৭ নং অভয়পাশা সরকারি প্রাথমিক বিদ্যালয়</h1>
+                <p>স্মৃতিচারণ ও ফটো গ্যালারি</p>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <a href="index.html" class="nav-back">← মূল ড্যাশবোর্ডে ফিরে যান</a>
+
+        <div class="gallery-card">
+            <!-- বড় স্ক্রিনে প্রদর্শিত ছবি -->
+            <img id="mainImage" src="1769399341413.jpg" alt="Gallery Image" class="main-display">
+            
+            <!-- ছবির ক্যাপশন বা শিরোনাম -->
+            <div id="imageCaption" class="caption-box">‘মৌলিক প্রশিক্ষণ’ কোর্স-২০২৬ এর ব্যাচ ভিত্তিক ফটো সেশন</div>
+
+            <!-- নিচের ছোট থাম্বনেইল বা প্রিভিউ ছবিগুলো -->
+            <div class="thumbnail-container">
+                <img src="1769399341413.jpg" class="thumb active" onclick="changeImage(this, '‘মৌলিক প্রশিক্ষণ’ কোর্স-২০২৬ এর ব্যাচ ভিত্তিক ফটো সেশন')">
+                <img src="1787923812582.jpg" class="thumb" onclick="changeImage(this, 'বিদ্যালয়ের বিভিন্ন কার্যক্রম ও মনিটরিং মুহূর্ত')">
+                <!-- আপনার অন্য ছবি থাকলে এখানে নিচে একইভাবে যুক্ত করতে পারবেন -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function changeImage(element, captionText) {
+            // বড় ছবির সোর্স পরিবর্তন করা
+            const mainImg = document.getElementById('mainImage');
+            mainImg.src = element.src;
+
+            // ক্যাপশন পরিবর্তন করা
+            document.getElementById('imageCaption').innerText = captionText;
+
+            // একটিভ ক্লাসের স্টাইল পরিবর্তন
+            let thumbs = document.querySelectorAll('.thumb');
+            thumbs.forEach(thumb => thumb.classList.remove('active'));
+            element.classList.add('active');
+        }
+    </script>
+</body>
+</html>
