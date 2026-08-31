@@ -730,11 +730,20 @@
             }
         };
 
-        // ম্যানুয়াল সেভ বাটন ফাংশন
-        function manualSaveData() {
-            localStorage.setItem('abhoypasha_school_data', document.getElementById('appBody').innerHTML);
-            alert("✅ আপনার সমস্ত তথ্য সফলভাবে এবং স্থায়ীভাবে সেভ (সংরক্ষণ) হয়েছে!");
-        }
+
+async function manualSaveData() {
+    try {
+        const docRef = await addDoc(collection(db, "notices"), {
+            content: document.getElementById('content').value,
+            createdAt: new Date().toISOString()
+        });
+        alert("✅ আপনার সমস্ত তথ্য সফলভাবে অনলাইনে সেভ হয়েছে!");
+    } catch (e) {
+        console.error("Error adding document: ", e);
+        alert("সংরক্ষণ করতে সমস্যা হয়েছে।");
+    }
+}
+
 
         let isEditable = true;
         function toggleEditMode() {
