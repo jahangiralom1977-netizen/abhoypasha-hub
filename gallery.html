@@ -27,6 +27,37 @@
             font-size: 14px;
             color: #d1e7dd;
         }
+        /* কন্ট্রোল বাটন বার */
+        .control-bar {
+            background: #ffffff;
+            padding: 10px 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+            max-width: 900px;
+            margin: 0 auto;
+            border-radius: 0 0 8px 8px;
+        }
+        .btn-action {
+            padding: 6px 14px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'SolaimanLipi', sans-serif;
+            font-size: 9.5pt;
+            font-weight: bold;
+            color: white;
+        }
+        .btn-save { background-color: #d35400; }
+        .btn-save:hover { background-color: #b54600; }
+        .btn-download { background-color: #2980b9; }
+        .btn-download:hover { background-color: #2471a3; }
+        .btn-upload { background-color: #8e44ad; }
+        .btn-upload:hover { background-color: #732d91; }
+
         .container {
             max-width: 900px;
             margin: 20px auto;
@@ -153,12 +184,20 @@
         }
     </style>
 </head>
-<body>
+<body id="appBody">
 
     <header>
         <h1>৭ নং অভয়পাশা সরকারি প্রাথমিক বিদ্যালয়</h1>
         <p class="sub-title">স্মৃতিচারণ ও ফটো ও ভিডিও গ্যালারি</p>
     </header>
+
+    <!-- নতুন ডেটা কন্ট্রোল বাটন বার -->
+    <div class="control-bar">
+        <button class="btn-action btn-save" onclick="manualSave()">💾 তথ্য সেভ করুন</button>
+        <button class="btn-action btn-download" onclick="downloadData()">📥 ডেটা ডাউনলোড</button>
+        <button class="btn-action btn-upload" onclick="document.getElementById('fileInput').click()">📤 ডেটা আপলোড</button>
+        <input type="file" id="fileInput" style="display: none;" onchange="uploadData(event)" accept=".html">
+    </div>
 
     <div class="container">
         <a href="index.html" class="back-link">← মূল ড্যাশবোর্ডে ফিরে যান</a>
@@ -168,14 +207,14 @@
             <img src="https://i.ibb.co.com/5xJkDXSw/IMG-20260829-073221-093.jpg" alt="ডিফল্ট ছবি" id="currentMedia">
         </div>
 
-        <!-- ছবি ও ক্যাপশন যুক্ত করার ফর্ম (সেভ ও আপলোড অপশনসহ) -->
+        <!-- ছবি ও ক্যাপশন যুক্ত করার ফর্ম -->
         <div class="upload-section">
             <h3>নতুন ছবি ও ক্যাপশন যুক্ত করুন</h3>
             <div class="form-group">
                 <label>ডিভাইস বা ড্রাইভ থেকে ছবি সিলেক্ট করুন:</label>
                 <input type="file" id="imageFileSelect" accept="image/*">
             </div>
-            <div class="form-group">Oros
+            <div class="form-group">
                 <label>অথবা ছবির অনলাইন লিংক (Direct URL) দিন:</label>
                 <input type="text" id="imageUrlInput" placeholder="https://i.ibb.co/.../image.jpg">
             </div>
@@ -190,12 +229,11 @@
 
         <!-- গ্যালারি গ্রিড যেখানে ছবি ও ডিলিট বাটন থাকবে -->
         <div class="gallery-grid" id="galleryGrid">
-            <!-- জাভাস্ক্রিপ্টের মাধ্যমে এখানে আইটেমগুলো লোড হবে এবং সেভ থাকবে -->
+            <!-- জাভাস্ক্রিপ্টের মাধ্যমে এখানে আইটেমগুলো লোড হবে -->
         </div>
     </div>
 
     <script>
-        // ডিফল্ট কিছু ছবি যাতে প্রথমবার ফাঁকা না দেখায়
         let galleryData = JSON.parse(localStorage.getItem('schoolGallery')) || [
             { url: 'https://i.ibb.co.com/5xJkDXSw/IMG-20260829-073221-093.jpg', caption: 'স্কুলের দৃশ্য - ১' },
             { url: 'https://i.ibb.co.com/9kyX8zWL/IMG-20260829-073503-400.jpg', caption: 'স্কুলের দৃশ্য - ২' }
@@ -213,8 +251,34 @@
                     </div>
                 `;
             });
-            // লোকাল স্টোরেজে স্থায়ীভাবে সেভ করে রাখা
             localStorage.setItem('schoolGallery', JSON.stringify(galleryData));
+            localStorage.setItem('abhoypasha_gallery_full_page', document.body.innerHTML);
+        }
+
+        function manualSave() {
+            renderGallery();
+            alert('সফলভাবে গ্যালারির তথ্য সেভ করা হয়েছে!');
+        }
+
+        function downloadData() {
+            const htmlContent = '<!DOCTYPE html>\n<html lang="bn">\n' + document.documentElement.innerHTML + '\n</html>';
+            const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'Abhoypasha_Gallery_Data.html';
+            a.click();
+        }
+
+        function uploadData(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.documentElement.innerHTML = e.target.result;
+                localStorage.setItem('abhoypasha_gallery_full_page', document.body.innerHTML);
+                location.reload();
+            };
+            reader.readAsText(file);
         }
 
         function showMedia(url) {
@@ -257,8 +321,14 @@
             }
         }
 
-        // পেজ লোড হওয়ার সাথে সাথে গ্যালারি দেখাবে
-        window.onload = renderGallery;
+        window.onload = function() {
+            const savedFullPage = localStorage.getItem('abhoypasha_gallery_full_page');
+            if (savedFullPage) {
+                document.body.innerHTML = savedFullPage;
+            } else {
+                renderGallery();
+            }
+        };
     </script>
 
 </body>
