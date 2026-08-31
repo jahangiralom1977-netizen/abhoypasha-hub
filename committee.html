@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ম্যানেজিং কমিটি - ৭ নং অভয়পাশা সরকারি প্রাথমিক বিদ্যালয়</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'SolaimanLipi', Arial, sans-serif;
+            background-color: #eef2f1;
+            color: #2c3e50;
+            line-height: 1.5;
+            font-size: 11pt;
+        }
+        .app-header {
+            background: linear-gradient(135deg, #1b4d3e, #2d6a4f);
+            color: white;
+            padding: 15px 25px;
+            border-bottom: 4px solid #ffb300;
+        }
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header-title h1 { font-size: 18pt; margin-bottom: 5px; }
+        .header-title p { font-size: 10pt; opacity: 0.9; }
+        .mode-indicator {
+            background: #ffb300;
+            color: #000;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 9.5pt;
+        }
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+        .section-card {
+            background: #ffffff;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            border-top: 3px solid #2d6a4f;
+        }
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #eef2f1;
+        }
+        .section-header h2 { font-size: 13pt; color: #1b4d3e; }
+        .add-row-btn {
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'SolaimanLipi', sans-serif;
+            font-size: 9.5pt;
+        }
+        .add-row-btn:hover { background-color: #219653; }
+        .notice-box {
+            background-color: #fffdf0;
+            border: 1px dashed #f39c12;
+            padding: 12px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+        .notice-box h3 { font-size: 11pt; color: #d35400; margin-bottom: 5px; }
+        .notice-content {
+            min-height: 40px;
+            outline: none;
+            padding: 5px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 5px;
+        }
+        th, td {
+            border: 1px solid #dcdcdc;
+            padding: 8px 10px;
+            text-align: center;
+            font-size: 10.5pt;
+        }
+        th { background-color: #f4f6f6; color: #1b4d3e; }
+        td[contenteditable="true"], .notice-content[contenteditable="true"] {
+            background-color: #fffdf0;
+            border: 1px dashed #f39c12;
+        }
+        .action-btn {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 9pt;
+        }
+        .action-btn:hover { background-color: #c0392b; }
+        .nav-back {
+            display: inline-block;
+            margin-bottom: 15px;
+            color: #1b4d3e;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .nav-back:hover { text-decoration: underline; }
+    </style>
+</head>
+<body id="appBody">
+
+    <header class="app-header">
+        <div class="header-top">
+            <div class="header-title">
+                <h1>৭ নং অভয়পাশা সরকারি প্রাথমিক বিদ্যালয়</h1>
+                <p>বিদ্যালয় ম্যানেজিং কমিটি তথ্য</p>
+            </div>
+            <div id="modeIndicator" class="mode-indicator">এডিট মোড সচল</div>
+        </div>
+    </header>
+
+    <div class="container">
+        <a href="index.html" class="nav-back">← মূল ড্যাশবোর্ডে ফিরে যান</a>
+
+        <div class="section-card">
+            <div class="notice-box">
+                <h3>📝 কমিটি গঠনের সময়কাল ও বিবরণ (এডিট করতে ক্লিক করুন):</h3>
+                <div class="notice-content" contenteditable="true">বর্তমান কমিটি গঠনকাল: ২০২৪ থেকে ২০২৯ সাল পর্যন্ত। নিয়মিত পরিচালনা পর্ষদের মেয়াদ ৫ বছর মেয়াদী।</div>
+            </div>
+
+            <div class="section-header">
+                <h2>ম্যানেজিং কমিটি সদস্যবৃন্দ</h2>
+                <button class="add-row-btn" onclick="addRow()">+ সারি যোগ করুন</button>
+            </div>
+            <table id="committeeTable">
+                <thead>
+                    <tr>
+                        <th style="width: 10%;">ক্রমিক</th>
+                        <th style="width: 35%;">সদস্যের নাম</th>
+                        <th style="width: 25%;">পদবী</th>
+                        <th style="width: 20%;">ক্যাটাগরি</th>
+                        <th style="width: 10%;">অ্যাকশন</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>১</td>
+                        <td contenteditable="true">মোঃ আব্দুল করিম</td>
+                        <td contenteditable="true">সভাপতি</td>
+                        <td contenteditable="true">অভিভাবক প্রতিনিধি</td>
+                        <td><button class="action-btn" onclick="deleteRow(this)">মুছুন</button></td>
+                    </tr>
+                    <tr>
+                        <td>২</td>
+                        <td contenteditable="true">মোছাঃ ফাতেমা বেগম</td>
+                        <td contenteditable="true">সহ-সভাপতি</td>
+                        <td contenteditable="true">সংরক্ষিত নারী অভিভাবক</td>
+                        <td><button class="action-btn" onclick="deleteRow(this)">মুছুন</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        function autoSave() {
+            localStorage.setItem('abhoypasha_committee_data', document.body.innerHTML);
+        }
+        document.addEventListener('input', autoSave);
+
+        function addRow() {
+            const table = document.getElementById('committeeTable').getElementsByTagName('tbody')[0];
+            const rowCount = table.rows.length + 1;
+            const newRow = table.insertRow();
+            newRow.innerHTML = `
+                <td>${rowCount}</td>
+                <td contenteditable="true">নাম লিখুন</td>
+                <td contenteditable="true">পদবী লিখুন</td>
+                <td contenteditable="true">ক্যাটাগরি লিখুন</td>
+                <td><button class="action-btn" onclick="deleteRow(this)">মুছুন</button></td>
+            `;
+            autoSave();
+        }
+
+        function deleteRow(btn) {
+            const row = btn.parentNode.parentNode;
+            const table = row.parentNode;
+            row.remove();
+            const rows = table.rows;
+            for (let i = 0; i < rows.length; i++) {
+                rows[i].cells[0].innerText = i + 1;
+            }
+            autoSave();
+        }
+
+        window.onload = function() {
+            const savedData = localStorage.getItem('abhoypasha_committee_data');
+            if (savedData) {
+                document.body.innerHTML = savedData;
+            }
+        };
+    </script>
+</body>
+</html>
