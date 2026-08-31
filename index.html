@@ -694,6 +694,11 @@
 
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
+    // ডাটাবেজ মডিউল ইম্পোর্ট এবং কানেকশন চালু করা
+    import { getFirestore } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+  const db = getFirestore(app);
+
+  
 </script>
     <script>
         // PWA Install Prompt Logic
