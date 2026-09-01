@@ -313,6 +313,12 @@
                 <input type="file" id="uploadFile" style="display: none;" accept=".json, .html" onchange="loadDataFromFile(event)">
                 <button class="action-btn share" onclick="shareApp()">🔗 শেয়ার</button>
                 <button class="action-btn secondary" onclick="window.print()">🖨️ প্রিন্ট</button>
+                <button id="loginBtn" class="action-btn" style="background-color: #8e44ad;" onclick="openLoginModal()">🔑 পিন দিয়ে লগইন</button>
+<button id="logoutBtn" class="action-btn warning" style="display:none;" onclick="appLogout()">🚪 লগআউট</button>
+<button class="action-btn save-permanent" id="submitApprovalBtn" style="display:none;" onclick="requestApproval()">📤 অনুমোদনের জন্য পাঠান</button>
+<button class="action-btn save-permanent" id="headDirectSaveBtn" style="display:none; background-color: #d35400;" onclick="headDirectSave()">💾 সরাসরি তথ্য সেভ করুন</button>
+<button class="action-btn" id="approveBtn" style="display:none; background-color: #27ae60;" onclick="approveChanges()">✅ শিক্ষকের এন্ট্রি অনুমোদন করুন</button>
+
             </div>
         </div>
 
@@ -949,6 +955,156 @@
                 alert("ব্রাউজারের অ্যাড্রেস বার থেকে লিংকটি কপি করে সহকর্মীদের সাথে শেয়ার করতে পারেন।");
             }
         }
+                // পিন নম্বরগুলো এখানে সেট করা আছে (প্রয়োজনে পরিবর্তন করতে পারবেন)
+        const TEACHER_PIN = "teacher123"; // সহকারী শিক্ষকদের পিন
+        const HEADMASTER_PIN = "1904";     // প্রধান শিক্ষকের মাস্টার পিন
+
+        window.addEventListener('DOMContentLoaded', function() {
+            loadSavedData();
+            checkPendingStatus();
+        });
+
+        function openLoginModal() {
+            document.getElementById('loginModal').style.display = 'flex';
+        }
+
+        function closeLoginModal() {
+            document.getElementById('loginModal').style.display = 'none';
+            document.getElementById('userPinInput').value = '';
+        }
+
+        function verifyLogin() {
+            let pin = document.getElementById('userPinInput').value;
+            
+            if(pin === HEADMASTER_PIN) {
+                localStorage.setItem('userRole', 'headmaster');
+                alert("✅ প্রধান শিক্ষক হিসেবে সফলভাবে লগইন হয়েছে! এখন আপনি যেকোনো পরিবর্তন সরাসরি সেভ করতে পারবেন।");
+                closeLoginModal();
+                updateUIMode();
+            } else if(pin === TEACHER_PIN) {
+                localStorage.setItem('userRole', 'teacher');
+                alert("✅ সহকারী শিক্ষক হিসেবে লগইন হয়েছে। আপনি তথ্য এডিট করে অনুমোদনের জন্য পাঠাতে পারবেন।");
+                closeLoginModal();
+                updateUIMode();
+            } else {
+                alert("❌ ভুল পিন দিয়েছেন!");
+            }
+        }
+
+        function appLogout() {
+            localStorage.removeItem('userRole');
+            alert("সফলভাবে লগআউট করা হয়েছে।");
+            updateUIMode();
+        }
+
+        function updateUIMode() {
+            let role = localStorage.getItem('userRole');
+            let body = document.getElementById('appBody');
+            let indicator = document.getElementById('modeIndicator');
+            let loginBtn = document.getElementById('loginBtn');
+            let logoutBtn = document.getElementById('logoutBtn');
+            let submitBtn = document.getElementById('submitApprovalBtn');
+            let headSaveBtn = document.getElementById('headDirectSaveBtn');
+            let approveBtn = document.getElementById('approveBtn');
+
+            if(role === 'headmaster') {
+                body.classList.remove('locked');
+                indicator.innerText = "প্রধান শিক্ষক মোড (পূর্ণ নিয়ন্ত্রণ ও সরাসরি সেভ)";
+                indicator.style.background = "#d35400";
+                loginBtn.style.display = 'none';
+                logoutBtn.style.display = 'inline-block';
+                submitBtn.style.display = 'none';
+                headSaveBtn.style.display = 'inline-block';
+                approveBtn.style.display = 'inline-block';
+            } else if(role === 'teacher') {
+                body.classList.remove('locked');
+                indicator.innerText = "সহকারী শিক্ষক মোড (এডিট ও অনুমোদন প্রেরণ)";
+                indicator.style.background = "#27ae60";
+                loginBtn.style.display = 'none';
+                logoutBtn.style.display = 'inline-block';
+                submitBtn.style.display = 'inline-block';
+                headSaveBtn.style.display = 'none';
+                approveBtn.style.display = 'none';
+            } else {
+                body.classList.add('locked');
+                indicator.innerText = "লকড মোড (রিড-অনলি)";
+                indicator.style.background = "#e74c3c";
+                loginBtn.style.display = 'inline-block';
+                logoutBtn.style.display = 'none';
+                submitBtn.style.display = 'none';
+                headSaveBtn.style.display = 'none';
+                approveBtn.style.display = 'none';
+            }
+        }
+
+        // সহকারী শিক্ষকদের জন্য: অনুমোদনের জন্য পাঠানো
+        function requestApproval() {
+            let containerHtml = document.querySelector('.container').innerHTML;
+            localStorage.setItem('pendingData', containerHtml);
+            localStorage.setItem('hasPending', 'true');
+            alert("📤 আপনার পরিবর্তনগুলো প্রধান শিক্ষকের অনুমোদনের জন্য জমা দেওয়া হয়েছে।");
+    }
+
+        // প্রধান শিক্ষকের জন্য: সরাসরি যেকোনো পরিবর্তন সেভ করা
+        function headDirectSave() {
+            let containerHtml = document.querySelector('.container').innerHTML;
+            localStorage.setItem('approvedContainerData', containerHtml);
+            localStorage.removeItem('hasPending');
+            localStorage.removeItem('pendingData');
+            alert("✅ আপনার পরিবর্তনগুলো সরাসরি সফলভাবে সেভ ও লাইভ করা হয়েছে!");
+            checkPendingStatus();
+        }
+
+        // প্রধান শিক্ষকের জন্য: শিক্ষকের এন্ট্রি অনুমোদন করা
+        function approveChanges() {
+            let pendingHtml = localStorage.getItem('pendingData');
+            if(pendingHtml) {
+                localStorage.setItem('approvedContainerData', pendingHtml);
+                localStorage.removeItem('hasPending');
+                localStorage.removeItem('pendingData');
+                alert("✅ শিক্ষকের এন্ট্রি সফলভাবে অনুমোদিত এবং লাইভ করা হয়েছে!");
+                checkPendingStatus();
+                location.reload();
+            } else {
+                alert("অনুমোদনের জন্য কোনো নতুন ডেটা নেই।");
+            }
+        }
+
+        function checkPendingStatus() {
+            let hasPending = localStorage.getItem('hasPending') === 'true';
+            let alertBox = document.getElementById('pendingAlert');
+            if(alertBox) {
+                if(hasPending) {
+                    alertBox.style.display = 'block';
+                } else {
+                    alertBox.style.display = 'none';
+                }
+            }
+            updateUIMode();
+        }
+
+        function loadSavedData() {
+            let savedHtml = localStorage.getItem('approvedContainerData');
+            if(savedHtml) {
+                document.querySelector('.container').innerHTML = savedHtml;
+            }
+        }
+
     </script>
+        <!-- লগইন পপআপ মডাল -->
+    <div id="loginModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:9999; justify-content:center; align-items:center;">
+        <div style="background:white; padding:25px; border-radius:8px; width:325px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
+            <h3 style="color:#0f4c3a; margin-bottom:12px;">লগইন প্যানেল</h3>
+            <p style="font-size: 8.5pt; margin-bottom: 10px; color: #555;">
+                • সহকারী শিক্ষক পিন দিন অথবা হেডস্যারের মাস্টার পিন দিন।
+            </p>
+            <input type="password" id="userPinInput" placeholder="পিন বা পাসওয়ার্ড দিন" style="width:100%; padding:8px; margin-bottom:15px; border:1px solid #ccc; border-radius:4px;">
+            <div style="display:flex; justify-content:flex-end; gap:8px;">
+                <button class="action-btn warning" onclick="closeLoginModal()">বাতিল</button>
+                <button class="action-btn" onclick="verifyLogin()">লগইন</button>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>
