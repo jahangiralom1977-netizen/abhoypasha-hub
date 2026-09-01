@@ -239,12 +239,12 @@
         import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
         const firebaseConfig = {
-            apiKey: "AIzaSyAhJ...",
-            authDomain: "jahar-1977.firebaseapp.com",
-            projectId: "jahar-1977",
-            storageBucket: "jahar-1977.appspot.com",
-            messagingSenderId: "1071477145781",
-            appId: "1:1071477145781:web:..."
+            apiKey: "AIzaSyBgARm-MAHLbHwipklVCC5Di-SirEhTCn0",
+            authDomain: "abhoypashaschool.firebaseapp.com",
+            projectId: "abhoypashaschool",
+            storageBucket: "abhoypashaschool.firebasestorage.app",
+            messagingSenderId: "135944324445",
+            appId: "1:135944324445:web:e24dfde29dbbf31af6d4b4"
         };
 
         const app = initializeApp(firebaseConfig);
@@ -271,21 +271,21 @@
 
         window.manualSave = async function() {
             try {
-                await addDoc(collection(db, "gallery_data"), {
+                await addDoc(collection(db, "school_gallery_data"), {
                     gallery: galleryData,
                     createdAt: new Date().toISOString()
                 });
                 alert('✅ সফলভাবে ফায়ারবেজে গ্যালারির তথ্য সেভ করা হয়েছে!');
             } catch (e) {
                 console.error("Error saving gallery: ", e);
-                alert('সংরক্ষণ করতে সমস্যা হয়েছে।');
+                alert('সংরক্ষণ করতে সমস্যা হয়েছে: ' + e.message);
             }
         }
 
         // পেজ লোড হলে ফায়ারবেজ থেকে ডেটা নিয়ে আসা
         window.onload = async function() {
             try {
-                const querySnapshot = await getDocs(collection(db, "gallery_data"));
+                const querySnapshot = await getDocs(collection(db, "school_gallery_data"));
                 querySnapshot.forEach((doc) => {
                     const data = doc.data();
                     if(data.gallery && data.gallery.length > 0) {
@@ -310,12 +310,14 @@
                     galleryData.push({ url: e.target.result, caption: caption });
                     renderGallery();
                     clearForm();
+                    alert('ছবি যোগ করা হয়েছে। স্থায়ী করতে "💾 তথ্য সেভ করুন" বাটনে চাপুন।');
                 };
                 reader.readAsDataURL(fileInput.files[0]);
             } else if (urlInput.value.trim() !== '') {
                 galleryData.push({ url: urlInput.value.trim(), caption: caption });
                 renderGallery();
                 clearForm();
+                alert('ছবি যোগ করা হয়েছে। স্থায়ী করতে "💾 তথ্য সেভ করুন" বাটনে চাপুন।');
             } else {
                 alert('দয়া করে ফাইল থেকে ছবি সিলেক্ট করুন অথবা সঠিক লিংক দিন।');
             }
@@ -325,6 +327,7 @@
             if (confirm('আপনি কি নিশ্চিতভাবেই এই ছবি ডিলিট করতে চান?')) {
                 galleryData.splice(index, 1);
                 renderGallery();
+                alert('ছবি মুছে ফেলা হয়েছে। স্থায়ী করতে "💾 তথ্য সেভ করুন" বাটনে চাপুন।');
             }
         }
     </script>
