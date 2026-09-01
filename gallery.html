@@ -216,7 +216,6 @@
             <h3>নতুন ছবি ও ক্যাপশন যুক্ত করুন</h3>
             <div class="form-group">
                 <label>ডিভাইস বা ড্রাইভ থেকে একসাথে একাধিক ছবি সিলেক্ট করুন:</label>
-                <!-- একাধিক ছবি সিলেক্ট করার জন্য multiple অ্যাট্রিবিউট যুক্ত করা হয়েছে -->
                 <input type="file" id="imageFileSelect" accept="image/*" multiple>
             </div>
             <div class="form-group">
@@ -281,6 +280,46 @@
             }
         }
 
+        // ছবি রিসাইজ ও সাইজ হালকা করার ফাংশন (গতি বাড়ানোর জন্য)
+        function resizeImage(file) {
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = new Image();
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        let width = img.width;
+                        let height = img.height;
+                        
+                        const MAX_WIDTH = 800;
+                        const MAX_HEIGHT = 800;
+                        
+                        if (width > height) {
+                            if (width > MAX_WIDTH) {
+                                height *= MAX_WIDTH / width;
+                                width = MAX_WIDTH;
+                            }
+                        } else {
+                            if (height > MAX_HEIGHT) {
+                                width *= MAX_HEIGHT / height;
+                                height = MAX_HEIGHT;
+                            }
+                        }
+                        
+                        canvas.width = width;
+                        canvas.height = height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, width, height);
+                        
+                        // গুণগত মান ঠিক রেখে সাইজ অনেক ছোট করা হলো
+                        resolve(canvas.toDataURL('image/jpeg', 0.6));
+                    };
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
         window.manualSave = async function() {
             try {
                 // সেভ করার আগে স্ক্রিনের লেটেস্ট ক্যাপশনগুলো অ্যারেতে সিঙ্ক করে নেওয়া
@@ -291,8 +330,15 @@
                     }
                 });
 
+                // ডেটাকে নিরাপদ JSON স্ট্রিং আকারে কনভার্ট করে সেভ করা (যাতে কোনো এরর বা স্পেস সমস্যা না হয়)
+                const serializedGallery = galleryData.map(item => ({
+                    url: String(item.url || ''),
+                    caption: String(item.caption || '')
+                }));
+
                 await addDoc(collection(db, "school_gallery_data"), {
-                    gallery: galleryData,
+                    itemsCount: serializedGallery.length,
+                    galleryJson: JSON.stringify(serializedGallery),
                     createdAt: new Date().toISOString()
                 });
                 alert('✅ সফলভাবে ফায়ারবেজে গ্যালারির তথ্য ও ক্যাপশন সেভ করা হয়েছে!');
@@ -311,9 +357,20 @@
 
                 querySnapshot.forEach((doc) => {
                     const data = doc.data();
-                    if(data.gallery && data.gallery.length > 0) {
-                        const docTime = data.createdAt ? new Date(data.createdAt).getTime() : 0;
-                        if(docTime >= latestTime) {
+                    const docTime = data.createdAt ? new Date(data.createdAt).getTime() : 0;
+                    
+                    if(docTime >= latestTime) {
+                        if(data.galleryJson) {
+                            try {
+                                const parsed = JSON.parse(data.galleryJson);
+                                if(Array.isArray(parsed) && parsed.length > 0) {
+                                    latestTime = docTime;
+                                    latestGallery = parsed;
+                                }
+                            } catch(err) {
+                                console.error("JSON parse error", err);
+                            }
+                        } else if(data.gallery && Array.isArray(data.gallery)) {
                             latestTime = docTime;
                             latestGallery = data.gallery;
                         }
@@ -329,37 +386,28 @@
             renderGallery();
         };
 
-        // মাল্টিপল ছবি একসঙ্গে সিলেক্ট করে আপলোড করার লজিক
-        window.addNewImage = function() {
+        // মাল্টিপল ছবি একসঙ্গে সিলেক্ট করে দ্রুত আপলোড করার লজিক
+        window.addNewImage = async function() {
             const fileInput = document.getElementById('imageFileSelect');
             const urlInput = document.getElementById('imageUrlInput');
             const captionInput = document.getElementById('imageCaptionInput');
             const baseCaption = captionInput.value.trim() || 'বিদ্যালয়ের ছবি';
 
             if (fileInput.files && fileInput.files.length > 0) {
-                let filesProcessed = 0;
                 const totalFiles = fileInput.files.length;
+                alert(`${totalFiles}টি ছবি প্রসেস ও অপ্টিমাইজ করা হচ্ছে, একটু অপেক্ষা করুন...`);
 
                 for (let i = 0; i < totalFiles; i++) {
-                    const reader = new FileReader();
-                    const currentFile = fileInput.files[i];
-                    
-                    reader.onload = function(e) {
-                        galleryData.push({ 
-                            url: e.target.result, 
-                            caption: totalFiles > 1 ? `${baseCaption} (${filesProcessed + 1})` : baseCaption 
-                        });
-                        filesProcessed++;
-
-                        // সব ফাইল লোড শেষ হলে গ্যালারি রেন্ডার করা ও নোটিফিকেশন দেওয়া
-                        if (filesProcessed === totalFiles) {
-                            renderGallery();
-                            clearForm();
-                            alert(`সফলভাবে ${totalFiles}টি ছবি যোগ করা হয়েছে। স্থায়ী করতে "💾 তথ্য সেভ করুন" বাটনে চাপুন।`);
-                        }
-                    };
-                    reader.readAsDataURL(currentFile);
+                    const compressedDataUrl = await resizeImage(fileInput.files[i]);
+                    galleryData.push({ 
+                        url: compressedDataUrl, 
+                        caption: totalFiles > 1 ? `${baseCaption} (${i + 1})` : baseCaption 
+                    });
                 }
+
+                renderGallery();
+                clearForm();
+                alert(`সফলভাবে ${totalFiles}টি ছবি যোগ করা হয়েছে। স্থায়ী করতে এখন "💾 তথ্য সেভ করুন" বাটনে চাপুন।`);
             } else if (urlInput.value.trim() !== '') {
                 galleryData.push({ url: urlInput.value.trim(), caption: baseCaption });
                 renderGallery();
