@@ -215,15 +215,16 @@
         <div class="upload-section">
             <h3>নতুন ছবি ও ক্যাপশন যুক্ত করুন</h3>
             <div class="form-group">
-                <label>ডিভাইস বা ড্রাইভ থেকে ছবি সিলেক্ট করুন:</label>
-                <input type="file" id="imageFileSelect" accept="image/*">
+                <label>ডিভাইস বা ড্রাইভ থেকে একসাথে একাধিক ছবি সিলেক্ট করুন:</label>
+                <!-- একাধিক ছবি সিলেক্ট করার জন্য multiple অ্যাট্রিবিউট যুক্ত করা হয়েছে -->
+                <input type="file" id="imageFileSelect" accept="image/*" multiple>
             </div>
             <div class="form-group">
                 <label>অথবা ছবির অনলাইন লিংক (Direct URL) দিন:</label>
                 <input type="text" id="imageUrlInput" placeholder="https://i.ibb.co/.../image.jpg">
             </div>
             <div class="form-group">
-                <label>ছবির নিচের লেখা বা ক্যাপশন লিখুন:</label>
+                <label>ছবির সাধারণ লেখা বা ক্যাপশন (একাধিক ছবির ক্ষেত্রে সবার জন্য প্রযোজ্য):</label>
                 <input type="text" id="imageCaptionInput" placeholder="যেমন: বিদ্যালয়ের বার্ষিক ক্রীড়া প্রতিযোগিতা">
             </div>
             <button class="btn" onclick="addNewImage()">গ্যালারিতে সেভ করুন</button>
@@ -301,44 +302,71 @@
             }
         }
 
-        // পেজ লোড হলে ফায়ারবেজ থেকে ডেটা নিয়ে আসা
+        // পেজ লোড হলে ফায়ারবেজ থেকে সবচেয়ে লেটেস্ট ডেটা নিয়ে আসা
         window.onload = async function() {
             try {
                 const querySnapshot = await getDocs(collection(db, "school_gallery_data"));
+                let latestGallery = [];
+                let latestTime = 0;
+
                 querySnapshot.forEach((doc) => {
                     const data = doc.data();
                     if(data.gallery && data.gallery.length > 0) {
-                        galleryData = data.gallery;
+                        const docTime = data.createdAt ? new Date(data.createdAt).getTime() : 0;
+                        if(docTime >= latestTime) {
+                            latestTime = docTime;
+                            latestGallery = data.gallery;
+                        }
                     }
                 });
+
+                if(latestGallery.length > 0) {
+                    galleryData = latestGallery;
+                }
             } catch (e) {
                 console.error("Error loading gallery data: ", e);
             }
             renderGallery();
         };
 
+        // মাল্টিপল ছবি একসঙ্গে সিলেক্ট করে আপলোড করার লজিক
         window.addNewImage = function() {
             const fileInput = document.getElementById('imageFileSelect');
             const urlInput = document.getElementById('imageUrlInput');
             const captionInput = document.getElementById('imageCaptionInput');
-            const caption = captionInput.value.trim() || 'বিদ্যালয়ের ছবি';
+            const baseCaption = captionInput.value.trim() || 'বিদ্যালয়ের ছবি';
 
-            if (fileInput.files && fileInput.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    galleryData.push({ url: e.target.result, caption: caption });
-                    renderGallery();
-                    clearForm();
-                    alert('ছবি যোগ করা হয়েছে। স্থায়ী করতে "💾 তথ্য সেভ করুন" বাটনে চাপুন।');
-                };
-                reader.readAsDataURL(fileInput.files[0]);
+            if (fileInput.files && fileInput.files.length > 0) {
+                let filesProcessed = 0;
+                const totalFiles = fileInput.files.length;
+
+                for (let i = 0; i < totalFiles; i++) {
+                    const reader = new FileReader();
+                    const currentFile = fileInput.files[i];
+                    
+                    reader.onload = function(e) {
+                        galleryData.push({ 
+                            url: e.target.result, 
+                            caption: totalFiles > 1 ? `${baseCaption} (${filesProcessed + 1})` : baseCaption 
+                        });
+                        filesProcessed++;
+
+                        // সব ফাইল লোড শেষ হলে গ্যালারি রেন্ডার করা ও নোটিফিকেশন দেওয়া
+                        if (filesProcessed === totalFiles) {
+                            renderGallery();
+                            clearForm();
+                            alert(`সফলভাবে ${totalFiles}টি ছবি যোগ করা হয়েছে। স্থায়ী করতে "💾 তথ্য সেভ করুন" বাটনে চাপুন।`);
+                        }
+                    };
+                    reader.readAsDataURL(currentFile);
+                }
             } else if (urlInput.value.trim() !== '') {
-                galleryData.push({ url: urlInput.value.trim(), caption: caption });
+                galleryData.push({ url: urlInput.value.trim(), caption: baseCaption });
                 renderGallery();
                 clearForm();
                 alert('ছবি যোগ করা হয়েছে। স্থায়ী করতে "💾 তথ্য সেভ করুন" বাটনে চাপুন।');
             } else {
-                alert('দয়া করে ফাইল থেকে ছবি সিলেক্ট করুন অথবা সঠিক লিংক দিন।');
+                alert('দয়া করে ফাইল থেকে এক বা একাধিক ছবি সিলেক্ট করুন অথবা সঠিক লিংক দিন।');
             }
         }
 
