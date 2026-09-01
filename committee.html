@@ -213,12 +213,12 @@
         import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
         const firebaseConfig = {
-            apiKey: "AIzaSyAhJ..." /* আপনার সঠিক এপিআই কী */,
-            authDomain: "jahar-1977.firebaseapp.com",
-            projectId: "jahar-1977",
-            storageBucket: "jahar-1977.appspot.com",
-            messagingSenderId: "1071477145781",
-            appId: "1:1071477145781:web:..."
+            apiKey: "AIzaSyBgARm-MAHLbHwipklVCC5Di-SirEhTCn0",
+            authDomain: "abhoypashaschool.firebaseapp.com",
+            projectId: "abhoypashaschool",
+            storageBucket: "abhoypashaschool.firebasestorage.app",
+            messagingSenderId: "135944324445",
+            appId: "1:135944324445:web:e24dfde29dbbf31af6d4b4"
         };
 
         const app = initializeApp(firebaseConfig);
@@ -243,7 +243,7 @@
                     }
                 });
 
-                await addDoc(collection(db, "committee_data"), {
+                await addDoc(collection(db, "school_committee_data"), {
                     notice: noticeText,
                     members: membersData,
                     createdAt: new Date().toISOString()
@@ -252,14 +252,14 @@
                 alert("✅ আপনার সমস্ত তথ্য সফলভাবে অনলাইনে ফায়ারবেজে সংরক্ষিত হয়েছে!");
             } catch (e) {
                 console.error("Error adding document: ", e);
-                alert("সংরক্ষণ করতে সমস্যা হয়েছে।");
+                alert("সংরক্ষণ করতে সমস্যা হয়েছে: " + e.message);
             }
         };
 
         // পেজ লোড হলে ফায়ারবেজ থেকে ডেটা নিয়ে আসার ফাংশন
         window.onload = async function() {
             try {
-                const querySnapshot = await getDocs(collection(db, "committee_data"));
+                const querySnapshot = await getDocs(collection(db, "school_committee_data"));
                 querySnapshot.forEach((doc) => {
                     const data = doc.data();
                     if(data.notice) {
