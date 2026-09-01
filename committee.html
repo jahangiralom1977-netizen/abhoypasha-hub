@@ -158,7 +158,7 @@
     </header>
 
     <div class="control-bar">
-        <button class="btn-action btn-save" onclick="manualSave()">💾 তথ্য সেভ করুন</button>
+        <button class="btn-action btn-save" onclick="manualSaveData()">💾 তথ্য সেভ করুন</button>
         <button class="btn-action btn-download" onclick="downloadData()">📥 ডেটা ডাউনলোড</button>
         <button class="btn-action btn-upload" onclick="document.getElementById('fileInput').click()">📤 ডেটা আপলোড</button>
         <input type="file" id="fileInput" style="display: none;" onchange="uploadData(event)" accept=".html">
@@ -170,7 +170,7 @@
         <div class="section-card">
             <div class="notice-box">
                 <h3>📝 কমিটি গঠনের সময়কাল ও বিবরণ (এডিট করতে ক্লিক করুন):</h3>
-                <div class="notice-content" contenteditable="true">বর্তমান কমিটি গঠনকাল: ২০২৪ থেকে ২০২৯ সাল পর্যন্ত। নিয়মিত পরিচালনা পর্ষদের মেয়াদ ৫ বছর মেয়াদী।</div>
+                <div id="committeeNotice" class="notice-content" contenteditable="true">বর্তমান কমিটি গঠনকাল: ২০২৪ থেকে ২০২৯ সাল পর্যন্ত। নিয়মিত পরিচালনা পর্ষদের মেয়াদ ৫ বছর মেয়াদী।</div>
             </div>
 
             <div class="section-header">
@@ -207,17 +207,86 @@
         </div>
     </div>
 
+    <!-- ফায়ারবেজ ও মূল স্ক্রিপ্ট লজিক -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSy...", // আপনার মূল ইনডেক্স ফাইলের কনফিগারেশন কী এখানে হুবহু বসিয়ে দেবেন
+            authDomain: "abhoypasha.firebaseapp.com",
+            projectId: "abhoypasha",
+            storageBucket: "abhoypasha.appspot.com",
+            messagingSenderId: "...",
+            appId: "..."
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // ডেটা সেভ করার ফাংশন
+        window.manualSaveData = async function() {
+            try {
+                const noticeText = document.getElementById('committeeNotice').innerText;
+                const tableRows = document.querySelectorAll('#committeeTable tbody tr');
+                
+                let membersData = [];
+                tableRows.forEach(row => {
+                    const cells = row.querySelectorAll('td');
+                    if(cells.length >= 4) {
+                        membersData.push({
+                            serial: cells[0].innerText,
+                            name: cells[1].innerText,
+                            role: cells[2].innerText,
+                            category: cells[3].innerText
+                        });
+                    }
+                });
+
+                await addDoc(collection(db, "committee_data"), {
+                    notice: noticeText,
+                    members: membersData,
+                    createdAt: new Date().toISOString()
+                });
+
+                alert("✅ আপনার সমস্ত তথ্য সফলভাবে অনলাইনে ফায়ারবেজে সংরক্ষিত হয়েছে!");
+            } catch (e) {
+                console.error("Error adding document: ", e);
+                alert("সংরক্ষণ করতে সমস্যা হয়েছে।");
+            }
+        };
+
+        // পেজ লোড হলে ফায়ারবেজ থেকে ডেটা নিয়ে আসার ফাংশন
+        window.onload = async function() {
+            try {
+                const querySnapshot = await getDocs(collection(db, "committee_data"));
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    if(data.notice) {
+                        document.getElementById('committeeNotice').innerText = data.notice;
+                    }
+                    if(data.members && data.members.length > 0) {
+                        const tbody = document.querySelector('#committeeTable tbody');
+                        tbody.innerHTML = '';
+                        data.members.forEach((m, index) => {
+                            const newRow = tbody.insertRow();
+                            newRow.innerHTML = `
+                                <td>${index + 1}</td>
+                                <td contenteditable="true">${m.name}</td>
+                                <td contenteditable="true">${m.role}</td>
+                                <td contenteditable="true">${m.category}</td>
+                                <td><button class="action-btn" onclick="deleteRow(this)">মুছুন</button></td>
+                            `;
+                        });
+                    }
+                });
+            } catch (e) {
+                console.error("Error loading documents: ", e);
+            }
+        };
+    </script>
+
     <script>
-        function autoSave() {
-            localStorage.setItem('abhoypasha_committee_data', document.body.innerHTML);
-        }
-        document.addEventListener('input', autoSave);
-
-        function manualSave() {
-            autoSave();
-            alert('সফলভাবে তথ্য সেভ করা হয়েছে!');
-        }
-
         function downloadData() {
             const htmlContent = '<!DOCTYPE html>\n<html lang="bn">\n' + document.documentElement.innerHTML + '\n</html>';
             const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
@@ -233,7 +302,6 @@
             const reader = new FileReader();
             reader.onload = function(e) {
                 document.documentElement.innerHTML = e.target.result;
-                localStorage.setItem('abhoypasha_committee_data', document.body.innerHTML);
                 location.reload();
             };
             reader.readAsText(file);
@@ -250,7 +318,6 @@
                 <td contenteditable="true">ক্যাটাগরি লিখুন</td>
                 <td><button class="action-btn" onclick="deleteRow(this)">মুছুন</button></td>
             `;
-            autoSave();
         }
 
         function deleteRow(btn) {
@@ -261,15 +328,7 @@
             for (let i = 0; i < rows.length; i++) {
                 rows[i].cells[0].innerText = i + 1;
             }
-            autoSave();
         }
-
-        window.onload = function() {
-            const savedData = localStorage.getItem('abhoypasha_committee_data');
-            if (savedData) {
-                document.body.innerHTML = savedData;
-            }
-        };
     </script>
 </body>
 </html>
