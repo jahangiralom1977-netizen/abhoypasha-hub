@@ -281,7 +281,7 @@
         <div class="header-top">
             <div>
                 <h1>৭ নং অভয়পাশা সরকারি প্রাথমিক বিদ্যালয়</h1>
-                <p>ডিজিটাল মনিটরিং ও ম্যানেজমেন্ট অ্যাপস &nbsp;|&nbsp; ইএমআইএস কোড: ৯১৩০৪০۱۰১০৭<br>স্থাপিত: ১৯০৪ খ্রী.</p>
+                <p>ডিজিটাল মনিটরিং ও ম্যানেজমেন্ট অ্যাপস &nbsp;|&nbsp; ইএমআইএস কোড: ৯১৩০৪০১০১০৭<br>স্থাপিত: ১৯০৪ খ্রী.</p>
             </div>
             <div id="modeIndicator" style="background: #ffb300; color: #000; padding: 5px 10px; font-weight: bold; border-radius: 4px; font-size: 9.5pt;">
                 এডিট মোড সচল
@@ -676,30 +676,62 @@
         </div>
 
     </div>
-<script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
 
-  // Your web app's Firebase configuration
-  const firebaseConfig = {
-    apiKey: "AIzaSyBgARm-MAHLbHwipklVCC5Di-SirEhTCn0",
-    authDomain: "abhoypashaschool.firebaseapp.com",
-    projectId: "abhoypashaschool",
-    storageBucket: "abhoypashaschool.firebasestorage.app",
-    messagingSenderId: "135944324445",
-    appId: "1:135944324445:web:e24dfde29dbbf31af6d4b4"
-  };
+    <!-- ফায়ারবেজ ও মূল স্ক্রিপ্ট লজিক -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-    // ডাটাবেজ মডিউল ইম্পোর্ট এবং কানেকশন চালু করা
-    import { getFirestore } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
-  const db = getFirestore(app);
+        const firebaseConfig = {
+            apiKey: "AIzaSyBgARm-MAHLbHwipklVCC5Di-SirEhTCn0",
+            authDomain: "abhoypashaschool.firebaseapp.com",
+            projectId: "abhoypashaschool",
+            storageBucket: "abhoypashaschool.firebasestorage.app",
+            messagingSenderId: "135944324445",
+            appId: "1:135944324445:web:e24dfde29dbbf31af6d4b4"
+        };
 
-  
-</script>
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // পুরো পেজের সম্পূর্ণ ভেতরের এইচটিএমএল (body HTML) ফায়ারবেজে সেভ করার ফাংশন
+        window.manualSaveData = async function() {
+            try {
+                // পেজের বর্তমান মূল কন্টেন্ট সংরক্ষণ করা হচ্ছে
+                const pageContent = document.querySelector('.container').innerHTML;
+
+                await addDoc(collection(db, "school_main_data"), {
+                    htmlContent: pageContent,
+                    createdAt: new Date().toISOString()
+                });
+
+                alert("✅ আপনার সমস্ত তথ্য সফলভাবে অনলাইনে ফায়ারবেজে সেভ হয়েছে!");
+            } catch (e) {
+                console.error("Error adding document: ", e);
+                alert("সংরক্ষণ করতে সমস্যা হয়েছে: " + e.message);
+            }
+        };
+
+        // পেজ লোড হলে ফায়ারবেজ থেকে সর্বশেষ সেভ করা ডেটা স্বয়ংক্রিয়ভাবে নিয়ে আসার ফাংশন
+        window.onload = async function() {
+            try {
+                const querySnapshot = await getDocs(collection(db, "school_main_data"));
+                let latestData = "";
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    if(data.htmlContent) {
+                        latestData = data.htmlContent;
+                    }
+                });
+                if(latestData) {
+                    document.querySelector('.container').innerHTML = latestData;
+                }
+            } catch (e) {
+                console.error("Error loading documents: ", e);
+            }
+        };
+    </script>
+
     <script>
         // PWA Install Prompt Logic
         let deferredPrompt;
@@ -722,35 +754,6 @@
                 });
             }
         }
-
-        // পেজ লোড হলে লোকাল স্টোরেজ থেকে ডেটা ফিরিয়ে আনা
- 
-window.onload = async function() {
-    try {
-        const querySnapshot = await getDocs(collection(db, "notices"));
-        querySnapshot.forEach((doc) => {
-            console.log(doc.id, " => ", doc.data());
-        });
-    } catch (e) {
-        console.error("Error loading documents: ", e);
-    }
-};
-       
-
-
-async function manualSaveData() {
-    try {
-        const docRef = await addDoc(collection(db, "notices"), {
-            content: document.getElementById('content').value,
-            createdAt: new Date().toISOString()
-        });
-        alert("✅ আপনার সমস্ত তথ্য সফলভাবে অনলাইনে সেভ হয়েছে!");
-    } catch (e) {
-        console.error("Error adding document: ", e);
-        alert("সংরক্ষণ করতে সমস্যা হয়েছে।");
-    }
-}
-
 
         let isEditable = true;
         function toggleEditMode() {
