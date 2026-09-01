@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang='bn'>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -173,6 +173,7 @@
             padding: 4px;
             border-radius: 4px;
             min-height: 22px;
+            text-align: left;
         }
 
         .editable:focus {
@@ -198,8 +199,7 @@
             padding: 4px 8px;
             border-radius: 4px;
             cursor: pointer;
-            font-size: 8.5pt;
-            font-family: 'SolaimanLipi', Arial, sans-serif;
+            font-size: 9pt;
         }
 
         .link-list {
@@ -303,7 +303,7 @@
 
         <!-- কন্ট্রোল প্যানেল -->
         <div class="control-bar">
-            <span id="instructionText">💡 তথ্য এন্ট্রি করে স্থায়ীভাবে সেভ রাখতে **"💾 তথ্য সেভ করুন"** বাটনে চাপুন।</span>
+            <span id="instructionText">💡 তথ্য এন্ট্রি করে স্থায়ীভাবে ফায়ারবেজে সেভ রাখতে **"💾 তথ্য সেভ করুন"** বাটনে চাপুন।</span>
             <div class="btn-group">
                 <button class="action-btn save-permanent" onclick="manualSaveData()">💾 তথ্য সেভ করুন</button>
                 <button id="installAppBtn" class="action-btn install" style="display:none;" onclick="installApp()">📱 অ্যাপস ইনস্টল</button>
@@ -670,6 +670,7 @@
 
         <!-- স্বাক্ষর অংশ -->
         <div class="footer-section">
+            <p>জাহাঙ্গীর আলম</p>
             <p>প্রধান শিক্ষক</p>
             <p>৭ নং অভয়পাশা সরকারি প্রাথমিক বিদ্যালয়</p>
             <p>আটপাড়া, নেত্রকোণা</p>
@@ -680,7 +681,7 @@
     <!-- ফায়ারবেজ ও মূল স্ক্রিপ্ট লজিক -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBgARm-MAHLbHwipklVCC5Di-SirEhTCn0",
@@ -694,11 +695,10 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // পুরো পেজের সম্পূর্ণ ভেতরের এইচটিএমএল (body HTML) ফায়ারবেজে সেভ করার ফাংশন
+        // ফায়ারবেজে সম্পূর্ণ তথ্য সেভ করার ফাংশন
         window.manualSaveData = async function() {
             try {
-                // পেজের বর্তমান মূল কন্টেন্ট সংরক্ষণ করা হচ্ছে
-                const pageContent = document.querySelector('.container').innerHTML;
+                const pageContent = document.getElementById('appBody').innerHTML;
 
                 await addDoc(collection(db, "school_main_data"), {
                     htmlContent: pageContent,
@@ -713,9 +713,11 @@
         };
 
         // পেজ লোড হলে ফায়ারবেজ থেকে সর্বশেষ সেভ করা ডেটা স্বয়ংক্রিয়ভাবে নিয়ে আসার ফাংশন
-        window.onload = async function() {
+        window.addEventListener('DOMContentLoaded', async function() {
             try {
-                const querySnapshot = await getDocs(collection(db, "school_main_data"));
+                const q = query(collection(db, "school_main_data"), orderBy("createdAt", "desc"), limit(1));
+                const querySnapshot = await getDocs(q);
+                
                 let latestData = "";
                 querySnapshot.forEach((doc) => {
                     const data = doc.data();
@@ -723,13 +725,14 @@
                         latestData = data.htmlContent;
                     }
                 });
+
                 if(latestData) {
-                    document.querySelector('.container').innerHTML = latestData;
+                    document.getElementById('appBody').innerHTML = latestData;
                 }
             } catch (e) {
                 console.error("Error loading documents: ", e);
             }
-        };
+        });
     </script>
 
     <script>
