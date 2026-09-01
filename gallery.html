@@ -161,10 +161,14 @@
             padding: 6px;
             font-size: 13px;
             color: #555;
-            background: #fafafa;
+            background: #fffdf0;
             border-top: 1px solid #eee;
             border-bottom: 1px solid #eee;
             margin-bottom: 5px;
+            border: 1px dashed #f39c12;
+            outline: none;
+            min-height: 20px;
+            text-align: center;
         }
         .display-screen {
             width: 100%;
@@ -262,20 +266,35 @@
                 grid.innerHTML += `
                     <div class="gallery-item">
                         <img src="${item.url}" alt="গ্যালারি ছবি" onclick="showMedia('${item.url}')">
-                        <div class="caption">${item.caption}</div>
+                        <div class="caption" contenteditable="true" oninput="updateCaption(${index}, this)">${item.caption}</div>
                         <button class="btn btn-danger" onclick="deleteImage(${index})">ডিলিট করুন</button>
                     </div>
                 `;
             });
         }
 
+        // লাইভ ক্যাপশন আপডেট রাখার ফাংশন
+        window.updateCaption = function(index, el) {
+            if(galleryData[index]) {
+                galleryData[index].caption = el.innerText;
+            }
+        }
+
         window.manualSave = async function() {
             try {
+                // সেভ করার আগে স্ক্রিনের লেটেস্ট ক্যাপশনগুলো অ্যারেতে সিঙ্ক করে নেওয়া
+                const captionElements = document.querySelectorAll('.gallery-item .caption');
+                captionElements.forEach((el, index) => {
+                    if(galleryData[index]) {
+                        galleryData[index].caption = el.innerText;
+                    }
+                });
+
                 await addDoc(collection(db, "school_gallery_data"), {
                     gallery: galleryData,
                     createdAt: new Date().toISOString()
                 });
-                alert('✅ সফলভাবে ফায়ারবেজে গ্যালারির তথ্য সেভ করা হয়েছে!');
+                alert('✅ সফলভাবে ফায়ারবেজে গ্যালারির তথ্য ও ক্যাপশন সেভ করা হয়েছে!');
             } catch (e) {
                 console.error("Error saving gallery: ", e);
                 alert('সংরক্ষণ করতে সমস্যা হয়েছে: ' + e.message);
