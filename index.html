@@ -82,7 +82,6 @@
         .link-item a { color: #0275d8; text-decoration: none; font-weight: bold; }
         .pending-box { background: #fff3cd; border: 1px solid #ffeeba; padding: 25px; border-radius: 12px; margin-bottom: 30px; display: none; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
 
-        /* গ্যালারি স্টাইল */
         .upload-section { background: #e9f7ef; border: 1px solid #d4efdf; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
         .upload-section h3 { margin-top: 0; color: #1b4d3e; font-size: 16px; }
         .form-group { margin-bottom: 12px; }
@@ -96,77 +95,15 @@
         .display-screen { width: 100%; max-height: 400px; background: #000; border-radius: 8px; overflow: hidden; margin-bottom: 20px; display: flex; justify-content: center; align-items: center; }
         .display-screen img { width: 100%; max-height: 400px; object-fit: contain; }
 
-        .user-profile-widget {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: rgba(255, 255, 255, 0.15);
-            padding: 6px 15px;
-            border-radius: 30px;
-            cursor: pointer;
-            color: #fff;
-            font-size: 14px;
-            z-index: 1000;
-        }
-        .user-profile-widget img {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid #fff;
-        }
-        .profile-dropdown-menu {
-            display: none;
-            position: absolute;
-            top: 55px;
-            right: 20px;
-            background: #fff;
-            color: #333;
-            width: 250px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            border-radius: 8px;
-            overflow: hidden;
-            z-index: 1001;
-            text-align: left;
-        }
-        .profile-dropdown-menu.active {
-            display: block;
-        }
-        .profile-header-info {
-            padding: 15px;
-            background: #1b4d3e;
-            color: #fff;
-            text-align: center;
-        }
-        .profile-header-info img {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            margin-bottom: 8px;
-            border: 2px solid #fff;
-            object-fit: cover;
-        }
-        .profile-menu-items {
-            padding: 10px 0;
-        }
-        .profile-menu-items a, .profile-menu-items button {
-            display: block;
-            width: 100%;
-            padding: 10px 15px;
-            color: #333;
-            background: none;
-            border: none;
-            text-align: left;
-            cursor: pointer;
-            font-size: 14px;
-            text-decoration: none;
-        }
-        .profile-menu-items a:hover, .profile-menu-items button:hover {
-            background: #f1f1f1;
-        }
+        .user-profile-widget { position: absolute; top: 15px; right: 20px; display: flex; align-items: center; gap: 10px; background: rgba(255, 255, 255, 0.15); padding: 6px 15px; border-radius: 30px; cursor: pointer; color: #fff; font-size: 14px; z-index: 1000; }
+        .user-profile-widget img { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 2px solid #fff; }
+        .profile-dropdown-menu { display: none; position: absolute; top: 55px; right: 20px; background: #fff; color: #333; width: 250px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); border-radius: 8px; overflow: hidden; z-index: 1001; text-align: left; }
+        .profile-dropdown-menu.active { display: block; }
+        .profile-header-info { padding: 15px; background: #1b4d3e; color: #fff; text-align: center; }
+        .profile-header-info img { width: 60px; height: 60px; border-radius: 50%; margin-bottom: 8px; border: 2px solid #fff; object-fit: cover; }
+        .profile-menu-items { padding: 10px 0; }
+        .profile-menu-items a, .profile-menu-items button { display: block; width: 100%; padding: 10px 15px; color: #333; background: none; border: none; text-align: left; cursor: pointer; font-size: 14px; text-decoration: none; }
+        .profile-menu-items a:hover, .profile-menu-items button:hover { background: #f1f1f1; }
     </style>
 </head>
 <body>
@@ -214,7 +151,10 @@
                 <p id="loginError" style="color: #d9534f; margin-top: 15px; font-size: 14px; font-weight: bold;"></p>
             </div>
         </div>
-                        <!-- অ্যাপস লিংক শেয়ার সেকশন -->
+
+        <!-- Main Dashboard -->
+        <div id="dashboardSection" style="display: none;">
+            <!-- অ্যাপস লিংক শেয়ার সেকশন -->
             <div class="card mb-3" style="background: #e8f5e9; padding: 20px; border-radius: 12px; margin-bottom: 25px; border: 1px solid #c8e6c9; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
                 <h3 style="color: #2e7d32; margin-bottom: 10px; font-size: 18px;">🔗 আমাদের অ্যাপস বা পোর্টালটি শেয়ার করুন</h3>
                 <p style="color: #555; font-size: 14px; margin-bottom: 15px;">বন্ধুবান্ধব বা সহকর্মীদের সাথে সহজে লিংকটি শেয়ার করতে নিচের বাটনে ক্লিক করুন:</p>
@@ -223,9 +163,6 @@
                 </button>
             </div>
 
-
-        <!-- Main Dashboard -->
-        <div id="dashboardSection" style="display: none;">
             <div id="adminPendingArea" class="pending-box">
                 <h3 style="color: #856404; margin-bottom: 15px; font-size: 18px;">⚠️ সহকারী শিক্ষকদের পাঠানো পেন্ডিং এন্ট্রি</h3>
                 <div id="pendingListContainer"></div>
@@ -435,12 +372,10 @@
             <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
             <h2>১০. স্মৃতিচারণ ও ফটো ও ভিডিও গ্যালারি</h2>
             
-            <!-- বড় ডিসপ্লে স্ক্রিন -->
             <div class="display-screen" id="mainDisplay">
                 <img src="https://i.ibb.co.com/5xJkDXSw/IMG-20260829-073221-093.jpg" alt="ডিফল্ট ছবি" id="currentMedia">
             </div>
 
-            <!-- ছবি ও ক্যাপশন যুক্ত করার ফর্ম -->
             <div class="upload-section">
                 <h3>নতুন ছবি ও ক্যাপশন যুক্ত করুন</h3>
                 <div class="form-group">
@@ -459,11 +394,7 @@
             </div>
 
             <div class="section-title">সংরক্ষিত ফটো গ্যালারি</div>
-
-            <!-- গ্যালারি গ্রিড -->
-            <div class="gallery-grid" id="galleryGrid">
-                <!-- ফায়ারবেজ থেকে এখানে আইটেমগুলো লোড হবে -->
-            </div>
+            <div class="gallery-grid" id="galleryGrid"></div>
         </div>
     </div>
 
@@ -505,24 +436,21 @@
         }
 
         function initPortal() {
-    document.getElementById('loginSection').style.display = 'none';
-    document.getElementById('dashboardSection').style.display = 'block';
-    let role = sessionStorage.getItem('userRole');
-    
-    if(role === 'admin') {
-        document.getElementById('userRoleTitle').innerText = 'মূল ড্যাশবোর্ড [প্রধান শিক্ষক - অ্যাডমিন প্যানেল]';
-        document.getElementById('adminPendingArea').style.display = 'block';
-        loadPendingUpdates();
-    } else {
-        document.getElementById('userRoleTitle').innerText = 'মূল ড্যাশবোর্ড [সহকারী শিক্ষক প্যানেল]';
-        document.getElementById('adminPendingArea').style.display = 'none';
-    }
-    loadAllDataFromCloud();
-    loadGalleryFromCloud();
-    loadAppLink();
-  
-}
-
+            document.getElementById('loginSection').style.display = 'none';
+            document.getElementById('dashboardSection').style.display = 'block';
+            let role = sessionStorage.getItem('userRole');
+            
+            if(role === 'admin') {
+                document.getElementById('userRoleTitle').innerText = 'মূল ড্যাশবোর্ড [প্রধান শিক্ষক - অ্যাডমিন প্যানেল]';
+                document.getElementById('adminPendingArea').style.display = 'block';
+                loadPendingUpdates();
+            } else {
+                document.getElementById('userRoleTitle').innerText = 'মূল ড্যাশবোর্ড [সহকারী শিক্ষক প্যানেল]';
+                document.getElementById('adminPendingArea').style.display = 'none';
+            }
+            loadAllDataFromCloud();
+            loadGalleryFromCloud();
+        }
 
         function logout() {
             sessionStorage.removeItem('userRole');
@@ -641,7 +569,6 @@
             }
         }
 
-        // গ্যালারি সংক্রান্ত ফাংশনসমূহ
         async function loadGalleryFromCloud() {
             try {
                 const querySnapshot = await window.getDocsRef(window.collectionRef(window.db, "school_gallery_items"));
@@ -880,6 +807,88 @@
             }
         }
 
+        async function loadPendingUpdates() {
+            const container = document.getElementById('pendingListContainer');
+            if(!container) return;
+            container.innerHTML = 'লোড হচ্ছে...';
+
+            try {
+                const querySnapshot = await window.getDocsRef(window.collectionRef(window.db, "pendingUpdates"));
+                container.innerHTML = '';
+                
+                let count = 0;
+                querySnapshot.forEach((docSnap) => {
+                    count++;
+                    const data = docSnap.data();
+                    const docId = docSnap.id;
+
+                    let itemDiv = document.createElement('div');
+                    itemDiv.style.cssText = "background: #fff; padding: 15px; border-radius: 8px; margin-bottom: 10px; border: 1px solid #ffeeba; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;";
+                    
+                    itemDiv.innerHTML = `
+                        <div>
+                            <strong>${count}. ${data.title || 'আপডেট রিকুয়েস্ট'}</strong><br>
+                            <small style="color: #666;">সময়: ${new Date(data.time).toLocaleString('bn-BD')}</small>
+                        </div>
+                        <div style="display: flex; gap: 8px;">
+                            <button class="btn btn-success" style="padding: 6px 12px; font-size: 12px;" onclick="approveUpdate('${docId}', '${data.secId}')">অনুমোদন দিন</button>
+                            <button class="btn btn-danger" style="padding: 6px 12px; font-size: 12px;" onclick="rejectUpdate('${docId}')">বাতিল করুন</button>
+                        </div>
+                    `;
+                    container.appendChild(itemDiv);
+                });
+
+                if(count === 0) {
+                    container.innerHTML = '<p style="color: #666; font-size: 14px;">বর্তমানে কোনো পেন্ডিং এন্ট্রি নেই।</p>';
+                }
+            } catch(err) {
+                console.error("পেন্ডিং ডাটা লোড করতে সমস্যা:", err);
+                container.innerHTML = '<p style="color: #d9534f;">পেন্ডিং ডাটা লোড করতে সমস্যা হয়েছে।</p>';
+            }
+        }
+
+        async function approveUpdate(docId, secId) {
+            if(!confirm('আপনি কি এই আপডেটটি অনুমোদন করতে চান? এটি মূল পোর্টালে যুক্ত হয়ে যাবে।')) return;
+
+            try {
+                const docRefSnap = await window.getDocRef(window.docRef(window.db, "pendingUpdates", docId));
+                if(docRefSnap.exists()) {
+                    const data = docRefSnap.data();
+
+                    await window.setDocRef(window.docRef(window.db, "schoolPortal", secId), {
+                        html: data.html,
+                        updatedAt: new Date().toISOString()
+                    });
+
+                    await window.deleteDocRef(window.docRef(window.db, "pendingUpdates", docId));
+
+                    alert('✅ সফলভাবে অনুমোদন করা হয়েছে এবং মূল পোর্টালে আপডেট হয়ে গেছে!');
+                    loadPendingUpdates();
+                    loadAllDataFromCloud();
+                }
+            } catch(err) {
+                alert('❌ অনুমোদন করতে সমস্যা হয়েছে: ' + err.message);
+            }
+        }
+
+        async function rejectUpdate(docId) {
+            if(!confirm('আপনি কি নিশ্চিতভাবে এই রিকুয়েস্টটি মুছে ফেলতে চান?')) return;
+
+            try {
+                await window.deleteDocRef(window.docRef(window.db, "pendingUpdates", docId));
+                alert('🗑️ রিকুয়েস্টটি সফলভাবে মুছে ফেলা হয়েছে।');
+                loadPendingUpdates();
+            } catch(err) {
+                alert('❌ ডিলিট করতে সমস্যা হয়েছে: ' + err.message);
+            }
+        }
+
+        function sharePortalLink() {
+            const portalUrl = window.location.href;
+            const message = encodeURIComponent('আমাদের বিদ্যালয়ের ডিজিটাল পোর্টাল বা অ্যাপসটি দেখতে নিচের লিংকে ক্লিক করুন: ' + portalUrl);
+            window.open('https://api.whatsapp.com/send?text=' + message, '_blank');
+        }
+
         window.addEventListener('DOMContentLoaded', () => {
             let savedName = localStorage.getItem('userName');
             let savedPhone = localStorage.getItem('userPhone');
@@ -901,94 +910,6 @@
                 document.getElementById('dropdownUserRole').innerText = role === 'admin' ? 'এডমিন (প্রধান শিক্ষক)' : 'সহকারী শিক্ষক';
             }
         });
-        // সহকারী শিক্ষকদের পেন্ডিং আপডেটগুলো ফায়ারবেস থেকে লোড করার ফাংশন
-async function loadPendingUpdates() {
-    const container = document.getElementById('pendingListContainer');
-    if(!container) return;
-    container.innerHTML = 'লোড হচ্ছে...';
-
-    try {
-        const querySnapshot = await window.getDocsRef(window.collectionRef(window.db, "pendingUpdates"));
-        container.innerHTML = '';
-        
-        let count = 0;
-        querySnapshot.forEach((docSnap) => {
-            count++;
-            const data = docSnap.data();
-            const docId = docSnap.id;
-
-            let itemDiv = document.createElement('div');
-            itemDiv.style.cssText = "background: #fff; padding: 15px; border-radius: 8px; margin-bottom: 10px; border: 1px solid #ffeeba; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;";
-            
-            itemDiv.innerHTML = `
-                <div>
-                    <strong>${count}. ${data.title || 'আপডেট রিকুয়েস্ট'}</strong><br>
-                    <small style="color: #666;">সময়: ${new Date(data.time).toLocaleString('bn-BD')}</small>
-                </div>
-                <div style="display: flex; gap: 8px;">
-                    <button class="btn btn-success" style="padding: 6px 12px; font-size: 12px;" onclick="approveUpdate('${docId}', '${data.secId}')">অনুমোদন দিন</button>
-                    <button class="btn btn-danger" style="padding: 6px 12px; font-size: 12px;" onclick="rejectUpdate('${docId}')">বাতিল করুন</button>
-                </div>
-            `;
-            container.appendChild(itemDiv);
-        });
-
-        if(count === 0) {
-            container.innerHTML = '<p style="color: #666; font-size: 14px;">বর্তমানে কোনো পেন্ডিং এন্ট্রি নেই।</p>';
-        }
-    } catch(err) {
-        console.error("পেন্ডিং ডাটা লোড করতে সমস্যা:", err);
-        container.innerHTML = '<p style="color: #d9534f;">পেন্ডিং ডাটা লোড করতে সমস্যা হয়েছে।</p>';
-    }
-}
-
-// পেন্ডিং আপডেট অনুমোদন করার ফাংশন
-async function approveUpdate(docId, secId) {
-    if(!confirm('আপনি কি এই আপডেটটি অনুমোদন করতে চান? এটি মূল পোর্টালে যুক্ত হয়ে যাবে।')) return;
-
-    try {
-        const docRefSnap = await window.getDocRef(window.docRef(window.db, "pendingUpdates", docId));
-        if(docRefSnap.exists()) {
-            const data = docRefSnap.data();
-
-            await window.setDocRef(window.docRef(window.db, "schoolPortal", secId), {
-                html: data.html,
-                updatedAt: new Date().toISOString()
-            });
-
-            await window.deleteDocRef(window.docRef(window.db, "pendingUpdates", docId));
-
-            alert('✅ সফলভাবে অনুমোদন করা হয়েছে এবং মূল পোর্টালে আপডেট হয়ে গেছে!');
-            loadPendingUpdates();
-            loadAllDataFromCloud();
-        }
-    } catch(err) {
-        alert('❌ অনুমোদন করতে সমস্যা হয়েছে: ' + err.message);
-    }
-}
-
-// পেন্ডিং আপডেট বাতিল বা ডিলিট করার ফাংশন
-async function rejectUpdate(docId) {
-    if(!confirm('আপনি কি নিশ্চিতভাবে এই রিকুয়েস্টটি মুছে ফেলতে চান?')) return;
-
-    try {
-        await window.deleteDocRef(window.docRef(window.db, "pendingUpdates", docId));
-        alert('🗑️ রিকুয়েস্টটি সফলভাবে মুছে ফেলা হয়েছে।');
-        loadPendingUpdates();
-    } catch(err) {
-        alert('❌ ডিলিট করতে সমস্যা হয়েছে: ' + err.message);
-    }
-}
-// পোর্টাল বা অ্যাপস লিংক শেয়ার করার ফাংশন
-function sharePortalLink() {
-    const portalUrl = window.location.href;
-    const message = encodeURIComponent('আমাদের বিদ্যালয়ের ডিজিটাল পোর্টাল বা অ্যাপসটি দেখতে নিচের লিংকে ক্লিক করুন: ' + portalUrl);
-    window.open('https://api.whatsapp.com/send?text=' + message, '_blank');
-   }
-}
-         
-        
-
     </script>
 </body>
 </html>
