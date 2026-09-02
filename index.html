@@ -982,23 +982,11 @@ async function rejectUpdate(docId) {
 // পোর্টাল বা অ্যাপস লিংক শেয়ার করার ফাংশন
 function sharePortalLink() {
     const portalUrl = window.location.href;
-    
-    if (navigator.share) {
-        navigator.share({
-            title: '৭ নং অভয়পাশা সরকারি প্রাথমিক বিদ্যালয় পোর্টাল',
-            text: 'আমাদের বিদ্যালয়ের ডিজিটাল পোর্টাল বা অ্যাপসটি দেখতে নিচের লিংকে ক্লিক করুন:',
-            url: portalUrl,
-        }).then(() => {
-            console.log('সফলভাবে শেয়ার করা হয়েছে!');
-        }).catch((error) => {
-            console.log('শেয়ার করতে সমস্যা হয়েছে:', error);
-        });
-    } else {
-        navigator.clipboard.writeText(portalUrl);
-        alert('📋 লিংকটি সফলভাবে কপি হয়ে গেছে! এখন যেকোনো জায়গায় পেস্ট করে শেয়ার করতে পারেন।');
-    }
+    const message = encodeURIComponent('আমাদের বিদ্যালয়ের ডিজিটাল পোর্টাল বা অ্যাপসটি দেখতে নিচের লিংকে ক্লিক করুন: ' + portalUrl);
+    window.open('https://api.whatsapp.com/send?text=' + message, '_blank');
+   }
 }
-
+         
         
 
     </script>
