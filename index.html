@@ -91,10 +91,15 @@
 </head>
 <body>
 
-    <header>
+        <header>
         <h1>৭ নং অভয়পাশা সরকারি প্রাথমিক বিদ্যালয়</h1>
         <p>ডিজিটাল মনিটরিং ও ম্যানেজমেন্ট পোর্টাল</p>
+        <div style="margin-top: 12px; font-size: 14px; opacity: 0.95; display: flex; justify-content: center; gap: 25px; flex-wrap: wrap;">
+            <span>ইএমআইএস কোড: ৯১৩০৪০১০১০৭</span>
+            <span>স্থাপিত: ১৯০৪ খ্রি:</span>
+        </div>
     </header>
+
 
     <div class="marquee-box">
         <marquee behavior="scroll" direction="left">✨ ৭ নং অভয়পাশা সরকারি প্রাথমিক বিদ্যালয় ডিজিটাল পোর্টালে স্বাগতম! ফায়ারবেস ক্লাউড স্টোরেজের মাধ্যমে সকল ডেটা ও গ্যালারি সম্পূর্ণ সুরক্ষিত রয়েছে। ✨</marquee>
@@ -114,17 +119,7 @@
 
         <!-- Main Dashboard -->
         <div id="dashboardSection" style="display: none;">
-            <div class="school-meta-card">
-                <div class="meta-item">
-                    <span>ইএমআইএস কোড</span>
-                    <div class="meta-editable" contenteditable="true" id="emisCodeText">১০৯১৮০১০৭</div>
-                </div>
-                <div class="meta-item">
-                    <span>স্থাপিত সাল</span>
-                    <div class="meta-editable" contenteditable="true" id="establishedYearText">১৯৭৩</div>
-                </div>
-                <button class="btn btn-success" style="padding: 12px 25px; font-size: 14px;" onclick="saveMetaInfo()">💾 তথ্য সেভ করুন</button>
-            </div>
+            
 
             <div id="adminPendingArea" class="pending-box">
                 <h3 style="color: #856404; margin-bottom: 15px; font-size: 18px;">⚠️ সহকারী শিক্ষকদের পাঠানো পেন্ডিং এন্ট্রি</h3>
@@ -375,7 +370,7 @@
             <div style="background: #e8f5e9; padding: 25px; border-radius: 12px; margin-bottom: 25px; box-shadow: 0 4px 10px rgba(0,0,0,0.03);">
                 <h3 style="font-size: 17px; color: #1b4d3e; margin-bottom: 12px;">নতুন ছবি বা ভিডিও যুক্ত করুন</h3>
                 <label style="font-size: 14px; font-weight: bold; display: block; margin-top: 10px;">ফাইল সিলেক্ট করুন (ছবি বা ভিডিও):</label>
-                <input type="file" id="mediaFile" accept="image/*,video/*" style="margin: 8px 0; font-size: 14px;"><br>
+                <input type="file" id="mediaFile" accept="image/*,video/*" multiple style="margin: 8px 0; font-size: 14px;">
                 <label style="font-size: 14px; font-weight: bold; display: block; margin-top: 15px;">অথবা অনলাইন লিংক (URL):</label>
                 <input type="text" id="mediaUrl" placeholder="সরাসরি ভিডিও বা ছবির লিংক পেস্ট করুন" style="width: 100%; padding: 12px; margin: 8px 0; font-size: 14px; border: 1px solid #ccc; border-radius: 8px;">
                 <input type="text" id="mediaCaption" placeholder="ছবির বা ভিডিওর ক্যাপশন লিখুন" style="width: 100%; padding: 12px; margin: 8px 0; font-size: 14px; border: 1px solid #ccc; border-radius: 8px;">
@@ -601,28 +596,32 @@
         }
 
         function addMedia() {
-            let caption = document.getElementById('mediaCaption').value;
-            let fileInput = document.getElementById('mediaFile');
-            let urlInput = document.getElementById('mediaUrl').value.trim();
+    let caption = document.getElementById('mediaCaption').value;
+    let fileInput = document.getElementById('mediaFile');
+    let urlInput = document.getElementById('mediaUrl').value.trim();
 
-            if(fileInput.files && fileInput.files[0]) {
-                let file = fileInput.files[0];
-                let reader = new FileReader();
-                reader.onload = function(e) {
-                    let isVideo = file.type.startsWith('video') || file.name.endsWith('.mp4');
-                    appendMediaCard(e.target.result, caption, isVideo);
-                };
-                reader.readAsDataURL(file);
-            } else if(urlInput !== "") {
-                let isVideo = urlInput.endsWith('.mp4') || urlInput.includes('video') || urlInput.includes('youtube');
-                appendMediaCard(urlInput, caption, isVideo);
-            } else {
-                alert('⚠️ দয়া করে ফাইল সিলেক্ট করুন অথবা লিংক দিন।');
-            }
-            document.getElementById('mediaCaption').value = '';
-            document.getElementById('mediaFile').value = '';
-            document.getElementById('mediaUrl').value = '';
+    if(fileInput.files && fileInput.files.length > 0) {
+        for(let i = 0; i < fileInput.files.length; i++) {
+            let file = fileInput.files[i];
+            let reader = new FileReader();
+            reader.onload = function(e) {
+                let isVideo = file.type.startsWith('video') || file.name.endsWith('.mp4');
+                appendMediaCard(e.target.result, caption || file.name, isVideo);
+            };
+            reader.readAsDataURL(file);
         }
+    } else if(urlInput !== "") {
+        let isVideo = urlInput.endsWith('.mp4') || urlInput.includes('video') || urlInput.includes('youtube');
+        appendMediaCard(urlInput, caption, isVideo);
+    } else {
+        alert('⚠️ দয়া করে ফাইল সিলেক্ট করুন অথবা লিংক দিন।');
+    }
+    
+    document.getElementById('mediaCaption').value = '';
+    document.getElementById('mediaFile').value = '';
+    document.getElementById('mediaUrl').value = '';
+}
+
 
         function appendMediaCard(src, captionText, isVideo) {
             let container = document.getElementById('galleryContainer');
