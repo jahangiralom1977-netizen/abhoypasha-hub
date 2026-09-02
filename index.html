@@ -758,12 +758,52 @@ window.addEventListener('click', function(e) {
     }
 });
 
-// প্রোফাইল সেটিংস বা পাসওয়ার্ড পরিবর্তনের জন্য পপআপ হ্যান্ডলার
-function openProfileSettings() {
-    let newName = prompt("আপনার নতুন নাম লিখুন:", localStorage.getItem('userName') || "প্রধান শিক্ষক / শিক্ষক");
-    let newPhone = prompt("আপনার মোবাইল নম্বর লিখুন:", localStorage.getItem('userPhone') || "017xxxxxxxx");
-    let newPic = prompt("আপনার ছবি বা প্রোফাইল পিকচারের লিংক (URL) দিন:", localStorage.getItem('userPic') || "");
-    
+// ড্রপডাউন মেনু টগল করার ফাংশন
+function toggleProfileMenu() {
+    let menu = document.getElementById('profileDropdown');
+    if(menu) {
+        menu.classList.toggle('active');
+    }
+}
+
+// বাইরে ক্লিক করলে মেনু বন্ধ হয়ে যাওয়ার ব্যবস্থা
+window.onclick = function(event) {
+    if (!event.target.closest('.profile-container')) {
+        let menu = document.getElementById('profileDropdown');
+        if (menu && menu.classList.contains('active')) {
+            menu.classList.remove('active');
+        }
+    }
+}
+
+// প্রোফাইল এডিট মোডাল ওপেন ও ক্লোজ
+function openProfileModal() {
+    document.getElementById('profileModal').style.display = 'flex';
+    document.getElementById('editNameInput').value = localStorage.getItem('userName') || "জাহাঙ্গীর আলম";
+    document.getElementById('editPhoneInput').value = localStorage.getItem('userPhone') || "0176678999";
+    let menu = document.getElementById('profileDropdown');
+    if(menu) menu.classList.remove('active');
+}
+function closeProfileModal() {
+    document.getElementById('profileModal').style.display = 'none';
+}
+
+// পাসওয়ার্ড মোডাল ওপেন ও ক্লোজ
+function openPasswordModal() {
+    document.getElementById('passwordModal').style.display = 'flex';
+    let menu = document.getElementById('profileDropdown');
+    if(menu) menu.classList.remove('active');
+}
+function closePasswordModal() {
+    document.getElementById('passwordModal').style.display = 'none';
+}
+
+// প্রোফাইল তথ্য এবং গ্যালারি থেকে ছবি লোকাল স্টোরেজে সেভ করার মূল লজিক
+function saveProfileChanges() {
+    let newName = document.getElementById('editNameInput').value;
+    let newPhone = document.getElementById('editPhoneInput').value;
+    let fileInput = document.getElementById('editPicInput');
+
     if(newName) {
         localStorage.setItem('userName', newName);
         if(document.getElementById('headerUserName')) document.getElementById('headerUserName').innerText = newName;
@@ -773,23 +813,71 @@ function openProfileSettings() {
         localStorage.setItem('userPhone', newPhone);
         if(document.getElementById('dropdownUserPhone')) document.getElementById('dropdownUserPhone').innerText = newPhone;
     }
-    if(newPic) {
-        localStorage.setItem('userPic', newPic);
-        if(document.getElementById('headerUserPic')) document.getElementById('headerUserPic').src = newPic;
-        if(document.getElementById('dropdownUserPic')) document.getElementById('dropdownUserPic').src = newPic;
-    }
-    
-    // পাসওয়ার্ড পরিবর্তনের অপশন
-    let changePass = confirm("কি পাসওয়ার্ড বা পিন কোড পরিবর্তন করতে চান?");
-    if(changePass) {
-        let oldPin = prompt("পুরাতন পিন কোড দিন:");
-        let newPin = prompt("নতুন পিন কোড দিন:");
-        if(newPin) {
-            localStorage.setItem('userPin', newPin);
-            alert('✅ পিন কোড সফলভাবে পরিবর্তন করা হয়েছে!');
-        }
+
+    // ছবি সিলেক্ট করা হলে তা Base64 তে রূপান্তর করে লোকাল স্টোরেজে সেভ করা
+    if (fileInput.files && fileInput.files[0]) {
+        let reader = new FileReader();
+        reader.onload = function(e) {
+            let base64Image = e.target.result;
+            localStorage.setItem('userPic', base64Image);
+            
+            // সব জায়গার ছবি একসাথে আপডেট করে দেওয়া
+            let profileImgs = document.querySelectorAll('.user-profile-img, #headerUserPic, #dropdownUserPic');
+            profileImgs.forEach(img => img.src = base64Image);
+
+            alert('✅ সফলভাবে প্রোফাইল এবং ছবি হালনাগাদ করা হয়েছে!');
+            closeProfileModal();
+            location.reload(); // পেজ রিফ্রেশ করে নিশ্চিত করা
+        };
+        reader.readAsDataURL(fileInput.files[0]);
+    } else {
+        alert('✅ প্রোফাইল সফলভাবে হালনাগাদ করা হয়েছে!');
+        closeProfileModal();
+        location.reload();
     }
 }
+
+// পাসওয়ার্ড পরিবর্তনের লজিক
+function savePasswordChanges() {
+    let oldPin = document.getElementById('oldPinInput').value;
+    let newPin = document.getElementById('newPinInput').value;
+    let savedPin = localStorage.getItem('userPin') || "1234"; // ডিফল্ট পিন ১২৩৪
+
+    if(oldPin !== savedPin) {
+        alert('❌ পুরাতন পিন ভুল হয়েছে!');
+        return;
+    }
+    if(!newPin || newPin.length < 4) {
+        alert('❌ নতুন পিন অন্তত ৪ সংখ্যার হতে হবে!');
+        return;
+    }
+
+    localStorage.setItem('userPin', newPin);
+    alert('✅ পিন কোড সফলভাবে পরিবর্তন করা হয়েছে!');
+    closePasswordModal();
+    document.getElementById('oldPinInput').value = "";
+    document.getElementById('newPinInput').value = "";
+}
+
+// পেজ লোড হওয়ার সাথে সাথে সেভ করা ডাটা অটো লোড হওয়া
+window.addEventListener('DOMContentLoaded', () => {
+    let savedName = localStorage.getItem('userName');
+    let savedPhone = localStorage.getItem('userPhone');
+    let savedPic = localStorage.getItem('userPic');
+
+    if(savedName) {
+        if(document.getElementById('headerUserName')) document.getElementById('headerUserName').innerText = savedName;
+        if(document.getElementById('dropdownUserName')) document.getElementById('dropdownUserName').innerText = savedName;
+    }
+    if(savedPhone) {
+        if(document.getElementById('dropdownUserPhone')) document.getElementById('dropdownUserPhone').innerText = savedPhone;
+    }
+    if(savedPic) {
+        let profileImgs = document.querySelectorAll('.user-profile-img, #headerUserPic, #dropdownUserPic');
+        profileImgs.forEach(img => img.src = savedPic);
+    }
+});
+
 
 // পোর্টাল লোড হওয়ার সময় লোকাল স্টোরেজ থেকে ইউজারের নাম ও ছবি সেট করার ফাংশন
 window.addEventListener('DOMContentLoaded', () => {
@@ -813,6 +901,44 @@ window.addEventListener('DOMContentLoaded', () => {
         document.getElementById('dropdownUserRole').innerText = role === 'admin' ? 'এডমিন (প্রধান শিক্ষক)' : 'সহকারী শিক্ষক';
     }
 });
+<!-- Profile Edit Modal -->
+<div id="profileModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999; justify-content:center; align-items:center;">
+    <div style="background:#fff; padding:25px; border-radius:10px; width:90%; max-width:400px; box-shadow:0 5px 15px rgba(0,0,0,0.3); text-align:left; font-family:sans-serif;">
+        <h3 style="margin-top:0; color:#1b4d3e; font-size:18px; margin-bottom:15px;">👤 প্রোফাইল তথ্য হালনাগাদ</h3>
+        
+        <label style="font-size:13px; font-weight:bold; color:#333;">নাম:</label>
+        <input type="text" id="editNameInput" style="width:100%; padding:8px; margin:5px 0 12px 0; border:1px solid #ccc; border-radius:5px; box-sizing:border-box;">
+        
+        <label style="font-size:13px; font-weight:bold; color:#333;">মোবাইল নম্বর:</label>
+        <input type="text" id="editPhoneInput" style="width:100%; padding:8px; margin:5px 0 12px 0; border:1px solid #ccc; border-radius:5px; box-sizing:border-box;">
+        
+        <label style="font-size:13px; font-weight:bold; color:#333;">প্রোফাইল ছবি (গ্যালারি থেকে):</label>
+        <input type="file" id="editPicInput" accept="image/*" style="width:100%; padding:6px; margin:5px 0 15px 0; border:1px solid #ccc; border-radius:5px; background:#f9f9f9; box-sizing:border-box;">
+        
+        <div style="text-align:right; gap:10px; display:flex; justify-content:flex-end;">
+            <button onclick="closeProfileModal()" style="padding:8px 15px; background:#ccc; border:none; border-radius:5px; cursor:pointer;">বাতিল</button>
+            <button onclick="saveProfileChanges()" style="padding:8px 15px; background:#1b4d3e; color:#fff; border:none; border-radius:5px; cursor:pointer;">সংরক্ষণ করুন</button>
+        </div>
+    </div>
+</div>
+
+<!-- Password Change Modal -->
+<div id="passwordModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999; justify-content:center; align-items:center;">
+    <div style="background:#fff; padding:25px; border-radius:10px; width:90%; max-width:400px; box-shadow:0 5px 15px rgba(0,0,0,0.3); text-align:left; font-family:sans-serif;">
+        <h3 style="margin-top:0; color:#1b4d3e; font-size:18px; margin-bottom:15px;">🔑 পাসওয়ার্ড বা পিন পরিবর্তন</h3>
+        
+        <label style="font-size:13px; font-weight:bold; color:#333;">পুরাতন পিন:</label>
+        <input type="password" id="oldPinInput" style="width:100%; padding:8px; margin:5px 0 12px 0; border:1px solid #ccc; border-radius:5px; box-sizing:border-box;">
+        
+        <label style="font-size:13px; font-weight:bold; color:#333;">নতুন পিন:</label>
+        <input type="password" id="newPinInput" style="width:100%; padding:8px; margin:5px 0 15px 0; border:1px solid #ccc; border-radius:5px; box-sizing:border-box;">
+        
+        <div style="text-align:right; gap:10px; display:flex; justify-content:flex-end;">
+            <button onclick="closePasswordModal()" style="padding:8px 15px; background:#ccc; border:none; border-radius:5px; cursor:pointer;">বাতিল</button>
+            <button onclick="savePasswordChanges()" style="padding:8px 15px; background:#1b4d3e; color:#fff; border:none; border-radius:5px; cursor:pointer;">পরিবর্তন করুন</button>
+        </div>
+    </div>
+</div>
 
     </script>
 </body>
