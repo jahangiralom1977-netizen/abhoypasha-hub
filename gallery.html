@@ -3,244 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>স্মৃতিচারণ ও ফটো ও ভিডিও গ্যালারি - ৭ নং অভয়পাশা সরকারি প্রাথমিক বিদ্যালয়</title>
-    <style>
-        body {
-            font-family: 'SolaimanLipi', Arial, sans-serif;
-            background-color: #f4f7f6;
-            margin: 0;
-            padding: 0;
-            color: #333;
-        }
-        header {
-            background-color: #1b4d3e;
-            color: white;
-            padding: 15px 20px;
-            text-align: center;
-        }
-        h1 {
-            margin: 0;
-            font-size: 22px;
-        }
-        p.sub-title {
-            margin: 5px 0 0 0;
-            font-size: 14px;
-            color: #d1e7dd;
-        }
-        /* কন্ট্রোল বাটন বার */
-        .control-bar {
-            background: #ffffff;
-            padding: 10px 20px;
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            align-items: center;
-            border-bottom: 1px solid #ddd;
-            max-width: 900px;
-            margin: 0 auto;
-            border-radius: 0 0 8px 8px;
-        }
-        .btn-action {
-            padding: 6px 14px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-family: 'SolaimanLipi', sans-serif;
-            font-size: 9.5pt;
-            font-weight: bold;
-            color: white;
-        }
-        .btn-save { background-color: #d35400; }
-        .btn-save:hover { background-color: #b54600; }
-        .btn-download { background-color: #2980b9; }
-        .btn-download:hover { background-color: #2471a3; }
-        .btn-upload { background-color: #8e44ad; }
-        .btn-upload:hover { background-color: #732d91; }
-
-        .container {
-            max-width: 900px;
-            margin: 20px auto;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        .back-link {
-            display: inline-block;
-            margin-bottom: 15px;
-            color: #1b4d3e;
-            text-decoration: none;
-            font-weight: bold;
-        }
-        .back-link:hover {
-            text-decoration: underline;
-        }
-        .upload-section {
-            background: #e9f7ef;
-            border: 1px solid #d4efdf;
-            padding: 15px;
-            border-radius: 6px;
-            margin-bottom: 20px;
-        }
-        .upload-section h3 {
-            margin-top: 0;
-            color: #1b4d3e;
-            font-size: 16px;
-        }
-        .form-group {
-            margin-bottom: 10px;
-        }
-        .form-group label {
-            display: block;
-            font-size: 13px;
-            margin-bottom: 3px;
-            font-weight: bold;
-        }
-        .form-group input[type="text"], .form-group input[type="file"] {
-            width: 100%;
-            padding: 8px;
-            box-sizing: border-box;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        .btn {
-            background-color: #1b4d3e;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-        .btn:hover {
-            background-color: #14382d;
-        }
-        .btn-danger {
-            background-color: #d9534f;
-            padding: 4px 8px;
-            font-size: 12px;
-            margin-top: 5px;
-        }
-        .btn-danger:hover {
-            background-color: #c9302c;
-        }
-        .section-title {
-            background-color: #fff3cd;
-            color: #856404;
-            padding: 10px;
-            text-align: center;
-            font-weight: bold;
-            border: 1px dashed #ffeeba;
-            margin: 20px 0 10px 0;
-            border-radius: 4px;
-        }
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 15px;
-            margin-top: 15px;
-        }
-        .gallery-item {
-            background: #fff;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            overflow: hidden;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-            text-align: center;
-            padding-bottom: 8px;
-        }
-        .gallery-item img {
-            width: 100%;
-            height: 130px;
-            object-fit: cover;
-            display: block;
-            cursor: pointer;
-        }
-        .gallery-item .caption {
-            padding: 6px;
-            font-size: 13px;
-            color: #555;
-            background: #fffdf0;
-            border-top: 1px solid #eee;
-            border-bottom: 1px solid #eee;
-            margin-bottom: 5px;
-            border: 1px dashed #f39c12;
-            outline: none;
-            min-height: 20px;
-            text-align: center;
-        }
-        .display-screen {
-            width: 100%;
-            max-height: 400px;
-            background: #000;
-            border-radius: 6px;
-            overflow: hidden;
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .display-screen img {
-            width: 100%;
-            max-height: 400px;
-            object-fit: contain;
-        }
-    </style>
-</head>
-<body id="appBody">
-
-    <header>
-        <h1>৭ নং অভয়পাশা সরকারি প্রাথমিক বিদ্যালয়</h1>
-        <p class="sub-title">স্মৃতিচারণ ও ফটো ও ভিডিও গ্যালারি</p>
-    </header>
-
-    <!-- নতুন ডেটা কন্ট্রোল বাটন বার -->
-    <div class="control-bar">
-        <button class="btn-action btn-save" onclick="manualSave()">💾 তথ্য সেভ করুন</button>
-        <button class="btn-action btn-download" onclick="downloadData()">📥 ডেটা ডাউনলোড</button>
-        <button class="btn-action btn-upload" onclick="document.getElementById('fileInput').click()">📤 ডেটা আপলোড</button>
-        <input type="file" id="fileInput" style="display: none;" onchange="uploadData(event)" accept=".html">
-    </div>
-
-    <div class="container">
-        <a href="index.html" class="back-link">← মূল ড্যাশবোর্ডে ফিরে যান</a>
-
-        <!-- বড় ডিসপ্লে স্ক্রিন -->
-        <div class="display-screen" id="mainDisplay">
-            <img src="https://i.ibb.co.com/5xJkDXSw/IMG-20260829-073221-093.jpg" alt="ডিফল্ট ছবি" id="currentMedia">
-        </div>
-
-        <!-- ছবি ও ক্যাপশন যুক্ত করার ফর্ম -->
-        <div class="upload-section">
-            <h3>নতুন ছবি ও ক্যাপশন যুক্ত করুন</h3>
-            <div class="form-group">
-                <label>ডিভাইস বা ড্রাইভ থেকে একসাথে একাধিক ছবি সিলেক্ট করুন:</label>
-                <input type="file" id="imageFileSelect" accept="image/*" multiple>
-            </div>
-            <div class="form-group">
-                <label>অথবা ছবির অনলাইন লিংক (Direct URL) দিন:</label>
-                <input type="text" id="imageUrlInput" placeholder="https://i.ibb.co/.../image.jpg">
-            </div>
-            <div class="form-group">
-                <label>ছবির সাধারণ লেখা বা ক্যাপশন (একাধিক ছবির ক্ষেত্রে সবার জন্য প্রযোজ্য):</label>
-                <input type="text" id="imageCaptionInput" placeholder="যেমন: বিদ্যালয়ের বার্ষিক ক্রীড়া প্রতিযোগিতা">
-            </div>
-            <button class="btn" onclick="addNewImage()">গ্যালারিতে যোগ করুন</button>
-        </div>
-
-        <div class="section-title">সংরক্ষিত ফটো গ্যালারি</div>
-
-        <!-- গ্যালারি গ্রিড যেখানে ছবি ও ডিলিট বাটন থাকবে -->
-        <div class="gallery-grid" id="galleryGrid">
-            <!-- ফায়ারবেজ থেকে এখানে আইটেমগুলো লোড হবে -->
-        </div>
-    </div>
-
-    <!-- ফায়ারবেজ ও মূল স্ক্রিপ্ট লজিক -->
+    <title>৭ নং অভয়পাশা সরকারি প্রাথমিক বিদ্যালয় - ডিজিটাল পোর্টাল</title>
+    
+    <!-- Firebase SDK (Modular Version) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+        import { getFirestore, doc, setDoc, getDoc, collection, addDoc, getDocs, deleteDoc } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBgARm-MAHLbHwipklVCC5Di-SirEhTCn0",
@@ -254,10 +22,641 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
+        window.db = db;
+        window.docRef = doc;
+        window.setDocRef = setDoc;
+        window.getDocRef = getDoc;
+        window.collectionRef = collection;
+        window.addDocRef = addDoc;
+        window.getDocsRef = getDocs;
+        window.deleteDocRef = deleteDoc;
+
+        window.addEventListener('DOMContentLoaded', () => {
+            if(sessionStorage.getItem('userRole')) {
+                initPortal();
+            }
+        });
+    </script>
+
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'SolaimanLipi', Arial, sans-serif; }
+        body { background: linear-gradient(135deg, #f4f7f6 0%, #e2e8f0 100%); color: #333; line-height: 1.8; min-height: 100vh; }
+        
+        header { background: linear-gradient(135deg, #1b4d3e 0%, #0f2e24 100%); color: #fff; padding: 30px 20px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.15); position: relative; }
+        header h1 { font-size: 28px; margin-bottom: 8px; text-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+        header p { font-size: 16px; opacity: 0.9; }
+        
+        .marquee-box { background: #ffeb3b; color: #000; padding: 12px; font-weight: bold; overflow: hidden; white-space: nowrap; font-size: 15px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05); }
+        .container { max-width: 1200px; margin: auto; padding: 30px 20px; }
+        
+        .login-wrapper { display: flex; justify-content: center; align-items: center; min-height: 60vh; }
+        .login-box { width: 100%; max-width: 440px; background: #fff; padding: 40px 30px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; border-top: 6px solid #1b4d3e; }
+        .login-box h2 { color: #1b4d3e; margin-bottom: 10px; font-size: 24px; }
+        .login-box p { font-size: 14px; color: #666; margin-bottom: 25px; }
+        .login-box input { width: 100%; padding: 14px; margin-bottom: 20px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 16px; text-align: center; transition: border-color 0.3s; }
+        .login-box input:focus { border-color: #1b4d3e; outline: none; }
+        
+        .btn { background: #1b4d3e; color: #fff; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-size: 15px; transition: all 0.2s; font-weight: bold; box-shadow: 0 4px 6px rgba(27,77,62,0.2); }
+        .btn:hover { background: #14382d; transform: translateY(-1px); }
+        .btn-danger { background: #d9534f; box-shadow: 0 4px 6px rgba(217,83,79,0.2); }
+        .btn-success { background: #28a745; box-shadow: 0 4px 6px rgba(40,167,69,0.2); }
+        .btn-warning { background: #f0ad4e; color: #fff; box-shadow: 0 4px 6px rgba(240,173,78,0.2); }
+        
+        .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin-top: 20px; }
+        .card { background: #fff; padding: 30px 25px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.06); cursor: pointer; transition: all 0.3s ease; border-left: 6px solid #1b4d3e; }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.12); }
+        .card h3 { color: #1b4d3e; margin-bottom: 10px; font-size: 19px; }
+        .card p { font-size: 14px; color: #666; }
+        
+        .section-view { display: none; background: #fff; padding: 35px 30px; border-radius: 14px; margin-top: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); overflow-x: auto; }
+        .active-section { display: block; }
+        .back-btn { background: #6c757d; color: #fff; border: none; padding: 10px 18px; border-radius: 8px; cursor: pointer; margin-bottom: 25px; font-weight: bold; font-size: 14px; }
+        
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; margin-bottom: 25px; background: #fff; min-width: 700px; border-radius: 8px; overflow: hidden; box-shadow: 0 0 0 1px #e0e0e0; }
+        th, td { border: 1px solid #e0e0e0; padding: 12px 15px; text-align: center; font-size: 14px; }
+        th { background-color: #e9f5f2; color: #1b4d3e; font-weight: bold; }
+        td [contenteditable="true"], th [contenteditable="true"] { background: #fffde7; padding: 8px; border: 1px dashed #b8860b; border-radius: 4px; display: block; min-height: 26px; text-align: center; }
+        
+        .action-bar { margin: 20px 0; display: flex; gap: 12px; flex-wrap: wrap; align-items: center; justify-content: space-between; }
+        .link-item { background: #f9f9f9; border: 1px solid #e0e0e0; padding: 15px; margin-bottom: 15px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+        .link-item a { color: #0275d8; text-decoration: none; font-weight: bold; }
+        .pending-box { background: #fff3cd; border: 1px solid #ffeeba; padding: 25px; border-radius: 12px; margin-bottom: 30px; display: none; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+
+        /* গ্যালারি স্টাইল */
+        .upload-section { background: #e9f7ef; border: 1px solid #d4efdf; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+        .upload-section h3 { margin-top: 0; color: #1b4d3e; font-size: 16px; }
+        .form-group { margin-bottom: 12px; }
+        .form-group label { display: block; font-size: 13px; margin-bottom: 5px; font-weight: bold; }
+        .form-group input[type="text"], .form-group input[type="file"] { width: 100%; padding: 10px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 6px; }
+        .section-title { background-color: #fff3cd; color: #856404; padding: 10px; text-align: center; font-weight: bold; border: 1px dashed #ffeeba; margin: 20px 0 15px 0; border-radius: 6px; }
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 15px; margin-top: 15px; }
+        .gallery-item { background: #fff; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.05); text-align: center; padding-bottom: 10px; }
+        .gallery-item img { width: 100%; height: 140px; object-fit: cover; display: block; cursor: pointer; }
+        .gallery-item .caption { padding: 8px; font-size: 13px; color: #555; background: #fffdf0; border-top: 1px solid #eee; border-bottom: 1px solid #eee; margin-bottom: 8px; border: 1px dashed #f39c12; outline: none; min-height: 24px; text-align: center; }
+        .display-screen { width: 100%; max-height: 400px; background: #000; border-radius: 8px; overflow: hidden; margin-bottom: 20px; display: flex; justify-content: center; align-items: center; }
+        .display-screen img { width: 100%; max-height: 400px; object-fit: contain; }
+
+        .user-profile-widget {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 6px 15px;
+            border-radius: 30px;
+            cursor: pointer;
+            color: #fff;
+            font-size: 14px;
+            z-index: 1000;
+        }
+        .user-profile-widget img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #fff;
+        }
+        .profile-dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 55px;
+            right: 20px;
+            background: #fff;
+            color: #333;
+            width: 250px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            border-radius: 8px;
+            overflow: hidden;
+            z-index: 1001;
+            text-align: left;
+        }
+        .profile-dropdown-menu.active {
+            display: block;
+        }
+        .profile-header-info {
+            padding: 15px;
+            background: #1b4d3e;
+            color: #fff;
+            text-align: center;
+        }
+        .profile-header-info img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin-bottom: 8px;
+            border: 2px solid #fff;
+            object-fit: cover;
+        }
+        .profile-menu-items {
+            padding: 10px 0;
+        }
+        .profile-menu-items a, .profile-menu-items button {
+            display: block;
+            width: 100%;
+            padding: 10px 15px;
+            color: #333;
+            background: none;
+            border: none;
+            text-align: left;
+            cursor: pointer;
+            font-size: 14px;
+            text-decoration: none;
+        }
+        .profile-menu-items a:hover, .profile-menu-items button:hover {
+            background: #f1f1f1;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="user-profile-widget" onclick="toggleProfileMenu()">
+            <img id="headerUserPic" src="https://via.placeholder.com/150" alt="User">
+            <span id="headerUserName">ইউজার</span>
+            <span>▼</span>
+        </div>
+
+        <div id="profileDropdown" class="profile-dropdown-menu">
+            <div class="profile-header-info">
+                <img id="dropdownUserPic" src="https://via.placeholder.com/150" alt="User">
+                <h4 id="dropdownUserName" style="margin: 0; font-size: 16px;">নাম</h4>
+                <p id="dropdownUserRole" style="margin: 5px 0 0 0; font-size: 12px; opacity: 0.8;">পদবি / রোল</p>
+                <p id="dropdownUserPhone" style="margin: 3px 0 0 0; font-size: 12px; opacity: 0.8;">মোবাইল নম্বর</p>
+            </div>
+            <div class="profile-menu-items">
+                <button onclick="openProfileModal()">⚙️ প্রোফাইল ও পাসওয়ার্ড পরিবর্তন</button>
+                <button onclick="logout()" style="color: #d9534f;">🚪 লগআউট</button>
+            </div>
+        </div>
+
+        <h1>৭ নং অভয়পাশা সরকারি প্রাথমিক বিদ্যালয়</h1>
+        <p>ডিজিটাল মনিটরিং ও ম্যানেজমেন্ট পোর্টাল</p>
+        <div style="margin-top: 12px; font-size: 14px; opacity: 0.95; display: flex; justify-content: center; gap: 25px; flex-wrap: wrap;">
+            <span>ইএমআইএস কোড: <span id="emisCodeText">৯১৩০৪০۱۰۱۰৭</span></span>
+            <span>স্থাপিত: <span id="establishedYearText">১৯০৪ খ্রি:</span></span>
+        </div>
+    </header>
+
+    <div class="marquee-box">
+        <marquee behavior="scroll" direction="left">✨ ৭ নং অভয়পাশা সরকারি প্রাথমিক বিদ্যালয় ডিজিটাল পোর্টালে স্বাগতম! ফায়ারবেস ক্লাউড স্টোরেজের মাধ্যমে সকল ডেটা ও গ্যালারি সম্পূর্ণ সুরক্ষিত রয়েছে। ✨</marquee>
+    </div>
+
+    <div class="container">
+        <!-- Login Section -->
+        <div id="loginSection" class="login-wrapper">
+            <div class="login-box">
+                <h2>পোর্টাল লগইন প্যানেল</h2>
+                <p>আপনার নির্ধারিত পিন কোড দিয়ে প্রবেশ করুন</p>
+                <input type="password" id="pinInput" placeholder="পিন কোড লিখুন" maxlength="6">
+                <button class="btn" onclick="checkPin()" style="width: 100%;">লগইন করুন</button>
+                <p id="loginError" style="color: #d9534f; margin-top: 15px; font-size: 14px; font-weight: bold;"></p>
+            </div>
+        </div>
+
+        <!-- Main Dashboard -->
+        <div id="dashboardSection" style="display: none;">
+            <div id="adminPendingArea" class="pending-box">
+                <h3 style="color: #856404; margin-bottom: 15px; font-size: 18px;">⚠️ সহকারী শিক্ষকদের পাঠানো পেন্ডিং এন্ট্রি</h3>
+                <div id="pendingListContainer"></div>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 15px;">
+                <h2 id="userRoleTitle" style="font-size: 22px; color: #1b4d3e; font-weight: bold;">মূল ড্যাশবোর্ড</h2>
+                <button class="btn btn-danger" onclick="logout()" style="padding: 10px 20px; font-size: 14px;">লগআউট</button>
+            </div>
+            
+            <div class="dashboard-grid">
+                <div class="card" onclick="showSection('sec1')"><h3>১. ডিজিটাল মনিটরিং বোর্ড</h3><p>এলাকার অবস্থান ও বিদ্যালয়ের গ্রেড ও অন্যান্য বিবরণ</p></div>
+                <div class="card" onclick="showSection('sec2')"><h3>২. কর্মরত শিক্ষকগণের তথ্য</h3><p>শিক্ষকদের ব্যক্তিগত ও চাকরির পূর্ণাঙ্গ তথ্য</p></div>
+                <div class="card" onclick="showSection('sec3')"><h3>৩. দায়িত্ব বন্টন ও ছুটি</h3><p>পাঠদান দায়িত্ব ও নৈমিত্তিক ছুটির হিসাব</p></div>
+                <div class="card" onclick="showSection('sec4')"><h3>৪. শ্রেণিভিত্তিক শিক্ষার্থী</h3><p>প্রাক-প্রাথমিক থেকে ৫ম শ্রেণি (কলাম ও সারি সংযোজন সহ)</p></div>
+                <div class="card" onclick="showSection('sec5')"><h3>৫. প্রধান শিক্ষকগণের ইতিহাস</h3><p>কার্যকালের ইতিহাস ও সময়কাল</p></div>
+                <div class="card" onclick="showSection('sec6')"><h3>৬. ম্যানেজিং কমিটি</h3><p>কমিটি গঠনকাল ও সদস্যবৃন্দের তালিকা</p></div>
+                <div class="card" onclick="showSection('sec7')"><h3>৭. ফাইল আর্কাইভ ফোল্ডার</h3><p>ফাইল আপলোড ও ড্রাইভ লিংক সংরক্ষণ</p></div>
+                <div class="card" onclick="showSection('sec8')"><h3>৮. গুরুত্বপূর্ণ ওয়েবসাইট লিংক</h3><p>জরুরি সরকারি ও শিক্ষামূলক অনলাইন লিংক</p></div>
+                <div class="card" onclick="showSection('sec9')"><h3>৯. অন্যান্য গুরুত্বপূর্ণ তথ্য</h3><p>অতিরিক্ত তথ্য ও বিবরণ</p></div>
+                <div class="card" onclick="showSection('sec10')"><h3>১০. স্মৃতিচারণ ও ফটো গ্যালারি</h3><p>ক্লাউড স্টোরেজ গ্যালারি ও অপ্টিমাইজড ছবি আপলোড</p></div>
+            </div>
+        </div>
+
+        <!-- Section Views -->
+        <div id="sec1" class="section-view">
+            <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
+            <h2>১. ডিজিটাল মনিটরিং বোর্ড ও সাধারণ তথ্য</h2>
+            <div class="action-bar">
+                <div>
+                    <button class="btn btn-success" onclick="addRow('table1')">+ সারি</button>
+                    <button class="btn btn-warning" onclick="addColumn('table1')">+ কলাম</button>
+                </div>
+                <button class="btn btn-success" onclick="saveData('sec1')">💾 ক্লাউডে সেভ করুন</button>
+            </div>
+            <table id="table1">
+                <thead><tr><th>ক্রমিক</th><th>বিবরণ / শিরোনাম</th><th>তথ্য ও উপাত্ত</th><th>অ্যাকশন</th></tr></thead>
+                <tbody>
+                    <tr><td>১</td><td contenteditable="true">এলাকার অবস্থানগত বৈশিষ্ট্য</td><td contenteditable="true">যোগাযোগ উপযোগী</td><td><button class="btn btn-danger" style="padding:6px 12px; font-size:12px;" onclick="deleteRow(this)">মুছুন</button></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="sec2" class="section-view">
+            <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
+            <h2>২. কর্মরত শিক্ষকগণের তথ্য</h2>
+            <div class="action-bar">
+                <div>
+                    <button class="btn btn-success" onclick="addRow('table2')">+ শিক্ষক</button>
+                    <button class="btn btn-warning" onclick="addColumn('table2')">+ কলাম</button>
+                </div>
+                <button class="btn btn-success" onclick="saveData('sec2')">💾 ক্লাউডে সেভ করুন</button>
+            </div>
+            <table id="table2">
+                <thead><tr><th>ক্রমিক</th><th>শিক্ষকের নাম</th><th>পদবি</th><th>শিক্ষাগত যোগ্যতা</th><th>জন্ম তারিখ</th><th>১ম যোগদানের তারিখ</th><th>এই বিদ্যালয়ে যোগদান</th><th>অ্যাকশন</th></tr></thead>
+                <tbody>
+                    <tr><td>১</td><td contenteditable="true">মো: জাহাঙ্গীর আলম</td><td contenteditable="true">প্রধান শিক্ষক</td><td contenteditable="true">এম.এস.সি</td><td contenteditable="true">০১-০১-১৯৮০</td><td contenteditable="true">০১-০১-২০১০</td><td contenteditable="true">০১-০১-২০১৫</td><td><button class="btn btn-danger" style="padding:6px 12px; font-size:12px;" onclick="deleteRow(this)">মুছুন</button></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="sec3" class="section-view">
+            <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
+            <h2>৩. দায়িত্ব বন্টন ও ছুটি সংক্রান্ত</h2>
+            <div class="action-bar"><button class="btn btn-success" onclick="saveData('sec3')">💾 ক্লাউডে সেভ করুন</button></div>
+            
+            <h3 style="margin-top: 20px; font-size: 17px; color: #1b4d3e;">ক) দায়িত্ব বন্টন</h3>
+            <div class="action-bar">
+                <div>
+                    <button class="btn btn-success" onclick="addRow('table3a')">+ দায়িত্ব</button>
+                    <button class="btn btn-warning" onclick="addColumn('table3a')">+ কলাম</button>
+                </div>
+            </div>
+            <table id="table3a">
+                <thead><tr><th>ক্রমিক নং</th><th>শিক্ষকের নাম</th><th>পাঠদান সংক্রান্ত দায়িত্ব</th><th>অন্যান্য দায়িত্ব</th><th>অ্যাকশন</th></tr></thead>
+                <tbody>
+                    <tr><td>১</td><td contenteditable="true">জাহাঙ্গীর আলম</td><td contenteditable="true">প্রধান শিক্ষক</td><td contenteditable="true">সভাপতি, স্লিপ কমিটি</td><td><button class="btn btn-danger" style="padding:6px 12px; font-size:12px;" onclick="deleteRow(this)">মুছুন</button></td></tr>
+                </tbody>
+            </table>
+
+            <h3 style="margin-top: 30px; font-size: 17px; color: #1b4d3e;">খ) ছুটি সংক্রান্ত</h3>
+            <div class="action-bar">
+                <div>
+                    <button class="btn btn-success" onclick="addRow('table3b')">+ ছুটি</button>
+                    <button class="btn btn-warning" onclick="addColumn('table3b')">+ কলাম</button>
+                </div>
+            </div>
+            <table id="table3b">
+                <thead><tr><th>ক্রমিক নং</th><th>শিক্ষকের নাম</th><th>প্রাপ্য নৈ: ছুটি</th><th>ভোগকৃত ছুটি</th><th>অবশিষ্ট ছুটি</th><th>মন্তব্য</th><th>অ্যাকশন</th></tr></thead>
+                <tbody>
+                    <tr><td>১</td><td contenteditable="true">জাহাঙ্গীর আলম</td><td contenteditable="true">২০ দিন</td><td contenteditable="true">০৫ দিন</td><td contenteditable="true">১৫ দিন</td><td contenteditable="true">স্বাক্ষরিত</td><td><button class="btn btn-danger" style="padding:6px 12px; font-size:12px;" onclick="deleteRow(this)">মুছুন</button></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="sec4" class="section-view">
+            <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
+            <h2>৪. শ্রেণিভিত্তিক শিক্ষার্থীর তালিকা</h2>
+            <div class="action-bar"><button class="btn btn-success" onclick="saveData('sec4')">💾 ক্লাউডে সব শ্রেণি সেভ করুন</button></div>
+
+            <div style="background: #e3f2fd; padding: 20px; border-radius: 10px; margin-top: 25px;">
+                <h3 style="font-size: 17px; color: #0d47a1; margin-bottom: 12px;">প্রাক-প্রাথমিক শ্রেণি</h3>
+                <div class="action-bar">
+                    <div>
+                        <button class="btn btn-success" onclick="addRow('tablePrePrimary')" style="font-size: 13px; padding: 8px 14px;">+ শিক্ষার্থী</button>
+                        <button class="btn btn-warning" onclick="addColumn('tablePrePrimary')" style="font-size: 13px; padding: 8px 14px;">+ কলাম</button>
+                    </div>
+                </div>
+                <table id="tablePrePrimary">
+                    <thead><tr><th>ক্রমিক</th><th>শিক্ষার্থীর নাম</th><th>পিতার নাম</th><th>মাতার নাম</th><th>যোগাযোগ/ঠিকানা</th><th>অ্যাকশন</th></tr></thead>
+                    <tbody>
+                        <tr><td>১</td><td contenteditable="true">শিশুর নাম</td><td contenteditable="true">পিতার নাম</td><td contenteditable="true">মাতার নাম</td><td contenteditable="true">অভয়পাশা</td><td><button class="btn btn-danger" style="padding:6px 12px; font-size:12px;" onclick="deleteRow(this)">মুছুন</button></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="sec5" class="section-view">
+            <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
+            <h2>৫. প্রধান শিক্ষকগণের দায়িত্ব পালনের ইতিহাস</h2>
+            <div class="action-bar">
+                <div>
+                    <button class="btn btn-success" onclick="addRow('table5')">+ সারি</button>
+                    <button class="btn btn-warning" onclick="addColumn('table5')">+ কলাম</button>
+                </div>
+                <button class="btn btn-success" onclick="saveData('sec5')">💾 ক্লাউডে সেভ করুন</button>
+            </div>
+            <table id="table5">
+                <thead><tr><th>ক্রমিক</th><th>প্রধান শিক্ষকের নাম</th><th>সময়কাল</th><th>অ্যাকশন</th></tr></thead>
+                <tbody>
+                    <tr><td>১</td><td contenteditable="true">জনাব মোজাম্মেল হক</td><td contenteditable="true">২০১০ - ২০১৯</td><td><button class="btn btn-danger" style="padding:6px 12px; font-size:12px;" onclick="deleteRow(this)">মুছুন</button></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="sec6" class="section-view">
+            <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
+            <h2>৬. ম্যানেজিং কমিটি সংক্রান্ত</h2>
+            <div class="action-bar"><button class="btn btn-success" onclick="saveData('sec6')">💾 ক্লাউডে সেভ করুন</button></div>
+            <div style="background: #fff9c4; padding: 20px; border-radius: 10px; margin-bottom: 20px; font-size: 15px;" contenteditable="true">
+                বর্তমান কমিটি গঠনকাল: ২০২৪ থেকে ২০২৯ সাল পর্যন্ত।
+            </div>
+            <div class="action-bar">
+                <div>
+                    <button class="btn btn-success" onclick="addRow('table6')">+ সারি</button>
+                    <button class="btn btn-warning" onclick="addColumn('table6')">+ কলাম</button>
+                </div>
+            </div>
+            <table id="table6">
+                <thead><tr><th>ক্রমিক</th><th>সদস্যের নাম</th><th>পদবি</th><th>ক্যাটাগরি</th><th>অ্যাকশন</th></tr></thead>
+                <tbody>
+                    <tr><td>১</td><td contenteditable="true">মো: আব্দুল করিম</td><td contenteditable="true">সভাপতি</td><td contenteditable="true">অভিভাবক প্রতিনিধি</td><td><button class="btn btn-danger" style="padding:6px 12px; font-size:12px;" onclick="deleteRow(this)">মুছুন</button></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="sec7" class="section-view">
+            <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
+            <h2>৭. ফাইল আর্কাইভ ফোল্ডার</h2>
+            <div class="action-bar"><button class="btn btn-success" onclick="saveData('sec7')">💾 ক্লাউডে সেভ করুন</button></div>
+            <div style="background: #fff3e0; padding: 20px; border-radius: 10px; margin-bottom: 20px; font-size: 15px;" contenteditable="true">
+                • গুরুত্বপূর্ণ অফিশিয়াল নোটিশ ও ফাইল সংরক্ষণ ফোল্ডার।
+            </div>
+            <div class="action-bar">
+                <div>
+                    <button class="btn btn-success" onclick="addRow('table7')">+ ফাইল</button>
+                    <button class="btn btn-warning" onclick="addColumn('table7')">+ কলাম</button>
+                </div>
+            </div>
+            <table id="table7">
+                <thead><tr><th>ক্রমিক</th><th>ফাইলের বিবরণ</th><th>ড্রাইভ লিংক</th><th>অ্যাকশন</th></tr></thead>
+                <tbody>
+                    <tr><td>১</td><td contenteditable="true">বিদ্যালয়ের রুটিন</td><td contenteditable="true"><a href="https://drive.google.com" target="_blank">লিংক ওপেন করুন</a></td><td><button class="btn btn-danger" style="padding:6px 12px; font-size:12px;" onclick="deleteRow(this)">মুছুন</button></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="sec8" class="section-view">
+            <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
+            <h2>৮. গুরুত্বপূর্ণ ওয়েবসাইট ও অনলাইন লিংক</h2>
+            <div class="action-bar">
+                <button class="btn btn-success" onclick="addLinkItem()">+ নতুন লিংক</button>
+                <button class="btn btn-success" onclick="saveData('sec8')">💾 ক্লাউডে সেভ করুন</button>
+            </div>
+            <div id="linksContainer" style="margin-top: 20px;">
+                <div class="link-item">
+                    <div style="font-size: 15px; word-break: break-all;">
+                        <strong>১.</strong> <span contenteditable="true">প্রাথমিক শিক্ষা অধিদপ্তর (DPE)</span> - 
+                        <a href="https://dpe.gov.bd" target="_blank" contenteditable="true">https://dpe.gov.bd</a>
+                    </div>
+                    <button class="btn btn-danger" style="padding: 6px 12px; font-size: 12px;" onclick="this.parentElement.remove()">মুছুন</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="sec9" class="section-view">
+            <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
+            <h2>৯. অন্যান্য গুরুত্বপূর্ণ তথ্য</h2>
+            <div class="action-bar"><button class="btn btn-success" onclick="saveData('sec9')">💾 ক্লাউডে সেভ করুন</button></div>
+            <div style="background: #f1f8e9; padding: 25px; border-radius: 10px; font-size: 15px;" contenteditable="true">
+                এখানে বিদ্যালয়ের অন্যান্য অতিরিক্ত তথ্য বা বিবরণ লিখে সংরক্ষণ করতে পারবেন।
+            </div>
+        </div>
+
+        <!-- Section 10: স্মৃতিচারণ ও ফটো গ্যালারি -->
+        <div id="sec10" class="section-view">
+            <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
+            <h2>১০. স্মৃতিচারণ ও ফটো ও ভিডিও গ্যালারি</h2>
+            
+            <!-- বড় ডিসপ্লে স্ক্রিন -->
+            <div class="display-screen" id="mainDisplay">
+                <img src="https://i.ibb.co.com/5xJkDXSw/IMG-20260829-073221-093.jpg" alt="ডিফল্ট ছবি" id="currentMedia">
+            </div>
+
+            <!-- ছবি ও ক্যাপশন যুক্ত করার ফর্ম -->
+            <div class="upload-section">
+                <h3>নতুন ছবি ও ক্যাপশন যুক্ত করুন</h3>
+                <div class="form-group">
+                    <label>ডিভাইস বা ড্রাইভ থেকে একসাথে একাধিক ছবি সিলেক্ট করুন:</label>
+                    <input type="file" id="imageFileSelect" accept="image/*" multiple>
+                </div>
+                <div class="form-group">
+                    <label>অথবা ছবির অনলাইন লিংক (Direct URL) দিন:</label>
+                    <input type="text" id="imageUrlInput" placeholder="https://i.ibb.co/.../image.jpg">
+                </div>
+                <div class="form-group">
+                    <label>ছবির সাধারণ লেখা বা ক্যাপশন:</label>
+                    <input type="text" id="imageCaptionInput" placeholder="যেমন: বিদ্যালয়ের বার্ষিক ক্রীড়া প্রতিযোগিতা">
+                </div>
+                <button class="btn" onclick="addNewImage()">গ্যালারিতে যোগ করুন</button>
+            </div>
+
+            <div class="section-title">সংরক্ষিত ফটো গ্যালারি</div>
+
+            <!-- গ্যালারি গ্রিড -->
+            <div class="gallery-grid" id="galleryGrid">
+                <!-- ফায়ারবেজ থেকে এখানে আইটেমগুলো লোড হবে -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Edit Modal -->
+    <div id="profileModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999; justify-content:center; align-items:center;">
+        <div style="background:#fff; padding:25px; border-radius:10px; width:90%; max-width:400px; box-shadow:0 5px 15px rgba(0,0,0,0.3); text-align:left;">
+            <h3 style="margin-top:0; color:#1b4d3e; font-size:18px; margin-bottom:15px;">👤 প্রোফাইল তথ্য হালনাগাদ</h3>
+            <label style="font-size:13px; font-weight:bold; color:#333;">নাম:</label>
+            <input type="text" id="editNameInput" style="width:100%; padding:8px; margin:5px 0 12px 0; border:1px solid #ccc; border-radius:5px; box-sizing:border-box;">
+            <label style="font-size:13px; font-weight:bold; color:#333;">মোবাইল নম্বর:</label>
+            <input type="text" id="editPhoneInput" style="width:100%; padding:8px; margin:5px 0 12px 0; border:1px solid #ccc; border-radius:5px; box-sizing:border-box;">
+            <label style="font-size:13px; font-weight:bold; color:#333;">প্রোফাইল ছবি:</label>
+            <input type="file" id="editPicInput" accept="image/*" style="width:100%; padding:6px; margin:5px 0 15px 0; border:1px solid #ccc; border-radius:5px; background:#f9f9f9; box-sizing:border-box;">
+            <div style="text-align:right; gap:10px; display:flex; justify-content:flex-end;">
+                <button onclick="closeProfileModal()" style="padding:8px 15px; background:#ccc; border:none; border-radius:5px; cursor:pointer;">বাতিল</button>
+                <button onclick="saveProfileChanges()" style="padding:8px 15px; background:#1b4d3e; color:#fff; border:none; border-radius:5px; cursor:pointer;">সংরক্ষণ করুন</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const ADMIN_PIN = "1234";
+        const TEACHER_PIN = "5678";
         let galleryData = [];
 
-        window.renderGallery = function() {
+        function checkPin() {
+            let pin = document.getElementById('pinInput').value.trim();
+            let errorEl = document.getElementById('loginError');
+
+            if (pin === ADMIN_PIN) {
+                sessionStorage.setItem('userRole', 'admin');
+                initPortal();
+            } else if (pin === TEACHER_PIN) {
+                sessionStorage.setItem('userRole', 'teacher');
+                initPortal();
+            } else {
+                errorEl.innerText = "❌ ভুল পিন কোড! সঠিক পিন দিন (অ্যাডমিন: ১২৩৪, শিক্ষক: ৫৬৭৮)।";
+            }
+        }
+
+        function initPortal() {
+            document.getElementById('loginSection').style.display = 'none';
+            document.getElementById('dashboardSection').style.display = 'block';
+            let role = sessionStorage.getItem('userRole');
+            
+            if(role === 'admin') {
+                document.getElementById('userRoleTitle').innerText = 'মূল ড্যাশবোর্ড [প্রধান শিক্ষক - অ্যাডমিন প্যানেল]';
+                document.getElementById('adminPendingArea').style.display = 'block';
+            } else {
+                document.getElementById('userRoleTitle').innerText = 'মূল ড্যাশবোর্ড [সহকারী শিক্ষক প্যানেল]';
+                document.getElementById('adminPendingArea').style.display = 'none';
+            }
+            loadAllDataFromCloud();
+            loadGalleryFromCloud();
+        }
+
+        function logout() {
+            sessionStorage.removeItem('userRole');
+            document.getElementById('dashboardSection').style.display = 'none';
+            document.getElementById('loginSection').style.display = 'flex';
+            document.getElementById('pinInput').value = '';
+            document.getElementById('loginError').innerText = '';
+        }
+
+        function showSection(secId) {
+            document.getElementById('dashboardSection').style.display = 'none';
+            document.querySelectorAll('.section-view').forEach(el => el.classList.remove('active-section'));
+            document.getElementById(secId).classList.add('active-section');
+        }
+
+        function showDashboard() {
+            document.querySelectorAll('.section-view').forEach(el => el.classList.remove('active-section'));
+            document.getElementById('dashboardSection').style.display = 'block';
+        }
+
+        function addRow(tableId) {
+            let table = document.getElementById(tableId).getElementsByTagName('tbody')[0];
+            let rowCount = table.rows.length + 1;
+            let colCount = document.getElementById(tableId).rows[0].cells.length;
+            
+            let newRow = table.insertRow();
+            for(let i=0; i<colCount; i++) {
+                let cell = newRow.insertCell(i);
+                if(i === 0) {
+                    cell.innerText = rowCount;
+                } else if(i === colCount - 1) {
+                    cell.innerHTML = '<button class="btn btn-danger" style="padding:6px 12px; font-size:12px;" onclick="deleteRow(this)">মুছুন</button>';
+                } else {
+                    cell.setAttribute('contenteditable', 'true');
+                    cell.innerText = 'তথ্য লিখুন';
+                }
+            }
+        }
+
+        function addColumn(tableId) {
+            let table = document.getElementById(tableId);
+            let headerRow = table.rows[0];
+            let th = document.createElement('th');
+            th.setAttribute('contenteditable', 'true');
+            th.innerText = 'নতুন কলাম';
+            headerRow.insertBefore(th, headerRow.cells[headerRow.cells.length - 1]);
+
+            let tbody = table.getElementsByTagName('tbody')[0];
+            for (let i = 0; i < tbody.rows.length; i++) {
+                let cell = tbody.rows[i].insertCell(tbody.rows[i].cells.length - 1);
+                cell.setAttribute('contenteditable', 'true');
+                cell.innerText = 'তথ্য লিখুন';
+            }
+        }
+
+        function deleteRow(btn) {
+            let row = btn.parentNode.parentNode;
+            row.parentNode.removeChild(row);
+        }
+
+        function addLinkItem() {
+            let container = document.getElementById('linksContainer');
+            let count = container.children.length + 1;
+            let div = document.createElement('div');
+            div.className = 'link-item';
+            div.innerHTML = `<div style="font-size: 15px; word-break: break-all;"><strong>${count}.</strong> <span contenteditable="true">সাইটের নাম</span> - <a href="https://example.com" target="_blank" contenteditable="true">https://example.com</a></div><button class="btn btn-danger" style="padding: 6px 12px; font-size: 12px;" onclick="this.parentElement.remove()">মুছুন</button>`;
+            container.appendChild(div);
+        }
+
+        async function saveData(secId) {
+            let role = sessionStorage.getItem('userRole');
+            let sectionElement = document.getElementById(secId);
+            let htmlContent = sectionElement ? sectionElement.innerHTML : "";
+
+            if(role === 'admin') {
+                try {
+                    await window.setDocRef(window.docRef(window.db, "schoolPortal", secId), {
+                        html: htmlContent,
+                        updatedAt: new Date().toISOString()
+                    });
+                    alert('✅ সফলভাবে ক্লাউডে সেভ হয়েছে!');
+                } catch(err) {
+                    alert('❌ ত্রুটি: ' + err.message);
+                }
+            } else {
+                try {
+                    await window.setDocRef(window.docRef(window.db, "pendingUpdates", "pending_" + secId + "_" + Date.now()), {
+                        secId: secId,
+                        html: htmlContent,
+                        title: 'সেকশন আপডেট: ' + secId,
+                        time: new Date().toISOString()
+                    });
+                    alert('⏳ আপনার আপডেটটি এডমিনের অনুমোদনের জন্য পাঠানো হয়েছে!');
+                } catch(err) {
+                    alert('❌ ত্রুটি: ' + err.message);
+                }
+            }
+        }
+
+        async function loadAllDataFromCloud() {
+            try {
+                let metaDoc = await window.getDocRef(window.docRef(window.db, "schoolPortal", "metaInfo"));
+                if(metaDoc.exists()) {
+                    if(document.getElementById('emisCodeText')) document.getElementById('emisCodeText').innerText = metaDoc.data().emis;
+                    if(document.getElementById('establishedYearText')) document.getElementById('establishedYearText').innerText = metaDoc.data().year;
+                }
+
+                for(let i=1; i<=9; i++) {
+                    let secDoc = await window.getDocRef(window.docRef(window.db, "schoolPortal", "sec" + i));
+                    if(secDoc.exists() && secDoc.data().html) {
+                        document.getElementById('sec' + i).innerHTML = secDoc.data().html;
+                    }
+                }
+            } catch(err) {
+                console.log("ডাটা লোড করতে সমস্যা হয়েছে: ", err);
+            }
+        }
+
+        // গ্যালারি সংক্রান্ত ফাংশনসমূহ
+        async function loadGalleryFromCloud() {
+            try {
+                const querySnapshot = await window.getDocsRef(window.collectionRef(window.db, "school_gallery_items"));
+                galleryData = [];
+                querySnapshot.forEach((document) => {
+                    const data = document.data();
+                    galleryData.push({
+                        id: document.id,
+                        url: data.url,
+                        caption: data.caption || ''
+                    });
+                });
+
+                if(galleryData.length === 0) {
+                    galleryData = [
+                        { id: '', url: 'https://i.ibb.co.com/5xJkDXSw/IMG-20260829-073221-093.jpg', caption: 'স্কুলের দৃশ্য - ১' },
+                        { id: '', url: 'https://i.ibb.co.com/9kyX8zWL/IMG-20260829-073503-400.jpg', caption: 'স্কুলের দৃশ্য - ২' }
+                    ];
+                }
+            } catch (e) {
+                console.error("Error loading gallery data: ", e);
+            }
+            renderGallery();
+        }
+
+        function renderGallery() {
             const grid = document.getElementById('galleryGrid');
+            if(!grid) return;
             grid.innerHTML = '';
             
             if(galleryData.length === 0) {
@@ -276,14 +675,12 @@
             });
         }
 
-        // লাইভ ক্যাপশন আপডেট রাখার ফাংশন
         window.updateCaption = function(index, el) {
             if(galleryData[index]) {
                 galleryData[index].caption = el.innerText;
             }
         }
 
-        // ছবি রিসাইজ ও সাইজ হালকা করার ফাংশন
         function resizeImage(file) {
             return new Promise((resolve) => {
                 const reader = new FileReader();
@@ -322,34 +719,6 @@
             });
         }
 
-        // পেজ লোড হলে ফায়ারবেজ থেকে প্রতিটি ছবি আলাদা ডকুমেন্ট হিসেবে ফেচ করা
-        window.onload = async function() {
-            try {
-                const querySnapshot = await getDocs(collection(db, "school_gallery_items"));
-                galleryData = [];
-                querySnapshot.forEach((document) => {
-                    const data = document.data();
-                    galleryData.push({
-                        id: document.id,
-                        url: data.url,
-                        caption: data.caption || ''
-                    });
-                });
-
-                // যদি ফায়ারবেজে কোনো ছবি না থাকে, তবে ডিফল্ট ছবি দেখানো যেতে পারে
-                if(galleryData.length === 0) {
-                    galleryData = [
-                        { id: '', url: 'https://i.ibb.co.com/5xJkDXSw/IMG-20260829-073221-093.jpg', caption: 'স্কুলের দৃশ্য - ১' },
-                        { id: '', url: 'https://i.ibb.co.com/9kyX8zWL/IMG-20260829-073503-400.jpg', caption: 'স্কুলের দৃশ্য - ২' }
-                    ];
-                }
-            } catch (e) {
-                console.error("Error loading gallery data: ", e);
-            }
-            renderGallery();
-        };
-
-        // মাল্টিপল ছবি একসঙ্গে সিলেক্ট করে সরাসরি ফায়ারবেজে আলাদা ডকুমেন্টে সেভ করার লজিক
         window.addNewImage = async function() {
             const fileInput = document.getElementById('imageFileSelect');
             const urlInput = document.getElementById('imageUrlInput');
@@ -365,8 +734,7 @@
                         const compressedDataUrl = await resizeImage(fileInput.files[i]);
                         const finalCaption = totalFiles > 1 ? `${baseCaption} (${i + 1})` : baseCaption;
                         
-                        // সরাসরি ফায়ারবেজে প্রতিটা ছবি আলাদা ডকুমেন্ট হিসেবে সেভ হচ্ছে
-                        const docRef = await addDoc(collection(db, "school_gallery_items"), {
+                        const docRef = await window.addDocRef(window.collectionRef(window.db, "school_gallery_items"), {
                             url: compressedDataUrl,
                             caption: finalCaption,
                             createdAt: new Date().toISOString()
@@ -384,7 +752,7 @@
                     alert(`✅ সফলভাবে ${totalFiles}টি ছবি ফায়ারবেজে স্থায়ীভাবে সেভ হয়ে গেছে!`);
                 } else if (urlInput.value.trim() !== '') {
                     const finalCaption = baseCaption;
-                    const docRef = await addDoc(collection(db, "school_gallery_items"), {
+                    const docRef = await window.addDocRef(window.collectionRef(window.db, "school_gallery_items"), {
                         url: urlInput.value.trim(),
                         caption: finalCaption,
                         createdAt: new Date().toISOString()
@@ -408,18 +776,12 @@
             }
         }
 
-        // ম্যানুয়াল সেভ বাটন (ক্যাপশন পরিবর্তন করলে তা আপডেট করার জন্য)
-        window.manualSave = async function() {
-            alert('✅ নতুন লজিকে ছবি আপলোড করার সাথেই সাথে তা ফায়ারবেজে স্থায়ীভাবে সেভ হয়ে যায়। আলাদা করে সেভ করার প্রয়োজন নেই!');
-        }
-
-        // ছবি ডিলিট করার লজিক (ফায়ারবেজ থেকেও ডিলিট হবে)
         window.deleteImage = async function(index) {
             if (confirm('আপনি কি নিশ্চিতভাবেই এই ছবি ডিলিট করতে চান?')) {
                 const item = galleryData[index];
                 try {
                     if (item.id) {
-                        await deleteDoc(doc(db, "school_gallery_items", item.id));
+                        await window.deleteDocRef(window.docRef(window.db, "school_gallery_items", item.id));
                     }
                     galleryData.splice(index, 1);
                     renderGallery();
@@ -430,38 +792,102 @@
                 }
             }
         }
-    </script>
-
-    <script>
-        function downloadData() {
-            const htmlContent = '<!DOCTYPE html>\n<html lang="bn">\n' + document.documentElement.innerHTML + '\n</html>';
-            const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
-            const a = document.createElement('a');
-            a.href = URL.createObjectURL(blob);
-            a.download = 'Abhoypasha_Gallery_Data.html';
-            a.click();
-        }
-
-        function uploadData(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                document.documentElement.innerHTML = e.target.result;
-                location.reload();
-            };
-            reader.readAsText(file);
-        }
 
         function showMedia(url) {
-            document.getElementById('mainDisplay').innerHTML = `<img src="${url}" alt="বড় ছবি">`;
+            const display = document.getElementById('mainDisplay');
+            if(display) {
+                display.innerHTML = `<img src="${url}" alt="বড় ছবি">`;
+            }
         }
 
         function clearForm() {
-            document.getElementById('imageFileSelect').value = '';
-            document.getElementById('imageUrlInput').value = '';
-            document.getElementById('imageCaptionInput').value = '';
+            let fileInput = document.getElementById('imageFileSelect');
+            let urlInput = document.getElementById('imageUrlInput');
+            let captionInput = document.getElementById('imageCaptionInput');
+            if(fileInput) fileInput.value = '';
+            if(urlInput) urlInput.value = '';
+            if(captionInput) captionInput.value = '';
         }
+
+        function toggleProfileMenu() {
+            let menu = document.getElementById('profileDropdown');
+            if(menu) menu.classList.toggle('active');
+        }
+
+        window.addEventListener('click', function(e) {
+            if (!e.target.closest('.user-profile-widget') && !e.target.closest('#profileDropdown')) {
+                let menu = document.getElementById('profileDropdown');
+                if(menu) menu.classList.remove('active');
+            }
+        });
+
+        function openProfileModal() {
+            document.getElementById('profileModal').style.display = 'flex';
+            document.getElementById('editNameInput').value = localStorage.getItem('userName') || "জাহাঙ্গীর আলম";
+            document.getElementById('editPhoneInput').value = localStorage.getItem('userPhone') || "0176678999";
+            let menu = document.getElementById('profileDropdown');
+            if(menu) menu.classList.remove('active');
+        }
+
+        function closeProfileModal() {
+            document.getElementById('profileModal').style.display = 'none';
+        }
+
+        function saveProfileChanges() {
+            let newName = document.getElementById('editNameInput').value;
+            let newPhone = document.getElementById('editPhoneInput').value;
+            let fileInput = document.getElementById('editPicInput');
+
+            if(newName) {
+                localStorage.setItem('userName', newName);
+                if(document.getElementById('headerUserName')) document.getElementById('headerUserName').innerText = newName;
+                if(document.getElementById('dropdownUserName')) document.getElementById('dropdownUserName').innerText = newName;
+            }
+            if(newPhone) {
+                localStorage.setItem('userPhone', newPhone);
+                if(document.getElementById('dropdownUserPhone')) document.getElementById('dropdownUserPhone').innerText = newPhone;
+            }
+
+            if (fileInput.files && fileInput.files[0]) {
+                let reader = new FileReader();
+                reader.onload = function(e) {
+                    let base64Image = e.target.result;
+                    localStorage.setItem('userPic', base64Image);
+                    
+                    let profileImgs = document.querySelectorAll('#headerUserPic, #dropdownUserPic');
+                    profileImgs.forEach(img => img.src = base64Image);
+
+                    alert('✅ সফলভাবে প্রোফাইল এবং ছবি হালনাগাদ করা হয়েছে!');
+                    closeProfileModal();
+                };
+                reader.readAsDataURL(fileInput.files[0]);
+            } else {
+                alert('✅ প্রোফাইল সফলভাবে হালনাগাদ করা হয়েছে!');
+                closeProfileModal();
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            let savedName = localStorage.getItem('userName');
+            let savedPhone = localStorage.getItem('userPhone');
+            let savedPic = localStorage.getItem('userPic');
+            let role = sessionStorage.getItem('userRole') || 'ইউজার';
+
+            if(savedName) {
+                if(document.getElementById('headerUserName')) document.getElementById('headerUserName').innerText = savedName;
+                if(document.getElementById('dropdownUserName')) document.getElementById('dropdownUserName').innerText = savedName;
+            }
+            if(savedPhone) {
+                if(document.getElementById('dropdownUserPhone')) document.getElementById('dropdownUserPhone').innerText = savedPhone;
+            }
+            if(savedPic) {
+                if(document.getElementById('headerUserPic')) document.getElementById('headerUserPic').src = savedPic;
+                if(document.getElementById('dropdownUserPic')) document.getElementById('dropdownUserPic').src = savedPic;
+            }
+            if(document.getElementById('dropdownUserRole')) {
+                document.getElementById('dropdownUserRole').innerText = role === 'admin' ? 'এডমিন (প্রধান শিক্ষক)' : 'সহকারী শিক্ষক';
+            }
+        });
     </script>
 </body>
 </html>
