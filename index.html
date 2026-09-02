@@ -214,6 +214,14 @@
                 <p id="loginError" style="color: #d9534f; margin-top: 15px; font-size: 14px; font-weight: bold;"></p>
             </div>
         </div>
+            <!-- অ্যাপস লিংক সেটআপ সেকশন -->
+            <div id="appLinkAdminSection" class="card mb-3" style="background: #f8f9fa; padding: 20px; border-radius: 12px; margin-bottom: 25px; border: 1px solid #d1ecf1; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+                <h3 style="color: #0c5460; margin-bottom: 12px; font-size: 18px;">📱 মোবাইল অ্যাপস লিংক ম্যানেজমেন্ট</h3>
+                <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
+                    <input type="text" id="appLinkInput" class="form-control" placeholder="অ্যাপসের ডাউনলোড লিংক এখানে দিন (যেমন: https://...)" style="flex: 1; min-width: 250px; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px;">
+                    <button class="btn btn-primary" onclick="saveAppLink()" style="padding: 10px 20px; background: #007bff; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: bold;">লিংক সেভ করুন</button>
+                </div>
+            </div>
 
         <!-- Main Dashboard -->
         <div id="dashboardSection" style="display: none;">
@@ -966,6 +974,38 @@ async function rejectUpdate(docId) {
         loadPendingUpdates();
     } catch(err) {
         alert('❌ ডিলিট করতে সমস্যা হয়েছে: ' + err.message);
+    }
+}
+// অ্যাপস লিংক ক্লাউডে সেভ করার ফাংশন
+async function saveAppLink() {
+    const linkVal = document.getElementById('appLinkInput').value.trim();
+    if(!linkVal) {
+        alert('দয়া করে অ্যাপসের সঠিক লিংক দিন!');
+        return;
+    }
+
+    try {
+        await window.setDocRef(window.docRef(window.db, "schoolPortal", "appLinkConfig"), {
+            link: linkVal,
+            updatedAt: new Date().toISOString()
+        });
+        alert('✅ অ্যাপসের লিংক সফলভাবে সেভ করা হয়েছে!');
+    } catch(err) {
+        alert('❌ সেভ করতে সমস্যা হয়েছে: ' + err.message);
+    }
+}
+
+// ক্লাউড থেকে অ্যাপস লিংক লোড করার ফাংশন
+async function loadAppLink() {
+    try {
+        const docSnap = await window.getDocRef(window.docRef(window.db, "schoolPortal", "appLinkConfig"));
+        if(docSnap.exists()) {
+            const data = docSnap.data();
+            const linkInput = document.getElementById('appLinkInput');
+            if(linkInput) linkInput.value = data.link || '';
+        }
+    } catch(err) {
+        console.error("অ্যাপস লিংক লোড করতে সমস্যা:", err);
     }
 }
 
