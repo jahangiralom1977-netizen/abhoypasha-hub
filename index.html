@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="bn">
 <head>
@@ -527,17 +526,16 @@
         const TEACHER_PIN = "5678";
 
         function checkPin() {
-            let pin = document.getElementById('pinInput').value;
-            if(pin === ADMIN_PIN) {
-                sessionStorage.setItem('userRole', 'admin');
-                initPortal();
-            } else if(pin === TEACHER_PIN) {
-                sessionStorage.setItem('userRole', 'teacher');
-                initPortal();
-            } else {
-                document.getElementById('loginError').innerText = '❌ ভুল পিন কোড! সঠিক পিন দিন।';
-            }
-        }
+    let pin = document.getElementById('pinInput').value.trim();
+    
+    if (pin === "1234" || pin === "5678") {
+        sessionStorage.setItem('userRole', pin === "5678" ? 'teacher' : 'admin');
+        initPortal();
+    } else {
+        document.getElementById('loginError').innerText = '❌ ভুল পিন কোড! সঠিক পিন দিন (যেমন: 1234)';
+    }
+}
+
 
         function initPortal() {
             document.getElementById('loginSection').style.display = 'none';
