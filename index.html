@@ -525,16 +525,8 @@
         const ADMIN_PIN = "1234";
         const TEACHER_PIN = "5678";
 
-        function checkPin() {
-    let pin = document.getElementById('pinInput').value.trim();
-    
-    if (pin === "1234" || pin === "5678") {
-        sessionStorage.setItem('userRole', pin === "5678" ? 'teacher' : 'admin');
-        initPortal();
-    } else {
-        document.getElementById('loginError').innerText = '❌ ভুল পিন কোড! সঠিক পিন দিন (যেমন: 1234)';
-    }
-}
+       function checkPin() { initPortal(); }
+
 
 
         function initPortal() {
