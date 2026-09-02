@@ -198,30 +198,127 @@
             </table>
         </div>
 
-        <!-- Section 4: Students List -->
+                <!-- Section 4: Students List (Class-wise Separate Tables) -->
         <div id="sec4" class="section-view">
             <button class="back-btn" onclick="showDashboard()">← মূল ড্যাশবোর্ডে ফিরে যান</button>
-            <h2>৪. শ্রেণিভিত্তিক শিক্ষার্থীর তালিকা</h2>
-            <div class="action-bar">
-                <button class="btn btn-success" onclick="addRow('table4')">+ শিক্ষার্থী যোগ করুন</button>
-                <button class="btn btn-success" onclick="saveData('sec4')">💾 তথ্য সেভ করুন</button>
+            <h2>৪. শ্রেণিভিত্তিক শিক্ষার্থীর তালিকা (প্রাক-প্রাথমিক থেকে ৫ম শ্রেণি)</h2>
+            <div class="action-bar"><button class="btn btn-success" onclick="saveData('sec4')">💾 সব শ্রেণির তথ্য সেভ করুন</button></div>
+
+            <!-- Pre-Primary -->
+            <div style="background: #e3f2fd; padding: 15px; border-radius: 6px; margin-top: 20px;">
+                <h3>প্রাক-প্রাথমিক শ্রেণি</h3>
+                <div class="action-bar"><button class="btn btn-success" onclick="addRow('tablePrePrimary')">+ শিক্ষার্থী যোগ করুন</button></div>
+                <table id="tablePrePrimary">
+                    <thead><tr><th>ক্রমিক</th><th>শিক্ষার্থীর নাম</th><th>পিতার নাম</th><th>মাতার নাম</th><th>যোগাযোগ/ঠিকানা</th><th>অ্যাকশন</th></tr></thead>
+                    <tbody>
+                        <tr>
+                            <td>১</td>
+                            <td contenteditable="true">শিশুর নাম</td>
+                            <td contenteditable="true">পিতার নাম</td>
+                            <td contenteditable="true">মাতার নাম</td>
+                            <td contenteditable="true">অভয়পাশা</td>
+                            <td><button class="btn btn-danger" onclick="deleteRow(this)">মুছুন</button></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-            <table id="table4">
-                <thead>
-                    <tr><th>ক্রমিক</th><th>শিক্ষার্থীর নাম</th><th>পিতার নাম</th><th>মাতার নাম</th><th>ঠিকানা</th><th>অ্যাকশন</th></tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>০১</td>
-                        <td contenteditable="true">শিক্ষার্থীর নাম</td>
-                        <td contenteditable="true">পিতার নাম</td>
-                        <td contenteditable="true">মাতার নাম</td>
-                        <td contenteditable="true">অভয়পাশা</td>
-                        <td><button class="btn btn-danger" onclick="deleteRow(this)">মুছুন</button></td>
-                    </tr>
-                </tbody>
-            </table>
+
+            <!-- Class 1 -->
+            <div style="background: #e8f5e9; padding: 15px; border-radius: 6px; margin-top: 20px;">
+                <h3>প্রথম শ্রেণি</h3>
+                <div class="action-bar"><button class="btn btn-success" onclick="addRow('tableClass1')">+ শিক্ষার্থী যোগ করুন</button></div>
+                <table id="tableClass1">
+                    <thead><tr><th>ক্রমিক</th><th>শিক্ষার্থীর নাম</th><th>পিতার নাম</th><th>মাতার নাম</th><th>যোগাযোগ/ঠিকানা</th><th>অ্যাকশন</th></tr></thead>
+                    <tbody>
+                        <tr>
+                            <td>১</td>
+                            <td contenteditable="true">শিক্ষার্থীর নাম</td>
+                            <td contenteditable="true">পিতার নাম</td>
+                            <td contenteditable="true">মাতার নাম</td>
+                            <td contenteditable="true">অভয়পাশা</td>
+                            <td><button class="btn btn-danger" onclick="deleteRow(this)">মুছুন</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Class 2 -->
+            <div style="background: #fffde7; padding: 15px; border-radius: 6px; margin-top: 20px;">
+                <h3>দ্বিতীয় শ্রেণি</h3>
+                <div class="action-bar"><button class="btn btn-success" onclick="addRow('tableClass2')">+ শিক্ষার্থী যোগ করুন</button></div>
+                <table id="tableClass2">
+                    <thead><tr><th>ক্রমিক</th><th>শিক্ষার্থীর নাম</th><th>পিতার নাম</th><th>মাতার নাম</th><th>যোগাযোগ/ঠিকানা</th><th>অ্যাকশন</th></tr></thead>
+                    <tbody>
+                        <tr>
+                          <td>১</td>
+                          <td contenteditable="true">শিক্ষার্থীর নাম</td>
+                          <td contenteditable="true">পিতার নাম</td>
+                          <td contenteditable="true">মাতার নাম</td>
+                          <td contenteditable="true">অভয়পাশা</td>
+                          <td><button class="btn btn-danger" onclick="deleteRow(this)">মুছুন</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Class 3 -->
+            <div style="background: #fff3e0; padding: 15px; border-radius: 6px; margin-top: 20px;">
+                <h3>তৃতীয় শ্রেণি</h3>
+                <div class="action-bar"><button class="btn btn-success" onclick="addRow('tableClass3')">+ শিক্ষার্থী যোগ করুন</button></div>
+                <table id="tableClass3">
+                    <thead><tr><th>ক্রমিক</th><th>শিক্ষার্থীর নাম</th><th>পিতার নাম</th><th>মাতার নাম</th><th>যোগাযোগ/ঠিকানা</th><th>অ্যাকশন</th></tr></thead>
+                    <tbody>
+                        <tr>
+                          <td>১</td>
+                          <td contenteditable="true">শিক্ষার্থীর নাম</td>
+                          <td contenteditable="true">পিতার নাম</td>
+                          <td contenteditable="true">মাতার নাম</td>
+                          <td contenteditable="true">অভয়পাশা</td>
+                          <td><button class="btn btn-danger" onclick="deleteRow(this)">মুছুন</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Class 4 -->
+            <div style="background: #fce4ec; padding: 15px; border-radius: 6px; margin-top: 20px;">
+                <h3>চতুর্থ শ্রেণি</h3>
+                <div class="action-bar"><button class="btn btn-success" onclick="addRow('tableClass4')">+ শিক্ষার্থী যোগ করুন</button></div>
+                <table id="tableClass4">
+                    <thead><tr><th>ক্রমিক</th><th>শিক্ষার্থীর নাম</th><th>পিতার নাম</th><th>মাতার নাম</th><th>যোগাযোগ/ঠিকানা</th><th>অ্যাকশন</th></tr></thead>
+                    <tbody>
+                        <tr>
+                          <td>১</td>
+                          <td contenteditable="true">শিক্ষার্থীর নাম</td>
+                          <td contenteditable="true">পিতার নাম</td>
+                          <td contenteditable="true">মাতার নাম</td>
+                          <td contenteditable="true">অভয়পাশা</td>
+                          <td><button class="btn btn-danger" onclick="deleteRow(this)">মুছুন</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Class 5 -->
+            <div style="background: #ede7f6; padding: 15px; border-radius: 6px; margin-top: 20px;">
+                <h3>পঞ্চম শ্রেণি</h3>
+                <div class="action-bar"><button class="btn btn-success" onclick="addRow('tableClass5')">+ শিক্ষার্থী যোগ করুন</button></div>
+                <table id="tableClass5">
+                    <thead><tr><th>ক্রমিক</th><th>শিক্ষার্থীর নাম</th><th>পিতার নাম</th><th>মাতার নাম</th><th>যোগাযোগ/ঠিকানা</th><th>অ্যাকশন</th></tr></thead>
+                    <tbody>
+                        <tr>
+                          <td>১</td>
+                          <td contenteditable="true">শিক্ষার্থীর নাম</td>
+                          <td contenteditable="true">পিতার নাম</td>
+                          <td contenteditable="true">মাতার নাম</td>
+                          <td contenteditable="true">অভয়পাশা</td>
+                          <td><button class="btn btn-danger" onclick="deleteRow(this)">মুছুন</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
+
 
         <!-- Section 5: Headmasters History -->
         <div id="sec5" class="section-view">
