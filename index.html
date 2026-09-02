@@ -539,31 +539,37 @@
         }
 
         async function saveData(secId) {
-            let role = sessionStorage.getItem('userRole');
-            let htmlContent = document.getElementById(secId).innerHTML;
+    let role = sessionStorage.getItem('userRole');
+    
+    // গ্যালারি সেকশনের জন্য বিশেষ হ্যান্ডলিং যাতে গ্যালারির ভিতরের ডেটা বা HTML সঠিকভাবে সংগ্রহ হয়
+    let sectionElement = document.getElementById(secId);
+    let htmlContent = sectionElement ? sectionElement.innerHTML : "";
 
-            if(role === 'admin') {
-                try {
-                    await window.setDocRef(window.docRef(window.db, "schoolPortal", secId), { html: htmlContent });
-                    alert('✅ সফলভাবে ক্লাউডে সেভ হয়েছে!');
-                } catch(err) {
-                    alert('ত্রুটি: ' + err.message);
-                }
-            } else {
-                let pendingId = "pending_" + Date.now();
-                try {
-                    await window.setDocRef(window.docRef(window.db, "schoolPending", pendingId), {
-                        secId: secId,
-                        html: htmlContent,
-                        title: 'সেকশন ' + secId,
-                        time: new Date().toISOString()
-                    });
-                    alert('⏳ আপনার আপডেটটি প্রধান শিক্ষকের অনুমোদনের জন্য পাঠানো হয়েছে।');
-                } catch(err) {
-                    alert('ত্রুটি: ' + err.message);
-                }
-            }
+    if(role === 'admin') {
+        try {
+            await window.setDocRef(window.doc(window.db, "portalData", secId), {
+                html: htmlContent,
+                updatedAt: new Date().toISOString()
+            });
+            alert('✅ সফলভাবে ক্লাউডে সেভ হয়েছে!');
+        } catch(err) {
+            alert('❌ ত্রুটি: ' + err.message);
         }
+    } else {
+        try {
+            await window.setDocRef(window.doc(window.db, "pendingUpdates", "pending_" + secId + "_" + Date.now()), {
+                secId: secId,
+                html: htmlContent,
+                title: 'সেকশন আপডেট: ' + secId,
+                time: new Date().toISOString()
+            });
+            alert('⏳ আপনার আপডেটটি এডমিনের অনুমোদনের জন্য পাঠানো হয়েছে!');
+        } catch(err) {
+            alert('❌ ত্রুটি: ' + err.message);
+        }
+    }
+}
+
 
         async function loadAllDataFromCloud() {
             try {
