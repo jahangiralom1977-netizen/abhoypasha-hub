@@ -214,14 +214,15 @@
                 <p id="loginError" style="color: #d9534f; margin-top: 15px; font-size: 14px; font-weight: bold;"></p>
             </div>
         </div>
-            <!-- অ্যাপস লিংক সেটআপ সেকশন -->
-            <div id="appLinkAdminSection" class="card mb-3" style="background: #f8f9fa; padding: 20px; border-radius: 12px; margin-bottom: 25px; border: 1px solid #d1ecf1; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
-                <h3 style="color: #0c5460; margin-bottom: 12px; font-size: 18px;">📱 মোবাইল অ্যাপস লিংক ম্যানেজমেন্ট</h3>
-                <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
-                    <input type="text" id="appLinkInput" class="form-control" placeholder="অ্যাপসের ডাউনলোড লিংক এখানে দিন (যেমন: https://...)" style="flex: 1; min-width: 250px; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px;">
-                    <button class="btn btn-primary" onclick="saveAppLink()" style="padding: 10px 20px; background: #007bff; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: bold;">লিংক সেভ করুন</button>
-                </div>
+                        <!-- অ্যাপস লিংক শেয়ার সেকশন -->
+            <div class="card mb-3" style="background: #e8f5e9; padding: 20px; border-radius: 12px; margin-bottom: 25px; border: 1px solid #c8e6c9; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+                <h3 style="color: #2e7d32; margin-bottom: 10px; font-size: 18px;">🔗 আমাদের অ্যাপস বা পোর্টালটি শেয়ার করুন</h3>
+                <p style="color: #555; font-size: 14px; margin-bottom: 15px;">বন্ধুবান্ধব বা সহকর্মীদের সাথে সহজে লিংকটি শেয়ার করতে নিচের বাটনে ক্লিক করুন:</p>
+                <button class="btn btn-success" onclick="sharePortalLink()" style="padding: 12px 25px; background: #28a745; color: #fff; border: none; border-radius: 8px; cursor: pointer; font-size: 15px; font-weight: bold; display: inline-flex; align-items: center; gap: 8px;">
+                    📤 লিংক শেয়ার করুন
+                </button>
             </div>
+
 
         <!-- Main Dashboard -->
         <div id="dashboardSection" style="display: none;">
@@ -978,38 +979,27 @@ async function rejectUpdate(docId) {
         alert('❌ ডিলিট করতে সমস্যা হয়েছে: ' + err.message);
     }
 }
-// অ্যাপস লিংক ক্লাউডে সেভ করার ফাংশন
-async function saveAppLink() {
-    const linkVal = document.getElementById('appLinkInput').value.trim();
-    if(!linkVal) {
-        alert('দয়া করে অ্যাপসের সঠিক লিংক দিন!');
-        return;
-    }
-
-    try {
-        await window.setDocRef(window.docRef(window.db, "schoolPortal", "appLinkConfig"), {
-            link: linkVal,
-            updatedAt: new Date().toISOString()
+// পোর্টাল বা অ্যাপস লিংক শেয়ার করার ফাংশন
+function sharePortalLink() {
+    const portalUrl = window.location.href;
+    
+    if (navigator.share) {
+        navigator.share({
+            title: '৭ নং অভয়পাশা সরকারি প্রাথমিক বিদ্যালয় পোর্টাল',
+            text: 'আমাদের বিদ্যালয়ের ডিজিটাল পোর্টাল বা অ্যাপসটি দেখতে নিচের লিংকে ক্লিক করুন:',
+            url: portalUrl,
+        }).then(() => {
+            console.log('সফলভাবে শেয়ার করা হয়েছে!');
+        }).catch((error) => {
+            console.log('শেয়ার করতে সমস্যা হয়েছে:', error);
         });
-        alert('✅ অ্যাপসের লিংক সফলভাবে সেভ করা হয়েছে!');
-    } catch(err) {
-        alert('❌ সেভ করতে সমস্যা হয়েছে: ' + err.message);
+    } else {
+        navigator.clipboard.writeText(portalUrl);
+        alert('📋 লিংকটি সফলভাবে কপি হয়ে গেছে! এখন যেকোনো জায়গায় পেস্ট করে শেয়ার করতে পারেন।');
     }
 }
 
-// ক্লাউড থেকে অ্যাপস লিংক লোড করার ফাংশন
-async function loadAppLink() {
-    try {
-        const docSnap = await window.getDocRef(window.docRef(window.db, "schoolPortal", "appLinkConfig"));
-        if(docSnap.exists()) {
-            const data = docSnap.data();
-            const linkInput = document.getElementById('appLinkInput');
-            if(linkInput) linkInput.value = data.link || '';
-        }
-    } catch(err) {
-        console.error("অ্যাপস লিংক লোড করতে সমস্যা:", err);
-    }
-}
+        
 
     </script>
 </body>
