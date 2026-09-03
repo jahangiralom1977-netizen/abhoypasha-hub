@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>৭ নং অভয়পাশা সরকারি প্রাথমিক বিদ্যালয় - ডিজিটাল পোর্টাল</title>
     
+    <!-- PWA Manifest Link -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#1b4d3e">
+    <link rel="apple-touch-icon" href="https://i.ibb.co.com/5xJkDXSw/IMG-20260829-073221-093.jpg">
+
     <!-- Firebase SDK (Modular Version) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
@@ -33,6 +38,7 @@
 
         window.addEventListener('DOMContentLoaded', () => {
             initPortalView();
+            initPWA();
         });
     </script>
 
@@ -59,6 +65,7 @@
         .btn-danger { background: #d9534f; box-shadow: 0 4px 6px rgba(217,83,79,0.2); }
         .btn-success { background: #28a745; box-shadow: 0 4px 6px rgba(40,167,69,0.2); }
         .btn-warning { background: #f0ad4e; color: #fff; box-shadow: 0 4px 6px rgba(240,173,78,0.2); }
+        .btn-info { background: #17a2b8; color: #fff; box-shadow: 0 4px 6px rgba(23,162,184,0.2); }
         
         .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin-top: 20px; }
         .card { background: #fff; padding: 30px 25px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.06); cursor: pointer; transition: all 0.3s ease; border-left: 6px solid #1b4d3e; }
@@ -104,6 +111,15 @@
         .profile-menu-items a:hover, .profile-menu-items button:hover { background: #f1f1f1; }
         
         .admin-only { display: none !important; }
+
+        /* Print Specific Styles */
+        @media print {
+            body { background: #fff; color: #000; }
+            header, .marquee-box, .action-bar, .back-btn, .user-profile-widget, .profile-dropdown-menu, #installAppBtnContainer { display: none !important; }
+            .section-view { display: block !important; box-shadow: none; padding: 0; margin: 0; }
+            table { box-shadow: none; border: 1px solid #000; }
+            th, td { border: 1px solid #000; color: #000; }
+        }
     </style>
 </head>
 <body>
@@ -141,6 +157,12 @@
     </div>
 
     <div class="container">
+        <!-- PWA Install Banner (Hidden by default until prompt is ready) -->
+        <div id="installAppBtnContainer" style="display: none; background: #e0f2f1; padding: 15px; border-radius: 10px; margin-bottom: 20px; text-align: center; border: 1px solid #b2dfdb;">
+            <p style="color: #00695c; font-weight: bold; margin-bottom: 8px;">📱 আপনার ডিভাইসে এই পোর্টালটি অ্যাপ আকারে ইনস্টল করুন!</p>
+            <button class="btn btn-info" id="installAppBtn" style="padding: 10px 20px;">অ্যাপ ইনস্টল করুন</button>
+        </div>
+
         <!-- Login Section (Hidden by default) -->
         <div id="loginSection" class="login-wrapper">
             <div class="login-box">
@@ -190,7 +212,10 @@
 
         <!-- Section Views -->
         <div id="sec1" class="section-view">
-            <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
+                <button class="btn btn-info" onclick="window.print()" style="padding: 10px 18px; font-size: 14px;">🖨️ প্রিন্ট করুন</button>
+            </div>
             <h2>১. ডিজিটাল মনিটরিং বোর্ড ও সাধারণ তথ্য</h2>
             <div class="action-bar admin-only">
                 <div>
@@ -208,7 +233,10 @@
         </div>
 
         <div id="sec2" class="section-view">
-            <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
+                <button class="btn btn-info" onclick="window.print()" style="padding: 10px 18px; font-size: 14px;">🖨️ প্রিন্ট করুন</button>
+            </div>
             <h2>২. কর্মরত শিক্ষকগণের তথ্য</h2>
             <div class="action-bar admin-only">
                 <div>
@@ -226,7 +254,10 @@
         </div>
 
         <div id="sec3" class="section-view">
-            <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
+                <button class="btn btn-info" onclick="window.print()" style="padding: 10px 18px; font-size: 14px;">🖨️ প্রিন্ট করুন</button>
+            </div>
             <h2>৩. দায়িত্ব বন্টন ও ছুটি সংক্রান্ত</h2>
             <div class="action-bar admin-only"><button class="btn btn-success" onclick="saveData('sec3')">💾 ক্লাউডে সেভ করুন</button></div>
             
@@ -260,7 +291,10 @@
         </div>
 
         <div id="sec4" class="section-view">
-            <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
+                <button class="btn btn-info" onclick="window.print()" style="padding: 10px 18px; font-size: 14px;">🖨️ প্রিন্ট করুন</button>
+            </div>
             <h2>৪. শ্রেণিভিত্তিক শিক্ষার্থীর তালিকা</h2>
             <div class="action-bar admin-only"><button class="btn btn-success" onclick="saveData('sec4')">💾 ক্লাউডে সব শ্রেণি সেভ করুন</button></div>
 
@@ -282,7 +316,10 @@
         </div>
 
         <div id="sec5" class="section-view">
-            <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
+                <button class="btn btn-info" onclick="window.print()" style="padding: 10px 18px; font-size: 14px;">🖨️ প্রিন্ট করুন</button>
+            </div>
             <h2>৫. প্রধান শিক্ষকগণের দায়িত্ব পালনের ইতিহাস</h2>
             <div class="action-bar admin-only">
                 <div>
@@ -300,7 +337,10 @@
         </div>
 
         <div id="sec6" class="section-view">
-            <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
+                <button class="btn btn-info" onclick="window.print()" style="padding: 10px 18px; font-size: 14px;">🖨️ প্রিন্ট করুন</button>
+            </div>
             <h2>৬. ম্যানেজিং কমিটি সংক্রান্ত</h2>
             <div class="action-bar admin-only"><button class="btn btn-success" onclick="saveData('sec6')">💾 ক্লাউডে সেভ করুন</button></div>
             <div id="sec6_note" style="background: #fff9c4; padding: 20px; border-radius: 10px; margin-bottom: 20px; font-size: 15px;">
@@ -321,7 +361,10 @@
         </div>
 
         <div id="sec7" class="section-view">
-            <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
+                <button class="btn btn-info" onclick="window.print()" style="padding: 10px 18px; font-size: 14px;">🖨️ প্রিন্ট করুন</button>
+            </div>
             <h2>৭. ফাইল আর্কাইভ ফোল্ডার</h2>
             <div class="action-bar admin-only"><button class="btn btn-success" onclick="saveData('sec7')">💾 ক্লাউডে সেভ করুন</button></div>
             <div id="sec7_note" style="background: #fff3e0; padding: 20px; border-radius: 10px; margin-bottom: 20px; font-size: 15px;">
@@ -342,7 +385,10 @@
         </div>
 
         <div id="sec8" class="section-view">
-            <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
+                <button class="btn btn-info" onclick="window.print()" style="padding: 10px 18px; font-size: 14px;">🖨️ প্রিন্ট করুন</button>
+            </div>
             <h2>৮. গুরুত্বপূর্ণ ওয়েবসাইট ও অনলাইন লিংক</h2>
             <div class="action-bar admin-only">
                 <button class="btn btn-success" onclick="addLinkItem()">+ নতুন লিংক</button>
@@ -360,7 +406,10 @@
         </div>
 
         <div id="sec9" class="section-view">
-            <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
+                <button class="btn btn-info" onclick="window.print()" style="padding: 10px 18px; font-size: 14px;">🖨️ প্রিন্ট করুন</button>
+            </div>
             <h2>৯. অন্যান্য গুরুত্বপূর্ণ তথ্য</h2>
             <div class="action-bar admin-only"><button class="btn btn-success" onclick="saveData('sec9')">💾 ক্লাউডে সেভ করুন</button></div>
             <div id="sec9_content" style="background: #f1f8e9; padding: 25px; border-radius: 10px; font-size: 15px;">
@@ -370,7 +419,10 @@
 
         <!-- Section 10: স্মৃতিচারণ ও ফটো গ্যালারি -->
         <div id="sec10" class="section-view">
-            <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
+                <button class="btn btn-info" onclick="window.print()" style="padding: 10px 18px; font-size: 14px;">🖨️ প্রিন্ট করুন</button>
+            </div>
             <h2>১০. স্মৃতিচারণ ও ফটো ও ভিডিও গ্যালারি</h2>
             
             <div class="display-screen" id="mainDisplay">
@@ -420,6 +472,32 @@
         const ADMIN_PIN = "1234";
         const TEACHER_PIN = "5678";
         let galleryData = [];
+        let deferredPrompt;
+
+        // PWA Install Event Handler
+        function initPWA() {
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
+                const installContainer = document.getElementById('installAppBtnContainer');
+                if(installContainer) installContainer.style.display = 'block';
+
+                const installBtn = document.getElementById('installAppBtn');
+                if(installBtn) {
+                    installBtn.onclick = async () => {
+                        if(deferredPrompt) {
+                            deferredPrompt.prompt();
+                            const { outcome } = await deferredPrompt.userChoice;
+                            if (outcome === 'accepted') {
+                                console.log('User accepted the install prompt');
+                            }
+                            deferredPrompt = null;
+                            installContainer.style.display = 'none';
+                        }
+                    };
+                }
+            });
+        }
 
         function checkPin() {
             let pin = document.getElementById('pinInput').value.trim();
