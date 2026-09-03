@@ -32,9 +32,7 @@
         window.deleteDocRef = deleteDoc;
 
         window.addEventListener('DOMContentLoaded', () => {
-            if(sessionStorage.getItem('userRole')) {
-                initPortal();
-            }
+            initPortalView();
         });
     </script>
 
@@ -49,8 +47,8 @@
         .marquee-box { background: #ffeb3b; color: #000; padding: 12px; font-weight: bold; overflow: hidden; white-space: nowrap; font-size: 15px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05); }
         .container { max-width: 1200px; margin: auto; padding: 30px 20px; }
         
-        .login-wrapper { display: flex; justify-content: center; align-items: center; min-height: 60vh; }
-        .login-box { width: 100%; max-width: 440px; background: #fff; padding: 40px 30px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; border-top: 6px solid #1b4d3e; }
+        .login-wrapper { display: none; justify-content: center; align-items: center; min-height: 50vh; }
+        .login-box { width: 100%; max-width: 440px; background: #fff; padding: 40px 30px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; border-top: 6px solid #1b4d3e; margin: 20px auto; }
         .login-box h2 { color: #1b4d3e; margin-bottom: 10px; font-size: 24px; }
         .login-box p { font-size: 14px; color: #666; margin-bottom: 25px; }
         .login-box input { width: 100%; padding: 14px; margin-bottom: 20px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 16px; text-align: center; transition: border-color 0.3s; }
@@ -104,6 +102,8 @@
         .profile-menu-items { padding: 10px 0; }
         .profile-menu-items a, .profile-menu-items button { display: block; width: 100%; padding: 10px 15px; color: #333; background: none; border: none; text-align: left; cursor: pointer; font-size: 14px; text-decoration: none; }
         .profile-menu-items a:hover, .profile-menu-items button:hover { background: #f1f1f1; }
+        
+        .admin-only { display: none !important; }
     </style>
 </head>
 <body>
@@ -111,27 +111,26 @@
     <header>
         <div class="user-profile-widget" onclick="toggleProfileMenu()">
             <img id="headerUserPic" src="https://via.placeholder.com/150" alt="User">
-            <span id="headerUserName">ইউজার</span>
+            <span id="headerUserName">দর্শক / ভিজিটর</span>
             <span>▼</span>
         </div>
 
         <div id="profileDropdown" class="profile-dropdown-menu">
             <div class="profile-header-info">
                 <img id="dropdownUserPic" src="https://via.placeholder.com/150" alt="User">
-                <h4 id="dropdownUserName" style="margin: 0; font-size: 16px;">নাম</h4>
-                <p id="dropdownUserRole" style="margin: 5px 0 0 0; font-size: 12px; opacity: 0.8;">পদবি / রোল</p>
-                <p id="dropdownUserPhone" style="margin: 3px 0 0 0; font-size: 12px; opacity: 0.8;">মোবাইল নম্বর</p>
+                <h4 id="dropdownUserName" style="margin: 0; font-size: 16px;">সাধারণ ভিজিটর</h4>
+                <p id="dropdownUserRole" style="margin: 5px 0 0 0; font-size: 12px; opacity: 0.8;">রিডিং মোড</p>
+                <p id="dropdownUserPhone" style="margin: 3px 0 0 0; font-size: 12px; opacity: 0.8;"></p>
             </div>
-            <div class="profile-menu-items">
-                <button onclick="openProfileModal()">⚙️ প্রোফাইল ও পাসওয়ার্ড পরিবর্তন</button>
-                <button onclick="logout()" style="color: #d9534f;">🚪 লগআউট</button>
+            <div class="profile-menu-items" id="profileMenuItems">
+                <button onclick="showLoginBox()">🔐 শিক্ষক/এডমিন লগইন</button>
             </div>
         </div>
 
         <h1>৭ নং অভয়পাশা সরকারি প্রাথমিক বিদ্যালয়</h1>
         <p>ডিজিটাল মনিটরিং ও ম্যানেজমেন্ট পোর্টাল</p>
         <div style="margin-top: 12px; font-size: 14px; opacity: 0.95; display: flex; justify-content: center; gap: 25px; flex-wrap: wrap;">
-            <span>ইএমআইএস কোড: <span id="emisCodeText">৯১৩০৪০১০১০৭</span></span>
+            <span>ইএমআইএস কোড: <span id="emisCodeText">৯১৩০৪০۱۰১০৭</span></span>
             <span>স্থাপিত: <span id="establishedYearText">১৯০৪ খ্রি:</span></span>
         </div>
     </header>
@@ -141,19 +140,20 @@
     </div>
 
     <div class="container">
-        <!-- Login Section -->
+        <!-- Login Section (Hidden by default) -->
         <div id="loginSection" class="login-wrapper">
             <div class="login-box">
                 <h2>পোর্টাল লগইন প্যানেল</h2>
                 <p>আপনার নির্ধারিত পিন কোড দিয়ে প্রবেশ করুন</p>
                 <input type="password" id="pinInput" placeholder="পিন কোড লিখুন" maxlength="6">
                 <button class="btn" onclick="checkPin()" style="width: 100%;">লগইন করুন</button>
+                <button class="btn" onclick="hideLoginBox()" style="width: 100%; margin-top: 10px; background: #6c757d;">বাতিল করে ফিরে যান</button>
                 <p id="loginError" style="color: #d9534f; margin-top: 15px; font-size: 14px; font-weight: bold;"></p>
             </div>
         </div>
 
         <!-- Main Dashboard -->
-        <div id="dashboardSection" style="display: none;">
+        <div id="dashboardSection">
             <!-- অ্যাপস লিংক শেয়ার সেকশন -->
             <div class="card mb-3" style="background: #e8f5e9; padding: 20px; border-radius: 12px; margin-bottom: 25px; border: 1px solid #c8e6c9; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
                 <h3 style="color: #2e7d32; margin-bottom: 10px; font-size: 18px;">🔗 আমাদের অ্যাপস বা পোর্টালটি শেয়ার করুন</h3>
@@ -169,8 +169,8 @@
             </div>
 
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 15px;">
-                <h2 id="userRoleTitle" style="font-size: 22px; color: #1b4d3e; font-weight: bold;">মূল ড্যাশবোর্ড</h2>
-                <button class="btn btn-danger" onclick="logout()" style="padding: 10px 20px; font-size: 14px;">লগআউট</button>
+                <h2 id="userRoleTitle" style="font-size: 22px; color: #1b4d3e; font-weight: bold;">মূল ড্যাশবোর্ড (রিডিং মোড - ভিজিটর ভিউ)</h2>
+                <button id="logoutBtn" class="btn btn-danger admin-only" onclick="logout()" style="padding: 10px 20px; font-size: 14px;">লগআউট / রিডিং মোডে ফিরুন</button>
             </div>
             
             <div class="dashboard-grid">
@@ -191,7 +191,7 @@
         <div id="sec1" class="section-view">
             <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
             <h2>১. ডিজিটাল মনিটরিং বোর্ড ও সাধারণ তথ্য</h2>
-            <div class="action-bar">
+            <div class="action-bar admin-only">
                 <div>
                     <button class="btn btn-success" onclick="addRow('table1')">+ সারি</button>
                     <button class="btn btn-warning" onclick="addColumn('table1')">+ কলাম</button>
@@ -199,9 +199,9 @@
                 <button class="btn btn-success" onclick="saveData('sec1')">💾 ক্লাউডে সেভ করুন</button>
             </div>
             <table id="table1">
-                <thead><tr><th>ক্রমিক</th><th>বিবরণ / শিরোনাম</th><th>তথ্য ও উপাত্ত</th><th>অ্যাকশন</th></tr></thead>
+                <thead><tr><th>ক্রমিক</th><th>বিবরণ / শিরোনাম</th><th>তথ্য ও উপাত্ত</th><th class="admin-only">অ্যাকশন</th></tr></thead>
                 <tbody>
-                    <tr><td>১</td><td contenteditable="true">এলাকার অবস্থানগত বৈশিষ্ট্য</td><td contenteditable="true">যোগাযোগ উপযোগী</td><td><button class="btn btn-danger" style="padding:6px 12px; font-size:12px;" onclick="deleteRow(this)">মুছুন</button></td></tr>
+                    <tr><td>১</td><td>এলাকার অবস্থানগত বৈশিষ্ট্য</td><td>যোগাযোগ উপযোগী</td><td class="admin-only"><button class="btn btn-danger" style="padding:6px 12px; font-size:12px;" onclick="deleteRow(this)">মুছুন</button></td></tr>
                 </tbody>
             </table>
         </div>
@@ -209,7 +209,7 @@
         <div id="sec2" class="section-view">
             <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
             <h2>২. কর্মরত শিক্ষকগণের তথ্য</h2>
-            <div class="action-bar">
+            <div class="action-bar admin-only">
                 <div>
                     <button class="btn btn-success" onclick="addRow('table2')">+ শিক্ষক</button>
                     <button class="btn btn-warning" onclick="addColumn('table2')">+ কলাম</button>
@@ -217,9 +217,9 @@
                 <button class="btn btn-success" onclick="saveData('sec2')">💾 ক্লাউডে সেভ করুন</button>
             </div>
             <table id="table2">
-                <thead><tr><th>ক্রমিক</th><th>শিক্ষকের নাম</th><th>পদবি</th><th>শিক্ষাগত যোগ্যতা</th><th>জন্ম তারিখ</th><th>১ম যোগদানের তারিখ</th><th>এই বিদ্যালয়ে যোগদান</th><th>অ্যাকশন</th></tr></thead>
+                <thead><tr><th>ক্রমিক</th><th>শিক্ষকের নাম</th><th>পদবি</th><th>শিক্ষাগত যোগ্যতা</th><th>জন্ম তারিখ</th><th>১ম যোগদানের তারিখ</th><th>এই বিদ্যালয়ে যোগদান</th><th class="admin-only">অ্যাকশন</th></tr></thead>
                 <tbody>
-                    <tr><td>১</td><td contenteditable="true">মো: জাহাঙ্গীর আলম</td><td contenteditable="true">প্রধান শিক্ষক</td><td contenteditable="true">এম.এস.সি</td><td contenteditable="true">০১-০১-১৯৮০</td><td contenteditable="true">০১-০১-২০১০</td><td contenteditable="true">০১-০১-২০১৫</td><td><button class="btn btn-danger" style="padding:6px 12px; font-size:12px;" onclick="deleteRow(this)">মুছুন</button></td></tr>
+                    <tr><td>১</td><td>মো: জাহাঙ্গীর আলম</td><td>প্রধান শিক্ষক</td><td>এম.এস.সি</td><td>০১-০১-১৯৮০</td><td>০১-০১-২০১০</td><td>০১-০১-২০১৫</td><td class="admin-only"><button class="btn btn-danger" style="padding:6px 12px; font-size:12px;" onclick="deleteRow(this)">মুছুন</button></td></tr>
                 </tbody>
             </table>
         </div>
@@ -227,33 +227,33 @@
         <div id="sec3" class="section-view">
             <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
             <h2>৩. দায়িত্ব বন্টন ও ছুটি সংক্রান্ত</h2>
-            <div class="action-bar"><button class="btn btn-success" onclick="saveData('sec3')">💾 ক্লাউডে সেভ করুন</button></div>
+            <div class="action-bar admin-only"><button class="btn btn-success" onclick="saveData('sec3')">💾 ক্লাউডে সেভ করুন</button></div>
             
             <h3 style="margin-top: 20px; font-size: 17px; color: #1b4d3e;">ক) দায়িত্ব বন্টন</h3>
-            <div class="action-bar">
+            <div class="action-bar admin-only">
                 <div>
                     <button class="btn btn-success" onclick="addRow('table3a')">+ দায়িত্ব</button>
                     <button class="btn btn-warning" onclick="addColumn('table3a')">+ কলাম</button>
                 </div>
             </div>
             <table id="table3a">
-                <thead><tr><th>ক্রমিক নং</th><th>শিক্ষকের নাম</th><th>পাঠদান সংক্রান্ত দায়িত্ব</th><th>অন্যান্য দায়িত্ব</th><th>অ্যাকশন</th></tr></thead>
+                <thead><tr><th>ক্রমিক নং</th><th>শিক্ষকের নাম</th><th>পাঠদান সংক্রান্ত দায়িত্ব</th><th>অন্যান্য দায়িত্ব</th><th class="admin-only">অ্যাকশন</th></tr></thead>
                 <tbody>
-                    <tr><td>১</td><td contenteditable="true">জাহাঙ্গীর আলম</td><td contenteditable="true">প্রধান শিক্ষক</td><td contenteditable="true">সভাপতি, স্লিপ কমিটি</td><td><button class="btn btn-danger" style="padding:6px 12px; font-size:12px;" onclick="deleteRow(this)">মুছুন</button></td></tr>
+                    <tr><td>১</td><td>জাহাঙ্গীর আলম</td><td>প্রধান শিক্ষক</td><td>সভাপতি, স্লিপ কমিটি</td><td class="admin-only"><button class="btn btn-danger" style="padding:6px 12px; font-size:12px;" onclick="deleteRow(this)">মুছুন</button></td></tr>
                 </tbody>
             </table>
 
             <h3 style="margin-top: 30px; font-size: 17px; color: #1b4d3e;">খ) ছুটি সংক্রান্ত</h3>
-            <div class="action-bar">
+            <div class="action-bar admin-only">
                 <div>
                     <button class="btn btn-success" onclick="addRow('table3b')">+ ছুটি</button>
                     <button class="btn btn-warning" onclick="addColumn('table3b')">+ কলাম</button>
                 </div>
             </div>
             <table id="table3b">
-                <thead><tr><th>ক্রমিক নং</th><th>শিক্ষকের নাম</th><th>প্রাপ্য নৈ: ছুটি</th><th>ভোগকৃত ছুটি</th><th>অবশিষ্ট ছুটি</th><th>মন্তব্য</th><th>অ্যাকশন</th></tr></thead>
+                <thead><tr><th>ক্রমিক নং</th><th>শিক্ষকের নাম</th><th>প্রাপ্য নৈ: ছুটি</th><th>ভোগকৃত ছুটি</th><th>অবশিষ্ট ছুটি</th><th>মন্তব্য</th><th class="admin-only">অ্যাকশন</th></tr></thead>
                 <tbody>
-                    <tr><td>১</td><td contenteditable="true">জাহাঙ্গীর আলম</td><td contenteditable="true">২০ দিন</td><td contenteditable="true">০৫ দিন</td><td contenteditable="true">১৫ দিন</td><td contenteditable="true">স্বাক্ষরিত</td><td><button class="btn btn-danger" style="padding:6px 12px; font-size:12px;" onclick="deleteRow(this)">মুছুন</button></td></tr>
+                    <tr><td>১</td><td>জাহাঙ্গীর আলম</td><td>২০ দিন</td><td>০৫ দিন</td><td>১৫ দিন</td><td>স্বাক্ষরিত</td><td class="admin-only"><button class="btn btn-danger" style="padding:6px 12px; font-size:12px;" onclick="deleteRow(this)">মুছুন</button></td></tr>
                 </tbody>
             </table>
         </div>
@@ -261,20 +261,20 @@
         <div id="sec4" class="section-view">
             <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
             <h2>৪. শ্রেণিভিত্তিক শিক্ষার্থীর তালিকা</h2>
-            <div class="action-bar"><button class="btn btn-success" onclick="saveData('sec4')">💾 ক্লাউডে সব শ্রেণি সেভ করুন</button></div>
+            <div class="action-bar admin-only"><button class="btn btn-success" onclick="saveData('sec4')">💾 ক্লাউডে সব শ্রেণি সেভ করুন</button></div>
 
             <div style="background: #e3f2fd; padding: 20px; border-radius: 10px; margin-top: 25px;">
                 <h3 style="font-size: 17px; color: #0d47a1; margin-bottom: 12px;">প্রাক-প্রাথমিক শ্রেণি</h3>
-                <div class="action-bar">
+                <div class="action-bar admin-only">
                     <div>
                         <button class="btn btn-success" onclick="addRow('tablePrePrimary')" style="font-size: 13px; padding: 8px 14px;">+ শিক্ষার্থী</button>
                         <button class="btn btn-warning" onclick="addColumn('tablePrePrimary')" style="font-size: 13px; padding: 8px 14px;">+ কলাম</button>
                     </div>
                 </div>
                 <table id="tablePrePrimary">
-                    <thead><tr><th>ক্রমিক</th><th>শিক্ষার্থীর নাম</th><th>পিতার নাম</th><th>মাতার নাম</th><th>যোগাযোগ/ঠিকানা</th><th>অ্যাকশন</th></tr></thead>
+                    <thead><tr><th>ক্রমিক</th><th>শিক্ষার্থীর নাম</th><th>পিতার নাম</th><th>মাতার নাম</th><th>যোগাযোগ/ঠিকানা</th><th class="admin-only">অ্যাকশন</th></tr></thead>
                     <tbody>
-                        <tr><td>১</td><td contenteditable="true">শিশুর নাম</td><td contenteditable="true">পিতার নাম</td><td contenteditable="true">মাতার নাম</td><td contenteditable="true">অভয়পাশা</td><td><button class="btn btn-danger" style="padding:6px 12px; font-size:12px;" onclick="deleteRow(this)">মুছুন</button></td></tr>
+                        <tr><td>১</td><td>শিশুর নাম</td><td>পিতার নাম</td><td>মাতার নাম</td><td>অভয়পাশা</td><td class="admin-only"><button class="btn btn-danger" style="padding:6px 12px; font-size:12px;" onclick="deleteRow(this)">মুছুন</button></td></tr>
                     </tbody>
                 </table>
             </div>
@@ -283,7 +283,7 @@
         <div id="sec5" class="section-view">
             <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
             <h2>৫. প্রধান শিক্ষকগণের দায়িত্ব পালনের ইতিহাস</h2>
-            <div class="action-bar">
+            <div class="action-bar admin-only">
                 <div>
                     <button class="btn btn-success" onclick="addRow('table5')">+ সারি</button>
                     <button class="btn btn-warning" onclick="addColumn('table5')">+ কলাম</button>
@@ -291,9 +291,9 @@
                 <button class="btn btn-success" onclick="saveData('sec5')">💾 ক্লাউডে সেভ করুন</button>
             </div>
             <table id="table5">
-                <thead><tr><th>ক্রমিক</th><th>প্রধান শিক্ষকের নাম</th><th>সময়কাল</th><th>অ্যাকশন</th></tr></thead>
+                <thead><tr><th>ক্রমিক</th><th>প্রধান শিক্ষকের নাম</th><th>সময়কাল</th><th class="admin-only">অ্যাকশন</th></tr></thead>
                 <tbody>
-                    <tr><td>১</td><td contenteditable="true">জনাব মোজাম্মেল হক</td><td contenteditable="true">২০১০ - ২০১৯</td><td><button class="btn btn-danger" style="padding:6px 12px; font-size:12px;" onclick="deleteRow(this)">মুছুন</button></td></tr>
+                    <tr><td>১</td><td>জনাব মোজাম্মেল হক</td><td>২০১০ - ২০১৯</td><td class="admin-only"><button class="btn btn-danger" style="padding:6px 12px; font-size:12px;" onclick="deleteRow(this)">মুছুন</button></td></tr>
                 </tbody>
             </table>
         </div>
@@ -301,20 +301,20 @@
         <div id="sec6" class="section-view">
             <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
             <h2>৬. ম্যানেজিং কমিটি সংক্রান্ত</h2>
-            <div class="action-bar"><button class="btn btn-success" onclick="saveData('sec6')">💾 ক্লাউডে সেভ করুন</button></div>
-            <div style="background: #fff9c4; padding: 20px; border-radius: 10px; margin-bottom: 20px; font-size: 15px;" contenteditable="true">
+            <div class="action-bar admin-only"><button class="btn btn-success" onclick="saveData('sec6')">💾 ক্লাউডে সেভ করুন</button></div>
+            <div id="sec6_note" style="background: #fff9c4; padding: 20px; border-radius: 10px; margin-bottom: 20px; font-size: 15px;">
                 বর্তমান কমিটি গঠনকাল: ২০২৪ থেকে ২০২৯ সাল পর্যন্ত।
             </div>
-            <div class="action-bar">
+            <div class="action-bar admin-only">
                 <div>
                     <button class="btn btn-success" onclick="addRow('table6')">+ সারি</button>
                     <button class="btn btn-warning" onclick="addColumn('table6')">+ কলাম</button>
                 </div>
             </div>
             <table id="table6">
-                <thead><tr><th>ক্রমিক</th><th>সদস্যের নাম</th><th>পদবি</th><th>ক্যাটাগরি</th><th>অ্যাকশন</th></tr></thead>
+                <thead><tr><th>ক্রমিক</th><th>সদস্যের নাম</th><th>পদবি</th><th>ক্যাটাগরি</th><th class="admin-only">অ্যাকশন</th></tr></thead>
                 <tbody>
-                    <tr><td>১</td><td contenteditable="true">মো: আব্দুল করিম</td><td contenteditable="true">সভাপতি</td><td contenteditable="true">অভিভাবক প্রতিনিধি</td><td><button class="btn btn-danger" style="padding:6px 12px; font-size:12px;" onclick="deleteRow(this)">মুছুন</button></td></tr>
+                    <tr><td>১</td><td>মো: আব্দুল করিম</td><td>সভাপতি</td><td>অভিভাবক প্রতিনিধি</td><td class="admin-only"><button class="btn btn-danger" style="padding:6px 12px; font-size:12px;" onclick="deleteRow(this)">মুছুন</button></td></tr>
                 </tbody>
             </table>
         </div>
@@ -322,20 +322,20 @@
         <div id="sec7" class="section-view">
             <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
             <h2>৭. ফাইল আর্কাইভ ফোল্ডার</h2>
-            <div class="action-bar"><button class="btn btn-success" onclick="saveData('sec7')">💾 ক্লাউডে সেভ করুন</button></div>
-            <div style="background: #fff3e0; padding: 20px; border-radius: 10px; margin-bottom: 20px; font-size: 15px;" contenteditable="true">
+            <div class="action-bar admin-only"><button class="btn btn-success" onclick="saveData('sec7')">💾 ক্লাউডে সেভ করুন</button></div>
+            <div id="sec7_note" style="background: #fff3e0; padding: 20px; border-radius: 10px; margin-bottom: 20px; font-size: 15px;">
                 • গুরুত্বপূর্ণ অফিশিয়াল নোটিশ ও ফাইল সংরক্ষণ ফোল্ডার।
             </div>
-            <div class="action-bar">
+            <div class="action-bar admin-only">
                 <div>
                     <button class="btn btn-success" onclick="addRow('table7')">+ ফাইল</button>
                     <button class="btn btn-warning" onclick="addColumn('table7')">+ কলাম</button>
                 </div>
             </div>
             <table id="table7">
-                <thead><tr><th>ক্রমিক</th><th>ফাইলের বিবরণ</th><th>ড্রাইভ লিংক</th><th>অ্যাকশন</th></tr></thead>
+                <thead><tr><th>ক্রমিক</th><th>ফাইলের বিবরণ</th><th>ড্রাইভ লিংক</th><th class="admin-only">অ্যাকশন</th></tr></thead>
                 <tbody>
-                    <tr><td>১</td><td contenteditable="true">বিদ্যালয়ের রুটিন</td><td contenteditable="true"><a href="https://drive.google.com" target="_blank">লিংক ওপেন করুন</a></td><td><button class="btn btn-danger" style="padding:6px 12px; font-size:12px;" onclick="deleteRow(this)">মুছুন</button></td></tr>
+                    <tr><td>১</td><td>বিদ্যালয়ের রুটিন</td><td><a href="https://drive.google.com" target="_blank">লিংক ওপেন করুন</a></td><td class="admin-only"><button class="btn btn-danger" style="padding:6px 12px; font-size:12px;" onclick="deleteRow(this)">মুছুন</button></td></tr>
                 </tbody>
             </table>
         </div>
@@ -343,17 +343,17 @@
         <div id="sec8" class="section-view">
             <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
             <h2>৮. গুরুত্বপূর্ণ ওয়েবসাইট ও অনলাইন লিংক</h2>
-            <div class="action-bar">
+            <div class="action-bar admin-only">
                 <button class="btn btn-success" onclick="addLinkItem()">+ নতুন লিংক</button>
                 <button class="btn btn-success" onclick="saveData('sec8')">💾 ক্লাউডে সেভ করুন</button>
             </div>
             <div id="linksContainer" style="margin-top: 20px;">
                 <div class="link-item">
                     <div style="font-size: 15px; word-break: break-all;">
-                        <strong>১.</strong> <span contenteditable="true">প্রাথমিক শিক্ষা অধিদপ্তর (DPE)</span> - 
-                        <a href="https://dpe.gov.bd" target="_blank" contenteditable="true">https://dpe.gov.bd</a>
+                        <strong>১.</strong> <span>প্রাথমিক শিক্ষা অধিদপ্তর (DPE)</span> - 
+                        <a href="https://dpe.gov.bd" target="_blank">https://dpe.gov.bd</a>
                     </div>
-                    <button class="btn btn-danger" style="padding: 6px 12px; font-size: 12px;" onclick="this.parentElement.remove()">মুছুন</button>
+                    <button class="btn btn-danger admin-only" style="padding: 6px 12px; font-size: 12px;" onclick="this.parentElement.remove()">মুছুন</button>
                 </div>
             </div>
         </div>
@@ -361,8 +361,8 @@
         <div id="sec9" class="section-view">
             <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
             <h2>৯. অন্যান্য গুরুত্বপূর্ণ তথ্য</h2>
-            <div class="action-bar"><button class="btn btn-success" onclick="saveData('sec9')">💾 ক্লাউডে সেভ করুন</button></div>
-            <div style="background: #f1f8e9; padding: 25px; border-radius: 10px; font-size: 15px;" contenteditable="true">
+            <div class="action-bar admin-only"><button class="btn btn-success" onclick="saveData('sec9')">💾 ক্লাউডে সেভ করুন</button></div>
+            <div id="sec9_content" style="background: #f1f8e9; padding: 25px; border-radius: 10px; font-size: 15px;">
                 এখানে বিদ্যালয়ের অন্যান্য অতিরিক্ত তথ্য বা বিবরণ লিখে সংরক্ষণ করতে পারবেন।
             </div>
         </div>
@@ -376,7 +376,7 @@
                 <img src="https://i.ibb.co.com/5xJkDXSw/IMG-20260829-073221-093.jpg" alt="ডিফল্ট ছবি" id="currentMedia">
             </div>
 
-            <div class="upload-section">
+            <div class="upload-section admin-only">
                 <h3>নতুন ছবি ও ক্যাপশন যুক্ত করুন</h3>
                 <div class="form-group">
                     <label>ডিভাইস বা ড্রাইভ থেকে একসাথে একাধিক ছবি সিলেক্ট করুন:</label>
@@ -426,38 +426,80 @@
 
             if (pin === ADMIN_PIN) {
                 sessionStorage.setItem('userRole', 'admin');
-                initPortal();
+                initPortalView();
+                hideLoginBox();
             } else if (pin === TEACHER_PIN) {
                 sessionStorage.setItem('userRole', 'teacher');
-                initPortal();
+                initPortalView();
+                hideLoginBox();
             } else {
                 errorEl.innerText = "❌ ভুল পিন কোড! সঠিক পিন দিন (অ্যাডমিন: ১২৩৪, শিক্ষক: ৫৬৭৮)।";
             }
         }
 
-        function initPortal() {
+        function showLoginBox() {
+            document.getElementById('dashboardSection').style.display = 'none';
+            document.getElementById('loginSection').style.display = 'flex';
+            let menu = document.getElementById('profileDropdown');
+            if(menu) menu.classList.remove('active');
+        }
+
+        function hideLoginBox() {
             document.getElementById('loginSection').style.display = 'none';
             document.getElementById('dashboardSection').style.display = 'block';
+        }
+
+        function initPortalView() {
             let role = sessionStorage.getItem('userRole');
             
-            if(role === 'admin') {
-                document.getElementById('userRoleTitle').innerText = 'মূল ড্যাশবোর্ড [প্রধান শিক্ষক - অ্যাডমিন প্যানেল]';
-                document.getElementById('adminPendingArea').style.display = 'block';
-                loadPendingUpdates();
+            if(role === 'admin' || role === 'teacher') {
+                document.querySelectorAll('.admin-only').forEach(el => el.style.display = '');
+                document.querySelectorAll('.container [contenteditable]').forEach(el => el.setAttribute('contenteditable', 'true'));
+                
+                if(role === 'admin') {
+                    document.getElementById('userRoleTitle').innerText = 'মূল ড্যাশবোর্ড [প্রধান শিক্ষক - অ্যাডমিন প্যানেল]';
+                    document.getElementById('adminPendingArea').style.display = 'block';
+                    loadPendingUpdates();
+                } else {
+                    document.getElementById('userRoleTitle').innerText = 'মূল ড্যাশবোর্ড [সহকারী শিক্ষক প্যানেল]';
+                    document.getElementById('adminPendingArea').style.display = 'none';
+                }
+                
+                document.getElementById('headerUserName').innerText = localStorage.getItem('userName') || (role === 'admin' ? 'প্রধান শিক্ষক' : 'সহকারী শিক্ষক');
+                document.getElementById('dropdownUserName').innerText = localStorage.getItem('userName') || (role === 'admin' ? 'প্রধান শিক্ষক' : 'সহকারী শিক্ষক');
+                document.getElementById('dropdownUserRole').innerText = role === 'admin' ? 'এডমিন (প্রধান শিক্ষক)' : 'সহকারী শিক্ষক';
+                
+                let profileMenuItems = document.getElementById('profileMenuItems');
+                profileMenuItems.innerHTML = `
+                    <button onclick="openProfileModal()">⚙️ প্রোফাইল ও পাসওয়ার্ড পরিবর্তন</button>
+                    <button onclick="logout()" style="color: #d9534f;">🚪 লগআউট / রিডিং মোড</button>
+                `;
             } else {
-                document.getElementById('userRoleTitle').innerText = 'মূল ড্যাশবোর্ড [সহকারী শিক্ষক প্যানেল]';
+                // Public / Reading Mode
+                document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'none');
+                document.querySelectorAll('.container [contenteditable]').forEach(el => el.setAttribute('contenteditable', 'false'));
+                document.getElementById('userRoleTitle').innerText = 'মূল ড্যাশবোর্ড (রিডিং মোড - ভিজিটর ভিউ)';
                 document.getElementById('adminPendingArea').style.display = 'none';
+                
+                document.getElementById('headerUserName').innerText = 'সাধারণ ভিজিটর';
+                document.getElementById('dropdownUserName').innerText = 'সাধারণ ভিজিটর';
+                document.getElementById('dropdownUserRole').innerText = 'রিডিং মোড (পাবলিক ভিউ)';
+                
+                let profileMenuItems = document.getElementById('profileMenuItems');
+                profileMenuItems.innerHTML = `
+                    <button onclick="showLoginBox()">🔐 শিক্ষক/এডমিন লগইন</button>
+                `;
             }
+
             loadAllDataFromCloud();
             loadGalleryFromCloud();
         }
 
         function logout() {
             sessionStorage.removeItem('userRole');
-            document.getElementById('dashboardSection').style.display = 'none';
-            document.getElementById('loginSection').style.display = 'flex';
-            document.getElementById('pinInput').value = '';
-            document.getElementById('loginError').innerText = '';
+            initPortalView();
+            showDashboard();
+            alert('🔒 সফলভাবে রিডিং মোডে ফিরে আসা হয়েছে!');
         }
 
         function showSection(secId) {
@@ -479,10 +521,12 @@
             let newRow = table.insertRow();
             for(let i=0; i<colCount; i++) {
                 let cell = newRow.insertCell(i);
-                if(i === 0) {
-                    cell.innerText = rowCount;
-                } else if(i === colCount - 1) {
+                let isActionCol = document.getElementById(tableId).rows[0].cells[i].classList.contains('admin-only');
+                if(isActionCol) {
+                    cell.className = 'admin-only';
                     cell.innerHTML = '<button class="btn btn-danger" style="padding:6px 12px; font-size:12px;" onclick="deleteRow(this)">মুছুন</button>';
+                } else if(i === 0) {
+                    cell.innerText = rowCount;
                 } else {
                     cell.setAttribute('contenteditable', 'true');
                     cell.innerText = 'তথ্য লিখুন';
@@ -516,7 +560,7 @@
             let count = container.children.length + 1;
             let div = document.createElement('div');
             div.className = 'link-item';
-            div.innerHTML = `<div style="font-size: 15px; word-break: break-all;"><strong>${count}.</strong> <span contenteditable="true">সাইটের নাম</span> - <a href="https://example.com" target="_blank" contenteditable="true">https://example.com</a></div><button class="btn btn-danger" style="padding: 6px 12px; font-size: 12px;" onclick="this.parentElement.remove()">মুছুন</button>`;
+            div.innerHTML = `<div style="font-size: 15px; word-break: break-all;"><strong>${count}.</strong> <span contenteditable="true">সাইটের নাম</span> - <a href="https://example.com" target="_blank" contenteditable="true">https://example.com</a></div><button class="btn btn-danger admin-only" style="padding: 6px 12px; font-size: 12px;" onclick="this.parentElement.remove()">মুছুন</button>`;
             container.appendChild(div);
         }
 
@@ -564,6 +608,16 @@
                         document.getElementById('sec' + i).innerHTML = secDoc.data().html;
                     }
                 }
+                
+                // Re-apply role view restrictions after dynamic load
+                let role = sessionStorage.getItem('userRole');
+                if(role !== 'admin' && role !== 'teacher') {
+                    document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'none');
+                    document.querySelectorAll('.container [contenteditable]').forEach(el => el.setAttribute('contenteditable', 'false'));
+                } else {
+                    document.querySelectorAll('.admin-only').forEach(el => el.style.display = '');
+                    document.querySelectorAll('.container [contenteditable]').forEach(el => el.setAttribute('contenteditable', 'true'));
+                }
             } catch(err) {
                 console.log("ডাটা লোড করতে সমস্যা হয়েছে: ", err);
             }
@@ -604,12 +658,18 @@
                 return;
             }
 
+            let role = sessionStorage.getItem('userRole');
+            let isEditable = (role === 'admin' || role === 'teacher');
+
             galleryData.forEach((item, index) => {
+                let editAttr = isEditable ? 'contenteditable="true"' : '';
+                let deleteBtnHtml = isEditable ? `<button class="btn btn-danger" onclick="deleteImage(${index})">ডিলিট করুন</button>` : '';
+                
                 grid.innerHTML += `
                     <div class="gallery-item" data-id="${item.id || ''}">
                         <img src="${item.url}" alt="গ্যালারি ছবি" onclick="showMedia('${item.url}')">
-                        <div class="caption" contenteditable="true" oninput="updateCaption(${index}, this)">${item.caption}</div>
-                        <button class="btn btn-danger" onclick="deleteImage(${index})">ডিলিট করুন</button>
+                        <div class="caption" ${editAttr} oninput="updateCaption(${index}, this)">${item.caption}</div>
+                        ${deleteBtnHtml}
                     </div>
                 `;
             });
@@ -884,30 +944,16 @@
         }
 
         function sharePortalLink() {
-            const portalUrl = window.location.href;
-            const message = encodeURIComponent('আমাদের বিদ্যালয়ের ডিজিটাল পোর্টাল বা অ্যাপসটি দেখতে নিচের লিংকে ক্লিক করুন: ' + portalUrl);
+            const portalUrl = window.location.href.split('?')[0];
+            const message = encodeURIComponent('আমাদের বিদ্যালয়ের ডিজিটাল পোর্টালটি দেখতে নিচের লিংকে ক্লিক করুন: ' + portalUrl);
             window.open('https://api.whatsapp.com/send?text=' + message, '_blank');
         }
 
         window.addEventListener('DOMContentLoaded', () => {
-            let savedName = localStorage.getItem('userName');
-            let savedPhone = localStorage.getItem('userPhone');
             let savedPic = localStorage.getItem('userPic');
-            let role = sessionStorage.getItem('userRole') || 'ইউজার';
-
-            if(savedName) {
-                if(document.getElementById('headerUserName')) document.getElementById('headerUserName').innerText = savedName;
-                if(document.getElementById('dropdownUserName')) document.getElementById('dropdownUserName').innerText = savedName;
-            }
-            if(savedPhone) {
-                if(document.getElementById('dropdownUserPhone')) document.getElementById('dropdownUserPhone').innerText = savedPhone;
-            }
             if(savedPic) {
                 if(document.getElementById('headerUserPic')) document.getElementById('headerUserPic').src = savedPic;
                 if(document.getElementById('dropdownUserPic')) document.getElementById('dropdownUserPic').src = savedPic;
-            }
-            if(document.getElementById('dropdownUserRole')) {
-                document.getElementById('dropdownUserRole').innerText = role === 'admin' ? 'এডমিন (প্রধান শিক্ষক)' : 'সহকারী শিক্ষক';
             }
         });
     </script>
