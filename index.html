@@ -115,10 +115,10 @@
         /* Print Specific Styles */
         @media print {
             body { background: #fff; color: #000; }
-            header, .marquee-box, .action-bar, .back-btn, .user-profile-widget, .profile-dropdown-menu, #installAppBtnContainer { display: none !important; }
+            header, .marquee-box, .action-bar, .back-btn, .user-profile-widget, .profile-dropdown-menu, #installAppBtnContainer, button { display: none !important; }
             .section-view { display: block !important; box-shadow: none; padding: 0; margin: 0; }
             table { box-shadow: none; border: 1px solid #000; }
-            th, td { border: 1px solid #000; color: #000; }
+            th, td { border: 1px solid #000; color: #000; background: #fff !important; }
         }
     </style>
 </head>
@@ -147,7 +147,7 @@
          <p>আটপাড়া,নেত্রকোনা</p>
         <p>ডিজিটাল মনিটরিং ও ম্যানেজমেন্ট পোর্টাল</p>
         <div style="margin-top: 12px; font-size: 14px; opacity: 0.95; display: flex; justify-content: center; gap: 25px; flex-wrap: wrap;">
-            <span>ইএমআইএস কোড: <span id="emisCodeText">৯১৩০৪০১০১০৭</span></span>
+            <span>ইএমআইএস কোড: <span id="emisCodeText">৯১৩০৪০۱۰১০৭</span></span>
             <span>স্থাপিত: <span id="establishedYearText">১৯০৪ খ্রি:</span></span>
         </div>
     </header>
@@ -157,13 +157,13 @@
     </div>
 
     <div class="container">
-        <!-- PWA Install Banner (Hidden by default until prompt is ready) -->
+        <!-- PWA Install Banner -->
         <div id="installAppBtnContainer" style="display: none; background: #e0f2f1; padding: 15px; border-radius: 10px; margin-bottom: 20px; text-align: center; border: 1px solid #b2dfdb;">
             <p style="color: #00695c; font-weight: bold; margin-bottom: 8px;">📱 আপনার ডিভাইসে এই পোর্টালটি অ্যাপ আকারে ইনস্টল করুন!</p>
             <button class="btn btn-info" id="installAppBtn" style="padding: 10px 20px;">অ্যাপ ইনস্টল করুন</button>
         </div>
 
-        <!-- Login Section (Hidden by default) -->
+        <!-- Login Section -->
         <div id="loginSection" class="login-wrapper">
             <div class="login-box">
                 <h2>পোর্টাল লগইন প্যানেল</h2>
@@ -214,7 +214,7 @@
         <div id="sec1" class="section-view">
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
                 <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
-                <button class="btn btn-info" onclick="window.print()" style="padding: 10px 18px; font-size: 14px;">🖨️ প্রিন্ট করুন</button>
+                <button class="btn btn-info" onclick="triggerPrint('sec1')" style="padding: 10px 18px; font-size: 14px;">🖨️ প্রিন্ট করুন</button>
             </div>
             <h2>১. ডিজিটাল মনিটরিং বোর্ড ও সাধারণ তথ্য</h2>
             <div class="action-bar admin-only">
@@ -235,7 +235,7 @@
         <div id="sec2" class="section-view">
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
                 <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
-                <button class="btn btn-info" onclick="window.print()" style="padding: 10px 18px; font-size: 14px;">🖨️ প্রিন্ট করুন</button>
+                <button class="btn btn-info" onclick="triggerPrint('sec2')" style="padding: 10px 18px; font-size: 14px;">🖨️ প্রিন্ট করুন</button>
             </div>
             <h2>২. কর্মরত শিক্ষকগণের তথ্য</h2>
             <div class="action-bar admin-only">
@@ -256,7 +256,7 @@
         <div id="sec3" class="section-view">
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
                 <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
-                <button class="btn btn-info" onclick="window.print()" style="padding: 10px 18px; font-size: 14px;">🖨️ প্রিন্ট করুন</button>
+                <button class="btn btn-info" onclick="triggerPrint('sec3')" style="padding: 10px 18px; font-size: 14px;">🖨️ প্রিন্ট করুন</button>
             </div>
             <h2>৩. দায়িত্ব বন্টন ও ছুটি সংক্রান্ত</h2>
             <div class="action-bar admin-only"><button class="btn btn-success" onclick="saveData('sec3')">💾 ক্লাউডে সেভ করুন</button></div>
@@ -293,7 +293,7 @@
         <div id="sec4" class="section-view">
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
                 <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
-                <button class="btn btn-info" onclick="window.print()" style="padding: 10px 18px; font-size: 14px;">🖨️ প্রিন্ট করুন</button>
+                <button class="btn btn-info" onclick="triggerPrint('sec4')" style="padding: 10px 18px; font-size: 14px;">🖨️ প্রিন্ট করুন</button>
             </div>
             <h2>৪. শ্রেণিভিত্তিক শিক্ষার্থীর তালিকা</h2>
             <div class="action-bar admin-only"><button class="btn btn-success" onclick="saveData('sec4')">💾 ক্লাউডে সব শ্রেণি সেভ করুন</button></div>
@@ -318,7 +318,7 @@
         <div id="sec5" class="section-view">
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
                 <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
-                <button class="btn btn-info" onclick="window.print()" style="padding: 10px 18px; font-size: 14px;">🖨️ প্রিন্ট করুন</button>
+                <button class="btn btn-info" onclick="triggerPrint('sec5')" style="padding: 10px 18px; font-size: 14px;">🖨️ প্রিন্ট করুন</button>
             </div>
             <h2>৫. প্রধান শিক্ষকগণের দায়িত্ব পালনের ইতিহাস</h2>
             <div class="action-bar admin-only">
@@ -339,7 +339,7 @@
         <div id="sec6" class="section-view">
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
                 <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
-                <button class="btn btn-info" onclick="window.print()" style="padding: 10px 18px; font-size: 14px;">🖨️ প্রিন্ট করুন</button>
+                <button class="btn btn-info" onclick="triggerPrint('sec6')" style="padding: 10px 18px; font-size: 14px;">🖨️ প্রিন্ট করুন</button>
             </div>
             <h2>৬. ম্যানেজিং কমিটি সংক্রান্ত</h2>
             <div class="action-bar admin-only"><button class="btn btn-success" onclick="saveData('sec6')">💾 ক্লাউডে সেভ করুন</button></div>
@@ -363,7 +363,7 @@
         <div id="sec7" class="section-view">
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
                 <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
-                <button class="btn btn-info" onclick="window.print()" style="padding: 10px 18px; font-size: 14px;">🖨️ প্রিন্ট করুন</button>
+                <button class="btn btn-info" onclick="triggerPrint('sec7')" style="padding: 10px 18px; font-size: 14px;">🖨️ প্রিন্ট করুন</button>
             </div>
             <h2>৭. ফাইল আর্কাইভ ফোল্ডার</h2>
             <div class="action-bar admin-only"><button class="btn btn-success" onclick="saveData('sec7')">💾 ক্লাউডে সেভ করুন</button></div>
@@ -387,7 +387,7 @@
         <div id="sec8" class="section-view">
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
                 <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
-                <button class="btn btn-info" onclick="window.print()" style="padding: 10px 18px; font-size: 14px;">🖨️ প্রিন্ট করুন</button>
+                <button class="btn btn-info" onclick="triggerPrint('sec8')" style="padding: 10px 18px; font-size: 14px;">🖨️ প্রিন্ট করুন</button>
             </div>
             <h2>৮. গুরুত্বপূর্ণ ওয়েবসাইট ও অনলাইন লিংক</h2>
             <div class="action-bar admin-only">
@@ -408,7 +408,7 @@
         <div id="sec9" class="section-view">
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
                 <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
-                <button class="btn btn-info" onclick="window.print()" style="padding: 10px 18px; font-size: 14px;">🖨️ প্রিন্ট করুন</button>
+                <button class="btn btn-info" onclick="triggerPrint('sec9')" style="padding: 10px 18px; font-size: 14px;">🖨️ প্রিন্ট করুন</button>
             </div>
             <h2>৯. অন্যান্য গুরুত্বপূর্ণ তথ্য</h2>
             <div class="action-bar admin-only"><button class="btn btn-success" onclick="saveData('sec9')">💾 ক্লাউডে সেভ করুন</button></div>
@@ -421,7 +421,7 @@
         <div id="sec10" class="section-view">
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
                 <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
-                <button class="btn btn-info" onclick="window.print()" style="padding: 10px 18px; font-size: 14px;">🖨️ প্রিন্ট করুন</button>
+                <button class="btn btn-info" onclick="triggerPrint('sec10')" style="padding: 10px 18px; font-size: 14px;">🖨️ প্রিন্ট করুন</button>
             </div>
             <h2>১০. স্মৃতিচারণ ও ফটো ও ভিডিও গ্যালারি</h2>
             
@@ -592,6 +592,10 @@
             document.getElementById('dashboardSection').style.display = 'block';
         }
 
+        function triggerPrint(secId) {
+            window.print();
+        }
+
         function addRow(tableId) {
             let table = document.getElementById(tableId).getElementsByTagName('tbody')[0];
             let rowCount = table.rows.length + 1;
@@ -688,7 +692,6 @@
                     }
                 }
                 
-                // Re-apply role view restrictions after dynamic load
                 let role = sessionStorage.getItem('userRole');
                 if(role !== 'admin' && role !== 'teacher') {
                     document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'none');
