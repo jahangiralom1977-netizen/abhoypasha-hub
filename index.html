@@ -686,7 +686,7 @@
                 } catch(err) {
                     alert('❌ ত্রুটি: ' + err.message);
                 }
-            } else {
+            } else if (role=== 'teacher') {
                 try {
                     await window.setDocRef(window.docRef(window.db, "pendingUpdates", "pending_" + secId + "_" + Date.now()), {
                         secId: secId,
@@ -699,7 +699,10 @@
                     alert('❌ ত্রুটি: ' + err.message);
                 }
             }
-        }
+        } else {
+        alert('❌ দুঃখিত! সাধারণ ভিজিটরদের কোনো তথ্য পরিবর্তন বা আপডেট পাঠানোর অনুমতি নেই।');
+        return;
+    }
 
         async function loadAllDataFromCloud() {
             try {
