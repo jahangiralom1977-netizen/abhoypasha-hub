@@ -53,6 +53,10 @@
         .marquee-box { background: #ffeb3b; color: #000; padding: 12px; font-weight: bold; overflow: hidden; white-space: nowrap; font-size: 15px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05); }
         .container { max-width: 1200px; margin: auto; padding: 30px 20px; }
         
+        /* সার্বজনীন টপ প্রিন্ট বার স্টাইল */
+        .global-top-print { background: #e8f5e9; padding: 15px 20px; border-radius: 12px; margin-bottom: 25px; border: 1px solid #c8e6c9; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .global-top-print p { color: #2e7d32; font-weight: bold; margin: 0; font-size: 15px; }
+
         .login-wrapper { display: none; justify-content: center; align-items: center; min-height: 50vh; }
         .login-box { width: 100%; max-width: 440px; background: #fff; padding: 40px 30px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; border-top: 6px solid #1b4d3e; margin: 20px auto; }
         .login-box h2 { color: #1b4d3e; margin-bottom: 10px; font-size: 24px; }
@@ -112,10 +116,11 @@
         
         .admin-only { display: none !important; }
 
-        /* Print Specific Styles */
+        /* Print Specific Styles - লোগো ও হেডার সহ প্রিন্ট নিশ্চিত করার জন্য */
         @media print {
             body { background: #fff; color: #000; }
-            header, .marquee-box, .action-bar, .back-btn, .user-profile-widget, .profile-dropdown-menu, #installAppBtnContainer, button { display: none !important; }
+            header { background: #1b4d3e !important; color: #fff !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .marquee-box, .action-bar, .back-btn, .user-profile-widget, .profile-dropdown-menu, #installAppBtnContainer, .global-top-print, button { display: none !important; }
             .section-view { display: block !important; box-shadow: none; padding: 0; margin: 0; }
             table { box-shadow: none; border: 1px solid #000; }
             th, td { border: 1px solid #000; color: #000; background: #fff !important; }
@@ -144,10 +149,10 @@
         </div>
 
         <h1>৭ নং অভয়পাশা সরকারি প্রাথমিক বিদ্যালয়</h1>
-         <p>আটপাড়া,নেত্রকোনা</p>
+         <p>আটপাড়া, নেত্রকোনা</p>
         <p>ডিজিটাল মনিটরিং ও ম্যানেজমেন্ট পোর্টাল</p>
         <div style="margin-top: 12px; font-size: 14px; opacity: 0.95; display: flex; justify-content: center; gap: 25px; flex-wrap: wrap;">
-            <span>ইএমআইএস কোড: <span id="emisCodeText">৯১৩০৪০۱۰১০৭</span></span>
+            <span>ইএমআইএস কোড: <span id="emisCodeText">৯১৩০৪০১০১০৭</span></span>
             <span>স্থাপিত: <span id="establishedYearText">১৯০৪ খ্রি:</span></span>
         </div>
     </header>
@@ -157,6 +162,15 @@
     </div>
 
     <div class="container">
+        
+        <!-- পেজের একদম উপরে সার্বজনীন প্রিন্ট বার -->
+        <div class="global-top-print">
+            <p>🖨️ বর্তমান পেজ বা তথ্য প্রিন্ট করতে ডানপাশের বাটনে ক্লিক করুন:</p>
+            <button class="btn btn-info" onclick="window.print()" style="padding: 10px 22px; font-size: 14px; display: inline-flex; align-items: center; gap: 8px;">
+                🖨️ প্রিন্ট করুন
+            </button>
+        </div>
+
         <!-- PWA Install Banner -->
         <div id="installAppBtnContainer" style="display: none; background: #e0f2f1; padding: 15px; border-radius: 10px; margin-bottom: 20px; text-align: center; border: 1px solid #b2dfdb;">
             <p style="color: #00695c; font-weight: bold; margin-bottom: 8px;">📱 আপনার ডিভাইসে এই পোর্টালটি অ্যাপ আকারে ইনস্টল করুন!</p>
@@ -212,10 +226,7 @@
 
         <!-- Section Views -->
         <div id="sec1" class="section-view">
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-                <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
-                <button class="btn btn-info" onclick="triggerPrint('sec1')" style="padding: 10px 18px; font-size: 14px;">🖨️ প্রিন্ট করুন</button>
-            </div>
+            <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
             <h2>১. ডিজিটাল মনিটরিং বোর্ড ও সাধারণ তথ্য</h2>
             <div class="action-bar admin-only">
                 <div>
@@ -233,10 +244,7 @@
         </div>
 
         <div id="sec2" class="section-view">
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-                <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
-                <button class="btn btn-info" onclick="triggerPrint('sec2')" style="padding: 10px 18px; font-size: 14px;">🖨️ প্রিন্ট করুন</button>
-            </div>
+            <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
             <h2>২. কর্মরত শিক্ষকগণের তথ্য</h2>
             <div class="action-bar admin-only">
                 <div>
@@ -254,10 +262,7 @@
         </div>
 
         <div id="sec3" class="section-view">
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-                <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
-                <button class="btn btn-info" onclick="triggerPrint('sec3')" style="padding: 10px 18px; font-size: 14px;">🖨️ প্রিন্ট করুন</button>
-            </div>
+            <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
             <h2>৩. দায়িত্ব বন্টন ও ছুটি সংক্রান্ত</h2>
             <div class="action-bar admin-only"><button class="btn btn-success" onclick="saveData('sec3')">💾 ক্লাউডে সেভ করুন</button></div>
             
@@ -291,10 +296,7 @@
         </div>
 
         <div id="sec4" class="section-view">
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-                <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
-                <button class="btn btn-info" onclick="triggerPrint('sec4')" style="padding: 10px 18px; font-size: 14px;">🖨️ প্রিন্ট করুন</button>
-            </div>
+            <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
             <h2>৪. শ্রেণিভিত্তিক শিক্ষার্থীর তালিকা</h2>
             <div class="action-bar admin-only"><button class="btn btn-success" onclick="saveData('sec4')">💾 ক্লাউডে সব শ্রেণি সেভ করুন</button></div>
 
@@ -316,10 +318,7 @@
         </div>
 
         <div id="sec5" class="section-view">
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-                <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
-                <button class="btn btn-info" onclick="triggerPrint('sec5')" style="padding: 10px 18px; font-size: 14px;">🖨️ প্রিন্ট করুন</button>
-            </div>
+            <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
             <h2>৫. প্রধান শিক্ষকগণের দায়িত্ব পালনের ইতিহাস</h2>
             <div class="action-bar admin-only">
                 <div>
@@ -337,10 +336,7 @@
         </div>
 
         <div id="sec6" class="section-view">
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-                <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
-                <button class="btn btn-info" onclick="triggerPrint('sec6')" style="padding: 10px 18px; font-size: 14px;">🖨️ প্রিন্ট করুন</button>
-            </div>
+            <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
             <h2>৬. ম্যানেজিং কমিটি সংক্রান্ত</h2>
             <div class="action-bar admin-only"><button class="btn btn-success" onclick="saveData('sec6')">💾 ক্লাউডে সেভ করুন</button></div>
             <div id="sec6_note" style="background: #fff9c4; padding: 20px; border-radius: 10px; margin-bottom: 20px; font-size: 15px;">
@@ -361,10 +357,7 @@
         </div>
 
         <div id="sec7" class="section-view">
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-                <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
-                <button class="btn btn-info" onclick="triggerPrint('sec7')" style="padding: 10px 18px; font-size: 14px;">🖨️ প্রিন্ট করুন</button>
-            </div>
+            <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
             <h2>৭. ফাইল আর্কাইভ ফোল্ডার</h2>
             <div class="action-bar admin-only"><button class="btn btn-success" onclick="saveData('sec7')">💾 ক্লাউডে সেভ করুন</button></div>
             <div id="sec7_note" style="background: #fff3e0; padding: 20px; border-radius: 10px; margin-bottom: 20px; font-size: 15px;">
@@ -385,10 +378,7 @@
         </div>
 
         <div id="sec8" class="section-view">
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-                <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
-                <button class="btn btn-info" onclick="triggerPrint('sec8')" style="padding: 10px 18px; font-size: 14px;">🖨️ প্রিন্ট করুন</button>
-            </div>
+            <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
             <h2>৮. গুরুত্বপূর্ণ ওয়েবসাইট ও অনলাইন লিংক</h2>
             <div class="action-bar admin-only">
                 <button class="btn btn-success" onclick="addLinkItem()">+ নতুন লিংক</button>
@@ -406,10 +396,7 @@
         </div>
 
         <div id="sec9" class="section-view">
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-                <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
-                <button class="btn btn-info" onclick="triggerPrint('sec9')" style="padding: 10px 18px; font-size: 14px;">🖨️ প্রিন্ট করুন</button>
-            </div>
+            <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
             <h2>৯. অন্যান্য গুরুত্বপূর্ণ তথ্য</h2>
             <div class="action-bar admin-only"><button class="btn btn-success" onclick="saveData('sec9')">💾 ক্লাউডে সেভ করুন</button></div>
             <div id="sec9_content" style="background: #f1f8e9; padding: 25px; border-radius: 10px; font-size: 15px;">
@@ -419,10 +406,7 @@
 
         <!-- Section 10: স্মৃতিচারণ ও ফটো গ্যালারি -->
         <div id="sec10" class="section-view">
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-                <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
-                <button class="btn btn-info" onclick="triggerPrint('sec10')" style="padding: 10px 18px; font-size: 14px;">🖨️ প্রিন্ট করুন</button>
-            </div>
+            <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
             <h2>১০. স্মৃতিচারণ ও ফটো ও ভিডিও গ্যালারি</h2>
             
             <div class="display-screen" id="mainDisplay">
@@ -590,10 +574,6 @@
         function showDashboard() {
             document.querySelectorAll('.section-view').forEach(el => el.classList.remove('active-section'));
             document.getElementById('dashboardSection').style.display = 'block';
-        }
-
-        function triggerPrint(secId) {
-            window.print();
         }
 
         function addRow(tableId) {
