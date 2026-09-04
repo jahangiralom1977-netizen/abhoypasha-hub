@@ -44,28 +44,65 @@
 
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'SolaimanLipi', Arial, sans-serif; }
-        body { background: linear-gradient(135deg, #f4f7f6 0%, #e2e8f0 100%); color: #333; line-height: 1.8; min-height: 100vh; }
+        /* পরিবর্তন ১: পুরো পেজের ব্যাকগ্রাউন্ড কালার সফট গ্রীন ও চমৎকার গ্রেডিয়েন্টে রূপান্তর */
+        body { background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 50%, #b2dfdb 100%); color: #2c3e50; line-height: 1.8; min-height: 100vh; }
         
-        header { background: linear-gradient(135deg, #1b4d3e 0%, #0f2e24 100%); color: #fff; padding: 30px 20px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.15); position: relative; }
+        header { background: linear-gradient(135deg, #1b4d3e 0%, #0f2e24 100%); color: #fff; padding: 35px 20px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.15); position: relative; }
         header h1 { font-size: 28px; margin-bottom: 8px; text-shadow: 0 2px 4px rgba(0,0,0,0.2); }
         header p { font-size: 16px; opacity: 0.9; }
+
+     /* থ্রি-ড্যাশ মেনু বাটন স্টাইল (সংশোধিত) */
+.header-menu-btn { 
+    position: absolute; 
+    top: 10px; /* টেক্সটের ওপর থেকে ওভারল্যাপ দূর করতে পজিশন উপরে উঠানো হয়েছে */
+    left: 20px; 
+    background: #ffcc00; /* আকর্ষণীয় হলুদ ব্যাকগ্রাউন্ড */
+    border: 2px solid #e6b800; /* বর্ডার সামান্য গাঢ় হলুদ */
+    color: #333333; /* হলুদ ব্যাকগ্রাউন্ডে আইকন স্পষ্ট দেখার জন্য গাঢ় রঙ */
+    font-size: 20px; 
+    width: 40px; 
+    height: 40px; 
+    border-radius: 8px; 
+    cursor: pointer; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    transition: all 0.2s; 
+    z-index: 10; 
+}
+.header-menu-btn:hover { 
+    background: #ffd633; /* হোভার করলে হালকা উজ্জ্বল হলুদ হবে */
+    transform: scale(1.05); 
+}
+
+
+        /* সাইডবার ড্রয়ার ও ওভারলে স্টাইল */
+        .sidebar-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1005; }
+        .sidebar-overlay.active { display: block; }
+
+        .sidebar-menu { position: fixed; top: 0; left: -320px; width: 320px; height: 100%; background: #1b4d3e; z-index: 1010; box-shadow: 4px 0 15px rgba(0,0,0,0.3); transition: left 0.3s ease; display: flex; flex-direction: column; overflow-y: auto; }
+        .sidebar-menu.active { left: 0; }
+        .sidebar-header { background: #0f2e24; padding: 20px; display: flex; justify-content: space-between; align-items: center; color: #fff; border-bottom: 2px solid rgba(255,255,255,0.1); }
+        .sidebar-header h3 { font-size: 18px; margin: 0; }
+        .sidebar-close-btn { background: none; border: none; color: #fff; font-size: 22px; cursor: pointer; }
+        
+        .sidebar-card-list { padding: 15px; display: flex; flex-direction: column; gap: 12px; }
+        .sidebar-card { background: #fff; padding: 15px; border-radius: 10px; cursor: pointer; transition: all 0.2s ease; border-left: 5px solid #1b4d3e; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+        .sidebar-card:hover { transform: translateX(5px); background: #f8f9fa; }
+        .sidebar-card h4 { color: #1b4d3e; font-size: 15px; margin-bottom: 4px; }
+        .sidebar-card p { font-size: 12px; color: #666; margin: 0; }
         
         .marquee-box { background: #ffeb3b; color: #000; padding: 12px; font-weight: bold; overflow: hidden; white-space: nowrap; font-size: 15px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05); }
         .container { max-width: 1200px; margin: auto; padding: 30px 20px; }
-     
-/* সার্বজনীন টপ প্রিন্ট বার স্টাইল */
-.global-top-print { background: #e8f5e9; padding: 15px 20px; border-radius: 12px; margin-bottom: 25px; border: 1px solid #c8e6c9; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-.global-top-print p { color: #2e7d32; font-weight: bold; margin: 0; font-size: 15px; }
 
-/* Print Specific Styles - লোগো ও হেডার সহ প্রিন্ট নিশ্চিত করার জন্য */
-@media print {
-    body { background: #fff; color: #000; }
-    header { background: #1b4d3e !important; color: #fff !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-    .marquee-box, .action-bar, .back-btn, .user-profile-widget, .profile-dropdown-menu, #installAppBtnContainer, .global-top-print, button { display: none !important; }
-    .section-view { display: block !important; box-shadow: none; padding: 0; margin: 0; }
-    table { box-shadow: none; border: 1px solid #000; }
-    th, td { border: 1px solid #000; color: #000; background: #fff !important; }
-}
+        @media print {
+            body { background: #fff; color: #000; }
+            header { background: #1b4d3e !important; color: #fff !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .marquee-box, .action-bar, .back-btn, #installAppBtnContainer, button, .sidebar-menu, .sidebar-overlay, .header-menu-btn { display: none !important; }
+            .section-view, #dashboardSection { display: block !important; box-shadow: none; padding: 0; margin: 0; }
+            table { box-shadow: none; border: 1px solid #000; }
+            th, td { border: 1px solid #000; color: #000; background: #fff !important; }
+        }
 
         .login-wrapper { display: none; justify-content: center; align-items: center; min-height: 50vh; }
         .login-box { width: 100%; max-width: 440px; background: #fff; padding: 40px 30px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; border-top: 6px solid #1b4d3e; margin: 20px auto; }
@@ -82,14 +119,35 @@
         .btn-info { background: #17a2b8; color: #fff; box-shadow: 0 4px 6px rgba(23,162,184,0.2); }
         
         .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin-top: 20px; }
-        .card { background: #fff; padding: 30px 25px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.06); cursor: pointer; transition: all 0.3s ease; border-left: 6px solid #1b4d3e; }
-        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.12); }
-        .card h3 { color: #1b4d3e; margin-bottom: 10px; font-size: 19px; }
-        .card p { font-size: 14px; color: #666; }
         
+        /* পরিবর্তন ৩: কার্ডগুলোতে কালারফুল বর্ডার ও আকর্ষণীয় ব্যাকগ্রাউন্ড স্টাইল যোগ করা */
+        .card { background: linear-gradient(135deg, #ffffff 0%, #f4fbf7 100%); padding: 30px 25px; border-radius: 14px; box-shadow: 0 6px 18px rgba(27, 77, 62, 0.12); cursor: pointer; transition: all 0.3s ease; border: 2px solid #a5d6a7; border-left: 8px solid #2e7d32; }
+        .card:hover { transform: translateY(-6px); box-shadow: 0 12px 28px rgba(27, 77, 62, 0.2); border-color: #66bb6a; }
+        .card h3 { color: #1b4d3e; margin-bottom: 10px; font-size: 20px; font-weight: bold; }
+        .card p { font-size: 15px; color: #444; font-weight: 500; }
+      /* ১০টি কার্ডের জন্য আলাদা আলাদা ব্যাকগ্রাউন্ড কালার */
+    .card:nth-child(1) { background: #e3f2fd !important; }
+    .card:nth-child(2) { background: #e8f5e9 !important; }
+    .card:nth-child(3) { background: #fffde7 !important; }
+    .card:nth-child(4) { background: #fce4ec !important; }
+    .card:nth-child(5) { background: #f3e5f5 !important; }
+    .card:nth-child(6) { background: #fff3e0 !important; }
+    .card:nth-child(7) { background: #e0f2f1 !important; }
+    .card:nth-child(8) { background: #fbe9e7 !important; }
+    .card:nth-child(9) { background: #eceff1 !important; }
+    .card:nth-child(10) { background: #efebe9 !important; }
+   
+      /* সাইডবারের ৬টি মেনু কার্ডের জন্য আলাদা আলাদা ব্যাকগ্রাউন্ড কালার */
+    .sidebar-card:nth-child(1) { background: #e3f2fd !important; } /* হালকা আকাশী */
+    .sidebar-card:nth-child(2) { background: #e8f5e9 !important; } /* হালকা সবুজ */
+    .sidebar-card:nth-child(3) { background: #fffde7 !important; } /* হালকা হলুদ */
+    .sidebar-card:nth-child(4) { background: #fce4ec !important; } /* হালকা গোলাপি */
+    .sidebar-card:nth-child(5) { background: #f3e5f5 !important; } /* হালকা বেগুনি */
+    .sidebar-card:nth-child(6) { background: #fff3e0 !important; } /* হালকা কমলা/পিচ */
+  
         .section-view { display: none; background: #fff; padding: 35px 30px; border-radius: 14px; margin-top: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); overflow-x: auto; }
         .active-section { display: block; }
-        .back-btn { background: #6c757d; color: #fff; border: none; padding: 10px 18px; border-radius: 8px; cursor: pointer; margin-bottom: 25px; font-weight: bold; font-size: 14px; }
+        .back-btn { background: #6c757d; color: #fff; border: none; padding: 10px 18px; border-radius: 8px; cursor: pointer; margin-bottom: 25px; font-weight: bold; font-size: 14px; display: inline-flex; align-items: center; gap: 6px; }
         
         table { width: 100%; border-collapse: collapse; margin-top: 20px; margin-bottom: 25px; background: #fff; min-width: 700px; border-radius: 8px; overflow: hidden; box-shadow: 0 0 0 1px #e0e0e0; }
         th, td { border: 1px solid #e0e0e0; padding: 12px 15px; text-align: center; font-size: 14px; }
@@ -113,73 +171,96 @@
         .gallery-item .caption { padding: 8px; font-size: 13px; color: #555; background: #fffdf0; border-top: 1px solid #eee; border-bottom: 1px solid #eee; margin-bottom: 8px; border: 1px dashed #f39c12; outline: none; min-height: 24px; text-align: center; }
         .display-screen { width: 100%; max-height: 400px; background: #000; border-radius: 8px; overflow: hidden; margin-bottom: 20px; display: flex; justify-content: center; align-items: center; }
         .display-screen img { width: 100%; max-height: 400px; object-fit: contain; }
-
-        .user-profile-widget { position: absolute; top: 15px; right: 20px; display: flex; align-items: center; gap: 10px; background: rgba(255, 255, 255, 0.15); padding: 6px 15px; border-radius: 30px; cursor: pointer; color: #fff; font-size: 14px; z-index: 1000; }
-        .user-profile-widget img { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 2px solid #fff; }
-        .profile-dropdown-menu { display: none; position: absolute; top: 55px; right: 20px; background: #fff; color: #333; width: 250px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); border-radius: 8px; overflow: hidden; z-index: 1001; text-align: left; }
-        .profile-dropdown-menu.active { display: block; }
-        .profile-header-info { padding: 15px; background: #1b4d3e; color: #fff; text-align: center; }
-        .profile-header-info img { width: 60px; height: 60px; border-radius: 50%; margin-bottom: 8px; border: 2px solid #fff; object-fit: cover; }
-        .profile-menu-items { padding: 10px 0; }
-        .profile-menu-items a, .profile-menu-items button { display: block; width: 100%; padding: 10px 15px; color: #333; background: none; border: none; text-align: left; cursor: pointer; font-size: 14px; text-decoration: none; }
-        .profile-menu-items a:hover, .profile-menu-items button:hover { background: #f1f1f1; }
         
         .admin-only { display: none !important; }
+       /* হোম পেজের স্বাগত বক্সের হালকা বেগুনি ব্যাকগ্রাউন্ড ও প্রিমিয়াম ডিজাইন */
+    #homeWelcomeView {
+        background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%) !important;
+        border: 2px solid #ab47bc !important;
+        box-shadow: 0 10px 30px rgba(171, 71, 188, 0.2) !important;
+    }
+     /* হেডারের ভেতরের সব ছোট টেক্সটকে বড় ও মানানসই করার জন্য */
+    header div span, header span, header p, .header span {
+        font-size: 16px !important;
+        font-weight: 500 !important;
+        letter-spacing: 0.5px !important;
+        line-height: 1.8 !important;
+        color: #f1f8e9 !important;
+    }
 
-        /* Print Specific Styles */
-        @media print {
-            body { background: #fff; color: #000; }
-            header, .marquee-box, .action-bar, .back-btn, .user-profile-widget, .profile-dropdown-menu, #installAppBtnContainer, button { display: none !important; }
-            .section-view { display: block !important; box-shadow: none; padding: 0; margin: 0; }
-            table { box-shadow: none; border: 1px solid #000; }
-            th, td { border: 1px solid #000; color: #000; background: #fff !important; }
-        }
+    /* প্রতিষ্ঠা সাল ও ইআইএস কোডকে আরও ফুটিয়ে তুলতে */
+    #establishedYearText, #emisCodeText {
+        font-size: 16px !important;
+        font-weight: 700 !important;
+        color: #fffde7 !important;
+    }
+      
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="user-profile-widget" onclick="toggleProfileMenu()">
-            <img id="headerUserPic" src="https://via.placeholder.com/150" alt="User">
-            <span id="headerUserName">দর্শক / ভিজিটর</span>
-            <span>▼</span>
+    <!-- সাইডবার ড্রয়ার ও ওভারলে -->
+    <div id="sidebarOverlay" class="sidebar-overlay" onclick="toggleSidebar()"></div>
+    <div id="sidebarMenu" class="sidebar-menu">
+        <div class="sidebar-header">
+            <h3>🧭 পোর্টাল মেনু</h3>
+            <button class="sidebar-close-btn" onclick="toggleSidebar()">✕</button>
         </div>
-
-        <div id="profileDropdown" class="profile-dropdown-menu">
-            <div class="profile-header-info">
-                <img id="dropdownUserPic" src="https://via.placeholder.com/150" alt="User">
-                <h4 id="dropdownUserName" style="margin: 0; font-size: 16px;">সাধারণ ভিজিটর</h4>
-                <p id="dropdownUserRole" style="margin: 5px 0 0 0; font-size: 12px; opacity: 0.8;">রিডিং মোড</p>
-                <p id="dropdownUserPhone" style="margin: 3px 0 0 0; font-size: 12px; opacity: 0.8;"></p>
+        <div class="sidebar-card-list">
+            <div class="sidebar-card" style="border-left-color: #007bff;" onclick="toggleSidebar(); showLoginBox()">
+                <h4>🔐 শিক্ষক/এডমিন লগইন</h4>
+                <p>পিন কোড দিয়ে প্রবেশ করুন</p>
             </div>
-            <div class="profile-menu-items" id="profileMenuItems">
-                <button onclick="showLoginBox()">🔐 শিক্ষক/এডমিন লগইন</button>
+            <div class="sidebar-card" style="border-left-color: #6f42c1;" onclick="toggleSidebar(); logout()">
+                <h4>👁️ সাধারণ ভিজিটর মোড</h4>
+                <p>পাবলিক রিডিং ভিউ</p>
+            </div>
+            <div class="sidebar-card" style="border-left-color: #28a745;" onclick="toggleSidebar(); showDashboard()">
+                <h4>📊 মূল ড্যাশবোর্ড</h4>
+                <p>সকল আপডেট ও কার্যক্রম দেখুন</p>
+            </div>
+            <div class="sidebar-card" style="border-left-color: #fd7e14;" 
+    onclick="toggleSidebar(); let pin = prompt('অ্যাডমিন পিন কোড দিন:'); if(pin === '1234') { showPrintSectionModal(); } else if(pin !== null) { alert('ভুল পিন কোড!'); }"
+       
+                <h4>🖨️ প্রিন্ট ও ডকুমেন্টস</h4>
+                <p>অফিশিয়াল প্রিন্ট অপশন</p>
+            </div>
+            <div class="sidebar-card" style="border-left-color: #6c757d;" 
+    onclick="toggleSidebar(); let pin = prompt('অ্যাডমিন পিন কোড দিন:'); if(pin === '1234') { openProfileModal(); } else if(pin !== null) { alert('ভুল পিন কোড!'); }"
+       
+                <h4>⚙️ সেটিংস</h4>
+                <p>প্রোফাইল কাস্টমাইজেশন কনফিগার</p>
+            </div>
+            <div class="sidebar-card" style="border-left-color: #17a2b8;" onclick="toggleSidebar(); alert('৭ নং অভয়পাশা সরকারি প্রাথমিক বিদ্যালয়, আটপাড়া, নেত্রকোনা। প্রতিষ্ঠিত: ১৯০৪ খ্রি:')">
+                <h4>ℹ️ আমাদের সম্পর্কে</h4>
+                <p>বিদ্যালয়ের ইতিহাস ও বিবরণ</p>
             </div>
         </div>
+    </div>
 
-        <h1>৭ নং অভয়পাশা সরকারি প্রাথমিক বিদ্যালয়</h1>
-         <p>আটপাড়া,নেত্রকোনা</p>
-        <p>ডিজিটাল মনিটরিং ও ম্যানেজমেন্ট পোর্টাল</p>
-        <div style="margin-top: 12px; font-size: 14px; opacity: 0.95; display: flex; justify-content: center; gap: 25px; flex-wrap: wrap;">
-            <span>ইএমআইএস কোড: <span id="emisCodeText">৯১৩০৪০১০১০৭</span></span>
-            <span>স্থাপিত: <span id="establishedYearText">১৯০৪ খ্রি:</span></span>
-        </div>
-    </header>
+          <header style="background: #1b4d3e; border: 2px solid #a5d6a7; border-radius: 14px; padding: 25px 15px; margin: 12px; box-shadow: 0 8px 22px rgba(0, 0, 0, 0.3); position: relative; text-align: center;">
+            <!-- থ্রি-ড্যাশ মেনু বাটন -->
+            <button class="header-menu-btn" onclick="toggleSidebar()" title="পোর্টাল মেনু" style="position: absolute; left: 5px; top: 5px;">
+                <span>☰</span>
+            </button>
+            
+            <h1 style="font-size: 22px; font-weight: bold; margin-bottom: 5px; color: #ffffff;">৭ নং অভয়পাশা সরকারি প্রাথমিক বিদ্যালয়</h1>
+            <p style="font-size: 16px; font-weight: 500; margin-top: 4px; color: #f1f8e9;">আটপাড়া, নেত্রকোনা</p>
+            <p style="font-size: 15px; opacity: 0.95; margin-top: 2px; color: #f1f8e9;">ডিজিটাল মনিটরিং ও ম্যানেজমেন্ট পোর্টাল</p>
+            
+            <div style="margin-top: 15px; font-size: 16px; font-weight: 500; display: flex; justify-content: center; gap: 25px; flex-wrap: wrap;">
+                <span>স্থাপিত: <span id="establishedYearText" style="font-weight: 700; color: #fffde7;">১৯০৪ খ্রি:</span></span>
+                <span>ইএমআইএস কোড: <span id="emisCodeText" style="font-weight: 700; color: #fffde7;">৯১৩০৪০১০১০৭</span></span>
+            </div>
+        </header>
+
 
     <div class="marquee-box">
-        <marquee behavior="scroll" direction="left">✨ ৭ নং অভয়পাশা সরকারি প্রাথমিক বিদ্যালয় ডিজিটাল পোর্টালে স্বাগতম! ফায়ারবেস ক্লাউড স্টোরেজের মাধ্যমে সকল ডেটা ও গ্যালারি সম্পূর্ণ সুরক্ষিত রয়েছে। ✨</marquee>
+        <marquee behavior="scroll" direction="left">✨ ৭ নং অভয়পাশা সরকারি প্রাথমিক বিদ্যালয় ডিজিটাল পোর্টালে স্বাগতম! থ্রি-ড্যাশ মেনু থেকে মূল ড্যাশবোর্ডে প্রবেশ করুন। ✨</marquee>
     </div>
 
     <div class="container">
         
-          <!-- পেজের একদম উপরে সার্বজনীন প্রিন্ট বার -->
-        <div class="global-top-print">
-            <p>🖨️ বর্তমান পেজ বা তথ্য প্রিন্ট করতে ডানপাশের বাটনে ক্লিক করুন:</p>
-            <button class="btn btn-info" onclick="window.print()" style="padding: 10px 22px; font-size: 14px; display: inline-flex; align-items: center; gap: 8px;">
-                🖨️ প্রিন্ট করুন
-            </button>
-        </div>
-
         <!-- PWA Install Banner -->
         <div id="installAppBtnContainer" style="display: none; background: #e0f2f1; padding: 15px; border-radius: 10px; margin-bottom: 20px; text-align: center; border: 1px solid #b2dfdb;">
             <p style="color: #00695c; font-weight: bold; margin-bottom: 8px;">📱 আপনার ডিভাইসে এই পোর্টালটি অ্যাপ আকারে ইনস্টল করুন!</p>
@@ -198,12 +279,13 @@
             </div>
         </div>
 
-        <!-- Main Dashboard -->
-        <div id="dashboardSection">
+        <!-- Main Dashboard (10 Sections) -->
+        <div id="dashboardSection" style="display: none;">
+
             <!-- অ্যাপস লিংক শেয়ার সেকশন -->
-            <div class="card mb-3" style="background: #e8f5e9; padding: 20px; border-radius: 12px; margin-bottom: 25px; border: 1px solid #c8e6c9; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
-                <h3 style="color: #2e7d32; margin-bottom: 10px; font-size: 18px;">🔗 আমাদের অ্যাপস বা পোর্টালটি শেয়ার করুন</h3>
-                <p style="color: #555; font-size: 14px; margin-bottom: 15px;">বন্ধুবান্ধব বা সহকর্মীদের সাথে সহজে লিংকটি শেয়ার করতে নিচের বাটনে ক্লিক করুন:</p>
+            <div class="card mb-3" style="background: #e8f5e9; padding: 20px; border-radius: 12px; margin-bottom: 25px; border: 2px solid #81c784; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+                <h3 style="color: #2e7d32; margin-bottom: 10px; font-size: 20px;">🔗 আমাদের অ্যাপস বা পোর্টালটি শেয়ার করুন</h3>
+                <p style="color: #444; font-size: 15px; font-weight: 500; margin-bottom: 15px;">বন্ধুবান্ধব বা সহকর্মীদের সাথে সহজে লিংকটি শেয়ার করতে নিচের বাটনে ক্লিক করুন:</p>
                 <button class="btn btn-success" onclick="sharePortalLink()" style="padding: 12px 25px; background: #28a745; color: #fff; border: none; border-radius: 8px; cursor: pointer; font-size: 15px; font-weight: bold; display: inline-flex; align-items: center; gap: 8px;">
                     📤 লিংক শেয়ার করুন
                 </button>
@@ -231,6 +313,14 @@
                 <div class="card" onclick="showSection('sec9')"><h3>৯. অন্যান্য গুরুত্বপূর্ণ তথ্য</h3><p>অতিরিক্ত তথ্য ও বিবরণ</p></div>
                 <div class="card" onclick="showSection('sec10')"><h3>১০. স্মৃতিচারণ ও ফটো গ্যালারি</h3><p>ক্লাউড স্টোরেজ গ্যালারি ও অপ্টিমাইজড ছবি আপলোড</p></div>
             </div>
+        </div>
+
+        <!-- হোম ভিউ -->
+        <!-- পরিবর্তন ২: "স্বাগত জানাই ডিজিটাল পোর্টালে" এবং ভেতরের নির্দেশনার লেখাগুলোকে আরও বড়, স্পষ্ট ও বোল্ড করা -->
+        <div id="homeWelcomeView" style="text-align: center; padding: 60px 20px; background: #ffffff; border: 2px solid #a5d6a7; border-radius: 16px; box-shadow: 0 8px 25px rgba(27,77,62,0.12); margin-top: 20px;">
+            <h2 style="color: #1b4d3e; font-size: 32px; font-weight: 800; margin-bottom: 20px; text-shadow: 0 1px 2px rgba(0,0,0,0.05);">স্বাগত জানাই ডিজিটাল পোর্টালে</h2>
+            <p style="color: #2c3e50; font-size: 18px; font-weight: 600; max-width: 650px; margin: 0 auto 30px auto; line-height: 1.8;">পোর্টালটির বিভিন্ন ক্যাটাগরি ও ১০টি সেকশন দেখতে উপরে বামপাশের <strong style="color: #1b4d3e;">থ্রি-ড্যাশ (☰)</strong> মেনু বাটনে ক্লিক করুন এবং <strong style="color: #1b4d3e;">'মূল ড্যাশবোর্ড'</strong> সিলেক্ট করুন।</p>
+            <button class="btn" onclick="showDashboard()" style="padding: 14px 35px; font-size: 18px; font-weight: bold; box-shadow: 0 6px 15px rgba(27,77,62,0.3);">📊 সরাসরি মূল ড্যাশবোর্ডে যান</button>
         </div>
 
         <!-- Section Views -->
@@ -407,21 +497,35 @@
             </table>
         </div>
 
+        <!-- সেকশন ৮: গুরুত্বপূর্ণ ওয়েবসাইট ও অনলাইন লিংক -->
         <div id="sec8" class="section-view">
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
                 <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
-                <button class="btn btn-info" onclick="triggerPrint('sec8')" style="padding: 10px 18px; font-size: 14px;">🖨️ প্রিন্ট করুন</button>
             </div>
             <h2>৮. গুরুত্বপূর্ণ ওয়েবসাইট ও অনলাইন লিংক</h2>
-            <div class="action-bar admin-only">
-                <button class="btn btn-success" onclick="addLinkItem()">+ নতুন লিংক</button>
-                <button class="btn btn-success" onclick="saveData('sec8')">💾 ক্লাউডে সেভ করুন</button>
+            <div class="action-bar">
+                <button class="btn btn-success" onclick="addLinkItem()">+ নতুন লিংক যুক্ত করুন</button>
+                <button class="btn btn-success admin-only" onclick="saveData('sec8')">💾 ক্লাউডে সেভ করুন</button>
             </div>
             <div id="linksContainer" style="margin-top: 20px;">
                 <div class="link-item">
                     <div style="font-size: 15px; word-break: break-all;">
-                        <strong>১.</strong> <span>প্রাথমিক শিক্ষা অধিদপ্তর (DPE)</span> - 
-                        <a href="https://dpe.gov.bd" target="_blank">https://dpe.gov.bd</a>
+                        <strong>১.</strong> <span contenteditable="true">প্রাথমিক শিক্ষা অধিদপ্তর (DPE)</span> - 
+                        <a href="https://dpe.gov.bd" target="_blank" contenteditable="true">https://dpe.gov.bd</a>
+                    </div>
+                    <button class="btn btn-danger admin-only" style="padding: 6px 12px; font-size: 12px;" onclick="this.parentElement.remove()">মুছুন</button>
+                </div>
+                <div class="link-item">
+                    <div style="font-size: 15px; word-break: break-all;">
+                        <strong>২.</strong> <span contenteditable="true">জাতীয় প্রাথমিক শিক্ষা একাডেমি (NAPE)</span> - 
+                        <a href="https://nape.gov.bd" target="_blank" contenteditable="true">https://nape.gov.bd</a>
+                    </div>
+                    <button class="btn btn-danger admin-only" style="padding: 6px 12px; font-size: 12px;" onclick="this.parentElement.remove()">মুছুন</button>
+                </div>
+                <div class="link-item">
+                    <div style="font-size: 15px; word-break: break-all;">
+                        <strong>৩.</strong> <span contenteditable="true">YouTube</span> - 
+                        <a href="https://www.youtube.com" target="_blank" contenteditable="true">https://www.youtube.com</a>
                     </div>
                     <button class="btn btn-danger admin-only" style="padding: 6px 12px; font-size: 12px;" onclick="this.parentElement.remove()">মুছুন</button>
                 </div>
@@ -440,7 +544,7 @@
             </div>
         </div>
 
-        <!-- Section 10: স্মৃতিচারণ ও ফটো গ্যালারি -->
+        <!-- Section 10 -->
         <div id="sec10" class="section-view">
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
                 <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
@@ -474,6 +578,16 @@
         </div>
     </div>
 
+    <!-- Print Option Modal -->
+    <div id="printSectionModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999; justify-content:center; align-items:center;">
+        <div style="background:#fff; padding:30px; border-radius:12px; width:90%; max-width:420px; box-shadow:0 5px 20px rgba(0,0,0,0.3); text-align:center;">
+            <h3 style="margin-top:0; color:#1b4d3e; font-size:20px; margin-bottom:15px;">🖨️ অফিশিয়াল প্রিন্ট ও ডকুমেন্টস</h3>
+            <p style="color:#555; font-size:14px; margin-bottom:20px;">বর্তমান পেজ বা ড্যাশবোর্ডের জরুরি তথ্যসমূহ সরাসরি প্রিন্ট করতে নিচের প্রিন্ট বাটনে ক্লিক করুন:</p>
+            <button class="btn btn-info" onclick="window.print(); closePrintSectionModal();" style="padding: 12px 25px; font-size: 15px; width: 100%; margin-bottom: 10px;">🖨️ এখনই প্রিন্ট করুন</button>
+            <button onclick="closePrintSectionModal()" style="padding: 10px 20px; background:#6c757d; color:#fff; border:none; border-radius:6px; cursor:pointer; width: 100%; font-size: 14px;">বন্ধ করুন</button>
+        </div>
+    </div>
+
     <!-- Profile Edit Modal -->
     <div id="profileModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999; justify-content:center; align-items:center;">
         <div style="background:#fff; padding:25px; border-radius:10px; width:90%; max-width:400px; box-shadow:0 5px 15px rgba(0,0,0,0.3); text-align:left;">
@@ -497,7 +611,19 @@
         let galleryData = [];
         let deferredPrompt;
 
-        // PWA Install Event Handler
+        function toggleSidebar() {
+            document.getElementById('sidebarMenu').classList.toggle('active');
+            document.getElementById('sidebarOverlay').classList.toggle('active');
+        }
+
+        function showPrintSectionModal() {
+            document.getElementById('printSectionModal').style.display = 'flex';
+        }
+
+        function closePrintSectionModal() {
+            document.getElementById('printSectionModal').style.display = 'none';
+        }
+
         function initPWA() {
             window.addEventListener('beforeinstallprompt', (e) => {
                 e.preventDefault();
@@ -530,10 +656,12 @@
                 sessionStorage.setItem('userRole', 'admin');
                 initPortalView();
                 hideLoginBox();
+                showDashboard();
             } else if (pin === TEACHER_PIN) {
                 sessionStorage.setItem('userRole', 'teacher');
                 initPortalView();
                 hideLoginBox();
+                showDashboard();
             } else {
                 errorEl.innerText = "❌ ভুল পিন কোড! সঠিক পিন দিন।";
             }
@@ -541,14 +669,14 @@
 
         function showLoginBox() {
             document.getElementById('dashboardSection').style.display = 'none';
+            document.getElementById('homeWelcomeView').style.display = 'none';
+            document.querySelectorAll('.section-view').forEach(el => el.classList.remove('active-section'));
             document.getElementById('loginSection').style.display = 'flex';
-            let menu = document.getElementById('profileDropdown');
-            if(menu) menu.classList.remove('active');
         }
 
         function hideLoginBox() {
             document.getElementById('loginSection').style.display = 'none';
-            document.getElementById('dashboardSection').style.display = 'block';
+            showDashboard();
         }
 
         function initPortalView() {
@@ -566,32 +694,11 @@
                     document.getElementById('userRoleTitle').innerText = 'মূল ড্যাশবোর্ড [সহকারী শিক্ষক প্যানেল]';
                     document.getElementById('adminPendingArea').style.display = 'none';
                 }
-                
-                document.getElementById('headerUserName').innerText = localStorage.getItem('userName') || (role === 'admin' ? 'প্রধান শিক্ষক' : 'সহকারী শিক্ষক');
-                document.getElementById('dropdownUserName').innerText = localStorage.getItem('userName') || (role === 'admin' ? 'প্রধান শিক্ষক' : 'সহকারী শিক্ষক');
-                document.getElementById('dropdownUserRole').innerText = role === 'admin' ? 'এডমিন (প্রধান শিক্ষক)' : 'সহকারী শিক্ষক';
-                
-                let profileMenuItems = document.getElementById('profileMenuItems');
-                profileMenuItems.innerHTML = `
-
-                    <button onclick="openProfileModal()">⚙️ প্রোফাইল ও পাসওয়ার্ড পরিবর্তন</button>
-                    <button onclick="logout()" style="color: #d9534f;">🚪 লগআউট / রিডিং মোড</button>
-                `;
             } else {
-                // Public / Reading Mode
                 document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'none');
                 document.querySelectorAll('.container [contenteditable]').forEach(el => el.setAttribute('contenteditable', 'false'));
                 document.getElementById('userRoleTitle').innerText = 'মূল ড্যাশবোর্ড (রিডিং মোড - ভিজিটর ভিউ)';
                 document.getElementById('adminPendingArea').style.display = 'none';
-                
-                document.getElementById('headerUserName').innerText = 'সাধারণ ভিজিটর';
-                document.getElementById('dropdownUserName').innerText = 'সাধারণ ভিজিটর';
-                document.getElementById('dropdownUserRole').innerText = 'রিডিং মোড (পাবলিক ভিউ)';
-                
-                let profileMenuItems = document.getElementById('profileMenuItems');
-                profileMenuItems.innerHTML = `
-                    <button onclick="showLoginBox()">🔐 শিক্ষক/এডমিন লগইন</button>
-                `;
             }
 
             loadAllDataFromCloud();
@@ -601,19 +708,29 @@
         function logout() {
             sessionStorage.removeItem('userRole');
             initPortalView();
-            showDashboard();
+            showHome();
             alert('🔒 সফলভাবে রিডিং মোডে ফিরে আসা হয়েছে!');
         }
 
-        function showSection(secId) {
-            document.getElementById('dashboardSection').style.display = 'none';
+        function showHome() {
             document.querySelectorAll('.section-view').forEach(el => el.classList.remove('active-section'));
-            document.getElementById(secId).classList.add('active-section');
+            document.getElementById('dashboardSection').style.display = 'none';
+            document.getElementById('loginSection').style.display = 'none';
+            document.getElementById('homeWelcomeView').style.display = 'block';
         }
 
         function showDashboard() {
+            document.getElementById('homeWelcomeView').style.display = 'none';
+            document.getElementById('loginSection').style.display = 'none';
             document.querySelectorAll('.section-view').forEach(el => el.classList.remove('active-section'));
             document.getElementById('dashboardSection').style.display = 'block';
+        }
+
+        function showSection(secId) {
+            document.getElementById('homeWelcomeView').style.display = 'none';
+            document.getElementById('dashboardSection').style.display = 'none';
+            document.querySelectorAll('.section-view').forEach(el => el.classList.remove('active-section'));
+            document.getElementById(secId).classList.add('active-section');
         }
 
         function triggerPrint(secId) {
@@ -710,6 +827,14 @@
                 }
 
                 for(let i=1; i<=9; i++) {
+                    if(i === 8) {
+                        let secDoc = await window.getDocRef(window.docRef(window.db, "schoolPortal", "sec8"));
+                        if(secDoc.exists() && secDoc.data().html) {
+                            document.getElementById('sec8').innerHTML = secDoc.data().html;
+                        }
+                        continue;
+                    }
+
                     let secDoc = await window.getDocRef(window.docRef(window.db, "schoolPortal", "sec" + i));
                     if(secDoc.exists() && secDoc.data().html) {
                         document.getElementById('sec' + i).innerHTML = secDoc.data().html;
@@ -915,24 +1040,10 @@
             if(captionInput) captionInput.value = '';
         }
 
-        function toggleProfileMenu() {
-            let menu = document.getElementById('profileDropdown');
-            if(menu) menu.classList.toggle('active');
-        }
-
-        window.addEventListener('click', function(e) {
-            if (!e.target.closest('.user-profile-widget') && !e.target.closest('#profileDropdown')) {
-                let menu = document.getElementById('profileDropdown');
-                if(menu) menu.classList.remove('active');
-            }
-        });
-
         function openProfileModal() {
             document.getElementById('profileModal').style.display = 'flex';
             document.getElementById('editNameInput').value = localStorage.getItem('userName') || "জাহাঙ্গীর আলম";
             document.getElementById('editPhoneInput').value = localStorage.getItem('userPhone') || "0176678999";
-            let menu = document.getElementById('profileDropdown');
-            if(menu) menu.classList.remove('active');
         }
 
         function closeProfileModal() {
@@ -946,12 +1057,9 @@
 
             if(newName) {
                 localStorage.setItem('userName', newName);
-                if(document.getElementById('headerUserName')) document.getElementById('headerUserName').innerText = newName;
-                if(document.getElementById('dropdownUserName')) document.getElementById('dropdownUserName').innerText = newName;
             }
             if(newPhone) {
                 localStorage.setItem('userPhone', newPhone);
-                if(document.getElementById('dropdownUserPhone')) document.getElementById('dropdownUserPhone').innerText = newPhone;
             }
 
             if (fileInput.files && fileInput.files[0]) {
@@ -959,10 +1067,6 @@
                 reader.onload = function(e) {
                     let base64Image = e.target.result;
                     localStorage.setItem('userPic', base64Image);
-                    
-                    let profileImgs = document.querySelectorAll('#headerUserPic, #dropdownUserPic');
-                    profileImgs.forEach(img => img.src = base64Image);
-
                     alert('✅ সফলভাবে প্রোফাইল এবং ছবি হালনাগাদ করা হয়েছে!');
                     closeProfileModal();
                 };
@@ -1026,13 +1130,13 @@
                         updatedAt: new Date().toISOString()
                     });
 
-                    await window.deleteDocRef(window.docRef(window.db, "pendingUpdates", docId));
+                    await window.deleteDocRef(window.docRef(window.db, "pendingUpdates", secId));
 
                     alert('✅ সফলভাবে অনুমোদন করা হয়েছে এবং মূল পোর্টালে আপডেট হয়ে গেছে!');
                     loadPendingUpdates();
                     loadAllDataFromCloud();
                 }
-            } catch(err) {
+            }catch(err) {
                 alert('❌ অনুমোদন করতে সমস্যা হয়েছে: ' + err.message);
             }
         }
@@ -1054,14 +1158,6 @@
             const message = encodeURIComponent('আমাদের বিদ্যালয়ের ডিজিটাল পোর্টালটি দেখতে নিচের লিংকে ক্লিক করুন: ' + portalUrl);
             window.open('https://api.whatsapp.com/send?text=' + message, '_blank');
         }
-
-        window.addEventListener('DOMContentLoaded', () => {
-            let savedPic = localStorage.getItem('userPic');
-            if(savedPic) {
-                if(document.getElementById('headerUserPic')) document.getElementById('headerUserPic').src = savedPic;
-                if(document.getElementById('dropdownUserPic')) document.getElementById('dropdownUserPic').src = savedPic;
-            }
-        });
     </script>
 </body>
 </html>
