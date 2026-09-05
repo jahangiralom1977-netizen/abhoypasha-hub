@@ -542,41 +542,49 @@
             <div id="sec9_content" style="background: #f1f8e9; padding: 25px; border-radius: 10px; font-size: 15px;">
                 এখানে বিদ্যালয়ের অন্যান্য অতিরিক্ত তথ্য বা বিবরণ লিখে সংরক্ষণ করতে পারবেন।
             </div>
-        </div>
+       
 
-        <!-- Section 10 -->
-        <div id="sec10" class="section-view">
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-                <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
-                <button class="btn btn-info" onclick="triggerPrint('sec10')" style="padding: 10px 18px; font-size: 14px;">🖨️ প্রিন্ট করুন</button>
-            </div>
-            <h2>১০. স্মৃতিচারণ ও ফটো ও ভিডিও গ্যালারি</h2>
-            
-            <div class="display-screen" id="mainDisplay">
-                <img src="https://i.ibb.co.com/5xJkDXSw/IMG-20260829-073221-093.jpg" alt="ডিফল্ট ছবি" id="currentMedia">
-            </div>
-
-            <div class="upload-section admin-only">
-                <h3>নতুন ছবি ও ক্যাপশন যুক্ত করুন</h3>
-                <div class="form-group">
-                    <label>ডিভাইস বা ড্রাইভ থেকে একসাথে একাধিক ছবি সিলেক্ট করুন:</label>
-                    <input type="file" id="imageFileSelect" accept="image/*" multiple>
-                </div>
-                <div class="form-group">
-                    <label>অথবা ছবির অনলাইন লিংক (Direct URL) দিন:</label>
-                    <input type="text" id="imageUrlInput" placeholder="https://i.ibb.co/.../image.jpg">
-                </div>
-                <div class="form-group">
-                    <label>ছবির সাধারণ লেখা বা ক্যাপশন:</label>
-                    <input type="text" id="imageCaptionInput" placeholder="যেমন: বিদ্যালয়ের বার্ষিক ক্রীড়া প্রতিযোগিতা">
-                </div>
-                <button class="btn" onclick="addNewImage()">গ্যালারিতে যোগ করুন</button>
-            </div>
-
-            <div class="section-title">সংরক্ষিত ফটো গ্যালারি</div>
-            <div class="gallery-grid" id="galleryGrid"></div>
-        </div>
+  <!-- Section 10: স্মৃতিচারণ ও ফটো গ্যালারি -->
+<div id="sec10" class="section-view">
+    <!-- ১. একদম উপরে ড্যাশবোর্ডে ফিরে যাওয়ার বাটন -->
+    <div style="margin-bottom: 15px;">
+        <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
     </div>
+
+    <!-- ২. এর ঠিক নিচে ছবি আপলোড ও ক্যাপশনের ফর্ম (একাধিক ছবি ও ক্যাপশন সহ) -->
+    <div class="upload-section admin-only">
+        <h3>নতুন ছবি ও ক্যাপশন যুক্ত করুন</h3>
+        <div class="form-group">
+            <label>ডিভাইস বা ড্রাইভ থেকে একসাথে একাধিক ছবি সিলেক্ট করুন:</label>
+            <input type="file" id="imageFileSelect" accept="image/*" multiple>
+        </div>
+        <div class="form-group">
+            <label>অথবা ছবির অনলাইন লিংক (Direct URL) দিন:</label>
+            <input type="text" id="imageUrlInput" placeholder="https://i.ibb.co/.../image.jpg">
+        </div>
+        <div class="form-group">
+            <label>ছবির নিচের লেখা বা ক্যাপশন লিখুন:</label>
+            <input type="text" id="imageCaptionInput" placeholder="যেমন: বিদ্যালয়ের বার্ষিক ক্রীড়া প্রতিযোগিতা">
+        </div>
+        <button class="btn" onclick="addNewImage()">গ্যালারিতে যোগ করুন</button>
+    </div>
+
+    <!-- ৩. তারপর গ্যালারির শিরোনাম ও ছবি প্রদর্শনের জায়গা -->
+    <h2>১০. স্মৃতিচারণ ও ফটো ও ভিডিও গ্যালারি</h2>
+
+    <!-- বড় ডিসপ্লে স্ক্রিন -->
+    <div class="display-screen" id="mainDisplay">
+        <img src="https://i.ibb.co.com/5xJkDXSw/IMG-20260829-073221-093.jpg" alt="ডিফল্ট ছবি" id="currentMedia">
+    </div>
+
+    <div class="section-title">সংরক্ষিত ফটো গ্যালারি</div>
+
+    <!-- গ্যালারি গ্রিড -->
+    <div class="gallery-grid" id="galleryGrid">
+        <!-- ফায়ারবেজ থেকে এখানে ছবি ও ক্যাপশনগুলো লোড হবে -->
+    </div>
+</div>
+      
 
     <!-- Print Option Modal -->
     <div id="printSectionModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999; justify-content:center; align-items:center;">
@@ -611,10 +619,13 @@
         let galleryData = [];
         let deferredPrompt;
 
-        function toggleSidebar() {
-            document.getElementById('sidebarMenu').classList.toggle('active');
-            document.getElementById('sidebarOverlay').classList.toggle('active');
+            function toggleSidebar() {
+            const menu = document.getElementById('sidebarMenu');
+            const overlay = document.getElementById('sidebarOverlay');
+            if(menu) menu.classList.toggle('active');
+            if(overlay) overlay.classList.toggle('active');
         }
+   
 
         function showPrintSectionModal() {
             document.getElementById('printSectionModal').style.display = 'flex';
@@ -818,7 +829,7 @@
             }
         }
 
-        async function loadAllDataFromCloud() {
+           async function loadAllDataFromCloud() {
             try {
                 let metaDoc = await window.getDocRef(window.docRef(window.db, "schoolPortal", "metaInfo"));
                 if(metaDoc.exists()) {
@@ -954,6 +965,7 @@
             const fileInput = document.getElementById('imageFileSelect');
             const urlInput = document.getElementById('imageUrlInput');
             const captionInput = document.getElementById('imageCaptionInput');
+
             const baseCaption = captionInput.value.trim() || 'বিদ্যালয়ের ছবি';
 
             try {
@@ -964,7 +976,7 @@
                     for (let i = 0; i < totalFiles; i++) {
                         const compressedDataUrl = await resizeImage(fileInput.files[i]);
                         const finalCaption = totalFiles > 1 ? `${baseCaption} (${i + 1})` : baseCaption;
-                        
+
                         const docRef = await window.addDocRef(window.collectionRef(window.db, "school_gallery_items"), {
                             url: compressedDataUrl,
                             caption: finalCaption,
@@ -981,6 +993,7 @@
                     renderGallery();
                     clearForm();
                     alert(`✅ সফলভাবে ${totalFiles}টি ছবি ফায়ারবেজে স্থায়ীভাবে সেভ হয়ে গেছে!`);
+
                 } else if (urlInput.value.trim() !== '') {
                     const finalCaption = baseCaption;
                     const docRef = await window.addDocRef(window.collectionRef(window.db, "school_gallery_items"), {
@@ -997,7 +1010,7 @@
 
                     renderGallery();
                     clearForm();
-                    alert('✅ লিংক থেকে ছবি ফায়ারবেজে সফলভাবে সেভ করা হয়েছে!');
+                    alert('✅ লিংক থেকে মিডিয়া ফায়ারবেজে সফলভাবে সেভ করা হয়েছে!');
                 } else {
                     alert('দয়া করে ফাইল থেকে এক বা একাধিক ছবি সিলেক্ট করুন অথবা সঠিক লিংক দিন।');
                 }
@@ -1161,3 +1174,4 @@
     </script>
 </body>
 </html>
+   
