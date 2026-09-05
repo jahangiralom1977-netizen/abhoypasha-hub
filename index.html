@@ -299,6 +299,8 @@
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 15px;">
                 <h2 id="userRoleTitle" style="font-size: 22px; color: #1b4d3e; font-weight: bold;">মূল ড্যাশবোর্ড (রিডিং মোড - ভিজিটর ভিউ)</h2>
                 <button id="logoutBtn" class="btn btn-danger admin-only" onclick="logout()" style="padding: 10px 20px; font-size: 14px;">লগআউট / রিডিং মোডে ফিরুন</button>
+                
+         <button onclick="logout()" style="color: #d9534f;">🚪 লগআউট</button>      
             </div>
             
             <div class="dashboard-grid">
@@ -712,14 +714,16 @@
             loadAllDataFromCloud();
             loadGalleryFromCloud();
         }
-
+        
         function logout() {
             sessionStorage.removeItem('userRole');
-            initPortalView();
-            showHome();
-            alert('🔒 সফলভাবে রিডিং মোডে ফিরে আসা হয়েছে!');
-        }
+            document.getElementById('dashboardSection').style.display = 'none';
+            document.getElementById('loginSection').style.display = 'flex';
+            document.getElementById('pinInput').value = '';
+            document.getElementById('loginError').innerText = '';
+        } 
 
+        
         function showHome() {
             document.querySelectorAll('.section-view').forEach(el => el.classList.remove('active-section'));
             document.getElementById('dashboardSection').style.display = 'none';
