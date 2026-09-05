@@ -299,8 +299,6 @@
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 15px;">
                 <h2 id="userRoleTitle" style="font-size: 22px; color: #1b4d3e; font-weight: bold;">মূল ড্যাশবোর্ড (রিডিং মোড - ভিজিটর ভিউ)</h2>
                 <button id="logoutBtn" class="btn btn-danger admin-only" onclick="logout()" style="padding: 10px 20px; font-size: 14px;">লগআউট / রিডিং মোডে ফিরুন</button>
-                
-         <button onclick="logout()" style="color: #d9534f;">🚪 লগআউট</button>      
             </div>
             
             <div class="dashboard-grid">
@@ -714,16 +712,14 @@
             loadAllDataFromCloud();
             loadGalleryFromCloud();
         }
-        
+
         function logout() {
             sessionStorage.removeItem('userRole');
-            document.getElementById('dashboardSection').style.display = 'none';
-            document.getElementById('loginSection').style.display = 'flex';
-            document.getElementById('pinInput').value = '';
-            document.getElementById('loginError').innerText = '';
-        } 
+            initPortalView();
+            showHome();
+            alert('🔒 সফলভাবে রিডিং মোডে ফিরে আসা হয়েছে!');
+        }
 
-        
         function showHome() {
             document.querySelectorAll('.section-view').forEach(el => el.classList.remove('active-section'));
             document.getElementById('dashboardSection').style.display = 'none';
@@ -749,7 +745,7 @@
             window.print();
         }
 
-        function addRow(tableId) {
+      function addRow(tableId) {
             let table = document.getElementById(tableId).getElementsByTagName('tbody')[0];
             let rowCount = table.rows.length + 1;
             let colCount = document.getElementById(tableId).rows[0].cells.length;
@@ -757,12 +753,10 @@
             let newRow = table.insertRow();
             for(let i=0; i<colCount; i++) {
                 let cell = newRow.insertCell(i);
-                let isActionCol = document.getElementById(tableId).rows[0].cells[i].classList.contains('admin-only');
-                if(isActionCol) {
-                    cell.className = 'admin-only';
-                    cell.innerHTML = '<button class="btn btn-danger" style="padding:6px 12px; font-size:12px;" onclick="deleteRow(this)">মুছুন</button>';
-                } else if(i === 0) {
+                if(i === 0) {
                     cell.innerText = rowCount;
+                } else if(i === colCount - 1) {
+                    cell.innerHTML = '<button class="btn btn-danger" style="padding:6px 12px; font-size:12px;" onclick="deleteRow(this)">মুছুন</button>';
                 } else {
                     cell.setAttribute('contenteditable', 'true');
                     cell.innerText = 'তথ্য লিখুন';
@@ -789,8 +783,7 @@
         function deleteRow(btn) {
             let row = btn.parentNode.parentNode;
             row.parentNode.removeChild(row);
-        }
-
+        } 
         function addLinkItem() {
             let container = document.getElementById('linksContainer');
             let count = container.children.length + 1;
