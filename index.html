@@ -272,10 +272,14 @@
             <div class="login-box">
                 <h2>পোর্টাল লগইন প্যানেল</h2>
                 <p>আপনার নির্ধারিত পিন কোড দিয়ে প্রবেশ করুন</p>
-                <input type="password" id="pinInput" placeholder="পিন কোড লিখুন" maxlength="6">
-                <button class="btn" onclick="checkPin()" style="width: 100%;">লগইন করুন</button>
-                <button class="btn" onclick="hideLoginBox()" style="width: 100%; margin-top: 10px; background: #6c757d;">বাতিল করে ফিরে যান</button>
-                <p id="loginError" style="color: #d9534f; margin-top: 15px; font-size: 14px; font-weight: bold;"></p>
+   <input type="password" id="pinInput" placeholder="পিন কোড লিখুন" maxlength="6">
+<input type="text" id="teacherFullName" placeholder="আপনার নাম লিখুন (সহকারী শিক্ষকগণ)" style="width: 100%; margin-top: 10px; padding: 10px; box-sizing: border-box;">
+<button class="btn" onclick="checkPin()" style="width: 100%; margin-top: 10px;">লগইন করুন</button>
+<button class="btn" onclick="hideLoginBox()" style="width: 100%; margin-top: 10px; background: #6c757d;">বাতিল করে ফিরে যান</button>
+<p id="loginError" style="color: #d9534f; margin-top: 15px; font-size: 14px; font-weight: bold;"></p>
+          
+             
+               
             </div>
         </div>
 
@@ -665,15 +669,24 @@
                 initPortalView();
                 hideLoginBox();
                 showDashboard();
-            } else if (pin === TEACHER_PIN) {
-                sessionStorage.setItem('userRole', 'teacher');
-                initPortalView();
-                hideLoginBox();
-                showDashboard();
-            } else {
-                errorEl.innerText = "❌ ভুল পিন কোড! সঠিক পিন দিন।";
-            }
+        } else if (pin === TEACHER_PIN) {
+        let teacherName = document.getElementById('teacherFullName').value.trim();
+        if (!teacherName) {
+            errorEl.innerText = "❌ দয়া করে আপনার নাম লিখুন!";
+            return;
         }
+        sessionStorage.setItem('userName', teacherName);
+        sessionStorage.setItem('userRole', 'teacher');
+        
+        initPortalView();
+        hideLoginBox();
+        showDashboard();
+    } else {
+        errorEl.innerText = "❌ ভুল পিন কোড! সঠিক পিন দিন।";
+    }
+}
+     
+        
 
         function showLoginBox() {
             document.getElementById('dashboardSection').style.display = 'none';
@@ -1080,10 +1093,12 @@
                     itemDiv.style.cssText = "background: #fff; padding: 15px; border-radius: 8px; margin-bottom: 10px; border: 1px solid #ffeeba; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;";
                     
                     itemDiv.innerHTML = `
-                        <div>
-                            <strong>${count}. ${data.title || 'আপডেট রিকুয়েস্ট'}</strong><br>
-                            <small style="color: #666;">সময়: ${new Date(data.time).toLocaleString('bn-BD')}</small>
-                        </div>
+  <div>
+    <strong>${count}. ${data.title || 'আপডেট রিকুয়েস্ট'}</strong><br>
+    <small style="color: #666;">সময়: ${new Date(data.time).toLocaleString('bn-BD')}</small><br>
+    <small style="color: #007bff; font-weight: bold;">প্রেরক: ${data.teacherName || 'অজানা শিক্ষক'}</small>
+</div>
+            
                         <div style="display: flex; gap: 8px;">
                             <button class="btn btn-success" style="padding: 6px 12px; font-size: 12px;" onclick="approveUpdate('${docId}', '${data.secId}')">অনুমোদন দিন</button>
                             <button class="btn btn-danger" style="padding: 6px 12px; font-size: 12px;" onclick="rejectUpdate('${docId}')">বাতিল করুন</button>
