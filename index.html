@@ -273,7 +273,17 @@
                 <h2>পোর্টাল লগইন প্যানেল</h2>
                 <p>আপনার নির্ধারিত পিন কোড দিয়ে প্রবেশ করুন</p>
    <input type="password" id="pinInput" placeholder="পিন কোড লিখুন" maxlength="6">
-<input type="text" id="teacherFullName" placeholder="আপনার নাম লিখুন (সহকারী শিক্ষকগণ)" style="width: 100%; margin-top: 10px; padding: 10px; box-sizing: border-box;">
+<select id="teacherFullName" style="width: 100%; margin-top: 10px; padding: 10px; box-sizing: border-box; background: #fff; color: #333;">
+    <option value="" disabled selected>Select One</option>
+    <option value="পারভীন রওনক">পারভীন রওনক</option>
+    <option value="সাবিয়া আক্তার">সাবিয়া আক্তার</option>
+    <option value="মাহবুব আরা রহমান">মাহবুব আরা রহমান</option>
+    <option value="ফারজানা আক্তার সুমি">ফারজানা আক্তার সুমি</option>
+    <option value="রাবিয়া আক্তার রুবি">রাবিয়া আক্তার রুবি</option>
+    <option value="সুপ্তী গোস্বামী">সুপ্তী গোস্বামী</option>
+    <option value="মোস্তাক আহমেদ">মোস্তাক আহমেদ</option>
+</select>
+
 <button class="btn" onclick="checkPin()" style="width: 100%; margin-top: 10px;">লগইন করুন</button>
 <button class="btn" onclick="hideLoginBox()" style="width: 100%; margin-top: 10px; background: #6c757d;">বাতিল করে ফিরে যান</button>
 <p id="loginError" style="color: #d9534f; margin-top: 15px; font-size: 14px; font-weight: bold;"></p>
@@ -1124,11 +1134,15 @@
                 if(docRefSnap.exists()) {
                     const data = docRefSnap.data();
 
-                    await window.setDocRef(window.docRef(window.db, "schoolPortal", secId), {
-                        html: data.html,
-                        updatedAt: new Date().toISOString()
-                    });
+  await
+window.setDocRef(window.docRef(window.db,
+"schoolPortal", secId), {
+    html: data.html,
+teacherName: data.userName || data.teacherName || 'অজানা শিক্ষক',
 
+    updatedAt: new Date().toISOString()
+});
+                
                     await window.deleteDocRef(window.docRef(window.db, "pendingUpdates", secId));
 
                     alert('✅ সফলভাবে অনুমোদন করা হয়েছে এবং মূল পোর্টালে আপডেট হয়ে গেছে!');
