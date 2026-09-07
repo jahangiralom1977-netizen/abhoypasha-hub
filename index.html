@@ -558,46 +558,44 @@
             </div>
        </div>  
        
+      <!-- Section 10: স্মৃতিচারণ ও ফটো গ্যালারি -->
+    <div id="sec10" class="section-view">
+        <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
+        <h2>১০. স্মৃতিচারণ ও ফটো ও ভিডিও গ্যালারি</h2>
+        
+        <!-- বড় ডিসপ্লে স্ক্রিন -->
+        <div class="display-screen" id="mainDisplay">
+            <img src="https://i.ibb.co.com/5xJkDXSw/IMG-20260829-073221-093.jpg" alt="ডিফল্ট ছবি" id="currentMedia">
+        </div>
 
-    <!-- Section 10: স্মৃতিচারণ ও ফটো গ্যালারি -->
-        <div id="sec10" class="section-view">
-            <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
-            <h2>১০. স্মৃতিচারণ ও ফটো ও ভিডিও গ্যালারি</h2>
-            
-            <!-- বড় ডিসপ্লে স্ক্রিন -->
-            <div class="display-screen" id="mainDisplay">
-                <img src="https://i.ibb.co.com/5xJkDXSw/IMG-20260829-073221-093.jpg" alt="ডিফল্ট ছবি" id="currentMedia">
+        <!-- ছবি ও ক্যাপশন যুক্ত করার ফর্ম (সরাসরি দৃশ্যমান থাকবে) -->
+        <div id="galleryUploadBox" style="background: #ffffff; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 2px solid #28a745; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+            <h3 style="color: #28a745; margin-top: 0;">নতুন ছবি ও ক্যাপশন যুক্ত করুন</h3>
+            <div class="form-group" style="margin-bottom: 12px;">
+                <label style="font-weight: bold; display: block; margin-bottom: 5px;">মোবাইল বা ডিভাইস থেকে ছবি সিলেক্ট করুন:</label>
+                <input type="file" id="imageFileSelect" accept="image/*" multiple style="width: 100%; padding: 5px; border: 1px solid #ccc; border-radius: 4px;">
             </div>
-
-            <!-- ছবি ও ক্যাপশন যুক্ত করার ফর্ম -->
-            <div class="upload-section">
-                <h3>নতুন ছবি ও ক্যাপশন যুক্ত করুন</h3>
-                <div class="form-group">
-                    <label>ডিভাইস বা ড্রাইভ থেকে একসাথে একাধিক ছবি সিলেক্ট করুন:</label>
-                    <input type="file" id="imageFileSelect" accept="image/*" multiple>
-                </div>
-                <div class="form-group">
-                    <label>অথবা ছবির অনলাইন লিংক (Direct URL) দিন:</label>
-                    <input type="text" id="imageUrlInput" placeholder="https://i.ibb.co/.../image.jpg">
-                </div>
-                <div class="form-group">
-                    <label>ছবির সাধারণ লেখা বা ক্যাপশন:</label>
-                    <input type="text" id="imageCaptionInput" placeholder="যেমন: বিদ্যালয়ের বার্ষিক ক্রীড়া প্রতিযোগিতা">
-                </div>
-                <button class="btn" onclick="addNewImage()">গ্যালারিতে যোগ করুন</button>
+            <div class="form-group" style="margin-bottom: 12px;">
+                <label style="font-weight: bold; display: block; margin-bottom: 5px;">অথবা ছবির অনলাইন লিংক (Direct URL) দিন:</label>
+                <input type="text" id="imageUrlInput" placeholder="https://i.ibb.co/.../image.jpg" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
             </div>
-
-            <div class="section-title">সংরক্ষিত ফটো গ্যালারি</div>
-
-            <!-- গ্যালারি গ্রিড -->
-            <div class="gallery-grid" id="galleryGrid">
-                <!-- ফায়ারবেজ থেকে এখানে আইটেমগুলো লোড হবে -->
+            <div class="form-group" style="margin-bottom: 15px;">
+                <label style="font-weight: bold; display: block; margin-bottom: 5px;">ছবির সাধারণ লেখা বা ক্যাপশন:</label>
+                <input type="text" id="imageCaptionInput" placeholder="যেমন: বিদ্যালয়ের বার্ষিক অনুষ্ঠান" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
             </div>
+            <button class="btn" onclick="addNewImage()" style="background: #28a745; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 14px;">গ্যালারিতে যোগ করুন</button>
+        </div>
+
+        <div class="section-title" style="font-weight: bold; margin: 15px 0; font-size: 18px;">সংরক্ষিত ফটো গ্যালারি</div>
+
+        <!-- গ্যালারি গ্রিড -->
+        <div class="gallery-grid" id="galleryGrid">
+            <!-- ফায়ারবেজ থেকে এখানে আইটেমগুলো লোড হবে -->
+        </div>
     </div>
-</div>
-      
+   
 
-    <!-- Print Option Modal -->
+  <!-- Print Option Modal -->
     <div id="printSectionModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999; justify-content:center; align-items:center;">
         <div style="background:#fff; padding:30px; border-radius:12px; width:90%; max-width:420px; box-shadow:0 5px 20px rgba(0,0,0,0.3); text-align:center;">
             <h3 style="margin-top:0; color:#1b4d3e; font-size:20px; margin-bottom:15px;">🖨️ অফিশিয়াল প্রিন্ট ও ডকুমেন্টস</h3>
@@ -816,6 +814,7 @@
             container.appendChild(div);
         }
 
+       
         async function saveData(secId) {
             let role = sessionStorage.getItem('userRole');
             let sectionElement = document.getElementById(secId);
@@ -833,10 +832,12 @@
                 }
             } else {
                 try {
-                    await window.setDocRef(window.docRef(window.db, "pendingUpdates", "pending_" + secId + "_" + Date.now()), {
+                    let currentTeacherName = sessionStorage.getItem('userName') || "সহকারী শিক্ষক";
+                    await window.addDocRef(window.collectionRef(window.db, "pendingUpdates"), {
                         secId: secId,
                         html: htmlContent,
                         title: 'সেকশন আপডেট: ' + secId,
+                        teacherName: currentTeacherName,
                         time: new Date().toISOString()
                     });
                     alert('⏳ আপনার আপডেটটি এডমিনের অনুমোদনের জন্য পাঠানো হয়েছে!');
@@ -891,9 +892,10 @@
             renderGallery();
         }
 
-        function renderGallery() {
+          function renderGallery() {
             const grid = document.getElementById('galleryGrid');
             if(!grid) return;
+            
             grid.innerHTML = '';
             
             if(galleryData.length === 0) {
@@ -901,16 +903,23 @@
                 return;
             }
 
+            let role = sessionStorage.getItem('userRole');
+            let isEditable = (role === 'admin' || role === 'teacher');
+
             galleryData.forEach((item, index) => {
+                let captionAttr = isEditable ? `contenteditable="true" oninput="updateCaption(${index}, this)"` : '';
+                let deleteBtnHtml = isEditable ? `<button class="btn btn-danger" onclick="deleteImage(${index})" style="background: #dc3545; color: white; border: none; padding: 6px 12px; border-radius: 4px; margin-top: 8px; cursor: pointer; width: 100%;">ডিলিট করুন</button>` : '';
+
                 grid.innerHTML += `
-                    <div class="gallery-item" data-id="${item.id || ''}">
-                        <img src="${item.url}" alt="গ্যালারি ছবি" onclick="showMedia('${item.url}')">
-                        <div class="caption" contenteditable="true" oninput="updateCaption(${index}, this)">${item.caption}</div>
-                        <button class="btn btn-danger" onclick="deleteImage(${index})">ডিলিট করুন</button>
+                    <div class="gallery-item" data-id="${item.id || ''}" style="border: 1px solid #ddd; padding: 10px; border-radius: 6px; background: #fff; text-align: center; margin-bottom: 15px;">
+                        <img src="${item.url}" alt="গ্যালারি ছবি" onclick="showMedia('${item.url}')" style="width: 100%; height: 160px; object-fit: cover; cursor: pointer; border-radius: 4px;">
+                        <div class="caption" ${captionAttr} style="margin-top: 8px; padding: 6px; border: 1px dashed #ccc; min-height: 24px; background: #fdfdfd;">${item.caption}</div>
+                        ${deleteBtnHtml}
                     </div>
                 `;
             });
         }
+      
 
         window.updateCaption = function(index, el) {
             if(galleryData[index]) {
@@ -1084,7 +1093,7 @@
             }
         }
 
-        async function loadPendingUpdates() {
+         async function loadPendingUpdates() {
             const container = document.getElementById('pendingListContainer');
             if(!container) return;
             container.innerHTML = 'লোড হচ্ছে...';
@@ -1099,16 +1108,18 @@
                     const data = docSnap.data();
                     const docId = docSnap.id;
 
+                    // এখানে প্রেরকের নাম সুরক্ষিত করা হলো যাতে "অজানা শিক্ষক" না আসে
+                    let currentSender = data.teacherName || data.userName || 'সহকারী শিক্ষক';
+
                     let itemDiv = document.createElement('div');
                     itemDiv.style.cssText = "background: #fff; padding: 15px; border-radius: 8px; margin-bottom: 10px; border: 1px solid #ffeeba; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;";
                     
                     itemDiv.innerHTML = `
-  <div>
-    <strong>${count}. ${data.title || 'আপডেট রিকুয়েস্ট'}</strong><br>
-    <small style="color: #666;">সময়: ${new Date(data.time).toLocaleString('bn-BD')}</small><br>
-    <small style="color: #007bff; font-weight: bold;">প্রেরক: ${data.teacherName || 'অজানা শিক্ষক'}</small>
-</div>
-            
+                        <div>
+                            <strong>${count}. ${data.title || 'আপডেট রিকুয়েস্ট'}</strong><br>
+                            <small style="color: #666;">সময়: ${new Date(data.time).toLocaleString('bn-BD')}</small><br>
+                            <small style="color: #007bff; font-weight: bold;">প্রেরক: ${currentSender}</small>
+                        </div>
                         <div style="display: flex; gap: 8px;">
                             <button class="btn btn-success" style="padding: 6px 12px; font-size: 12px;" onclick="approveUpdate('${docId}', '${data.secId}')">অনুমোদন দিন</button>
                             <button class="btn btn-danger" style="padding: 6px 12px; font-size: 12px;" onclick="rejectUpdate('${docId}')">বাতিল করুন</button>
@@ -1125,8 +1136,9 @@
                 container.innerHTML = '<p style="color: #d9534f;">পেন্ডিং ডাটা লোড করতে সমস্যা হয়েছে।</p>';
             }
         }
+     
 
-        async function approveUpdate(docId, secId) {
+          async function approveUpdate(docId, secId) {
             if(!confirm('আপনি কি এই আপডেটটি অনুমোদন করতে চান? এটি মূল পোর্টালে যুক্ত হয়ে যাবে।')) return;
 
             try {
@@ -1134,25 +1146,23 @@
                 if(docRefSnap.exists()) {
                     const data = docRefSnap.data();
 
-  await
-window.setDocRef(window.docRef(window.db,
-"schoolPortal", secId), {
-    html: data.html,
-teacherName: data.userName || data.teacherName || 'অজানা শিক্ষক',
-
-    updatedAt: new Date().toISOString()
-});
+                    await window.setDocRef(window.docRef(window.db, "schoolPortal", secId), {
+                        html: data.html,
+                        teacherName: data.teacherName || 'অজানা শিক্ষক',
+                        updatedAt: new Date().toISOString()
+                    });
                 
-                    await window.deleteDocRef(window.docRef(window.db, "pendingUpdates", secId));
+                    await window.deleteDocRef(window.docRef(window.db, "pendingUpdates", docId));
 
                     alert('✅ সফলভাবে অনুমোদন করা হয়েছে এবং মূল পোর্টালে আপডেট হয়ে গেছে!');
                     loadPendingUpdates();
                     loadAllDataFromCloud();
                 }
-            }catch(err) {
+            } catch(err) {
                 alert('❌ অনুমোদন করতে সমস্যা হয়েছে: ' + err.message);
             }
         }
+    
 
         async function rejectUpdate(docId) {
             if(!confirm('আপনি কি নিশ্চিতভাবে এই রিকুয়েস্টটি মুছে ফেলতে চান?')) return;
