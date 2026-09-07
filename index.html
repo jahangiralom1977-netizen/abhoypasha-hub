@@ -1022,22 +1022,27 @@
             }
         }
 
-        window.deleteImage = async function(index) {
-            if (confirm('আপনি কি নিশ্চিতভাবেই এই ছবি ডিলিট করতে চান?')) {
-                const item = galleryData[index];
-                try {
-                    if (item.id) {
-                        await window.deleteDocRef(window.docRef(window.db, "school_gallery_items", item.id));
-                    }
-                    galleryData.splice(index, 1);
-                    renderGallery();
-                    alert('✅ ছবি সফলভাবে মুছে ফেলা হয়েছে!');
-                } catch (e) {
-                    console.error("Error deleting image: ", e);
-                    alert('ছবি ডিলিট করতে সমস্যা হয়েছে: ' + e.message);
+          async function deleteImage(index) {
+            if(!confirm("আপনি কি নিশ্চিতভাবে এই ছবিটি গ্যালারি থেকে মুছে ফেলতে চান?")) return;
+
+            let item = galleryData[index];
+            
+            try {
+                // যদি ফায়ারবেজে ডকুমেন্টের আইডি থাকে, তবে ডেটাবেস থেকে ডিলিট হবে
+                if(item && item.id) {
+                    await window.deleteDocRef(window.docRef(window.db, "gallery", item.id));
                 }
+                
+                // লোকাল অ্যারে থেকেও রিমুভ করে গ্যালারি রিফ্রেশ করা হবে
+                galleryData.splice(index, 1);
+                renderGallery();
+                alert('🗑️ ছবিটি সফলভাবে মুছে ফেলা হয়েছে!');
+            } catch(err) {
+                console.error("ছবি ডিলিট করতে সমস্যা হয়েছে:", err);
+                alert('❌ ত্রুটি: ছবি ডিলিট করা যায়নি।');
             }
         }
+      
 
         function showMedia(url) {
             const display = document.getElementById('mainDisplay');
