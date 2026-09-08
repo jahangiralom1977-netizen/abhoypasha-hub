@@ -487,29 +487,29 @@
             </table>
         </div>
 
- <div id="sec7" class="section-view">
+        <div id="sec7" class="section-view">
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
                 <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
                 <button class="btn btn-info" onclick="triggerPrint('sec7')" style="padding: 10px 18px; font-size: 14px;">🖨️ প্রিন্ট করুন</button>
             </div>
-  <h2>৭. ফাইল আর্কাইভ ফোল্ডার</h2>
-            <div class="action-bar"><button class="btn btn-success" onclick="saveData('sec7')">💾 ক্লাউডে সেভ করুন</button></div>
-            <div style="background: #fff3e0; padding: 20px; border-radius: 10px; margin-bottom: 20px; font-size: 15px;" contenteditable="true">
+            <h2>৭. ফাইল আর্কাইভ ফোল্ডার</h2>
+            <div class="action-bar admin-only"><button class="btn btn-success" onclick="saveData('sec7')">💾 ক্লাউডে সেভ করুন</button></div>
+            <div id="sec7_note" style="background: #fff3e0; padding: 20px; border-radius: 10px; margin-bottom: 20px; font-size: 15px;">
                 • গুরুত্বপূর্ণ অফিশিয়াল নোটিশ ও ফাইল সংরক্ষণ ফোল্ডার।
             </div>
-            <div class="action-bar">
+            <div class="action-bar admin-only">
                 <div>
                     <button class="btn btn-success" onclick="addRow('table7')">+ ফাইল</button>
                     <button class="btn btn-warning" onclick="addColumn('table7')">+ কলাম</button>
                 </div>
             </div>
             <table id="table7">
-                <thead><tr><th>ক্রমিক</th><th>ফাইলের বিবরণ</th><th>ড্রাইভ লিংক</th><th>অ্যাকশন</th></tr></thead>
+                <thead><tr><th>ক্রমিক</th><th>ফাইলের বিবরণ</th><th>ড্রাইভ লিংক</th><th class="admin-only">অ্যাকশন</th></tr></thead>
                 <tbody>
-                    <tr><td>১</td><td contenteditable="true">বিদ্যালয়ের রুটিন</td><td contenteditable="true"><a href="https://drive.google.com" target="_blank">লিংক ওপেন করুন</a></td><td><button class="btn btn-danger" style="padding:6px 12px; font-size:12px;" onclick="deleteRow(this)">মুছুন</button></td></tr>
+                    <tr><td>১</td><td>বিদ্যালয়ের রুটিন</td><td><a href="https://drive.google.com" target="_blank">লিংক ওপেন করুন</a></td><td class="admin-only"><button class="btn btn-danger" style="padding:6px 12px; font-size:12px;" onclick="deleteRow(this)">মুছুন</button></td></tr>
                 </tbody>
             </table>
-        </div>      
+        </div>
 
         <!-- সেকশন ৮: গুরুত্বপূর্ণ ওয়েবসাইট ও অনলাইন লিংক -->
         <div id="sec8" class="section-view">
@@ -561,8 +561,15 @@
       <!-- Section 10: স্মৃতিচারণ ও ফটো গ্যালারি -->
     <div id="sec10" class="section-view">
         <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
+
+  
+    
+    <!-- নতুন যুক্ত করা ক্লাউডে সেভ বাটন -->
+    <button class="cloud-save-btn" onclick="saveGalleryToCloud()" style="background-color: #28a745; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; margin-left: 10px; font-weight: bold;">☁️ ক্লাউডে সেভ করুন</button>
+
+
         <h2>১০. স্মৃতিচারণ ও ফটো ও ভিডিও গ্যালারি</h2>
-        
+
         <!-- বড় ডিসপ্লে স্ক্রিন -->
         <div class="display-screen" id="mainDisplay">
             <img src="https://i.ibb.co.com/5xJkDXSw/IMG-20260829-073221-093.jpg" alt="ডিফল্ট ছবি" id="currentMedia">
@@ -587,7 +594,7 @@
         </div>
 
         <div class="section-title" style="font-weight: bold; margin: 15px 0; font-size: 18px;">সংরক্ষিত ফটো গ্যালারি</div>
-
+  
         <!-- গ্যালারি গ্রিড -->
         <div class="gallery-grid" id="galleryGrid">
             <!-- ফায়ারবেজ থেকে এখানে আইটেমগুলো লোড হবে -->
@@ -1186,6 +1193,21 @@
             const message = encodeURIComponent('আমাদের বিদ্যালয়ের ডিজিটাল পোর্টালটি দেখতে নিচের লিংকে ক্লিক করুন: ' + portalUrl);
             window.open('https://api.whatsapp.com/send?text=' + message, '_blank');
         }
+async function saveGalleryToCloud() {
+    try {
+        // গ্যালারির পুরো ডাটা বা অ্যারেটি ফায়ারবেজে সেভ করার জন্য setDoc ব্যবহার করা হচ্ছে
+        await window.setDocRef(window.docRef(window.db, "schoolPortal", "galleryData"), {
+            items: galleryData,
+            updatedAt: new Date().toISOString()
+        });
+        
+        alert('✅ গ্যালারির ডাটা সফলভাবে ক্লাউডে সেভ করা হয়েছে!');
+    } catch (err) {
+        console.error("ক্লাউডে সেভ করতে সমস্যা হয়েছে:", err);
+        alert('❌ ত্রুটি: ক্লাউডে সেভ করা যায়নি।');
+    }
+}
+
     </script>
 </body>
 </html>
