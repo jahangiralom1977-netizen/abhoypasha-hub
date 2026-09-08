@@ -561,7 +561,7 @@
       <!-- Section 10: স্মৃতিচারণ ও ফটো গ্যালারি -->
     <div id="sec10" class="section-view">
         <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
-   <button onclick="cleanAndSaveGallery()" style="background-color: #ff9800; color: white; padding: 8px 15px; border: none; border-radius: 4px;">পুরোনো ছবি পরিষ্কার করে সেভ করুন</button>
+  
     
 
   
@@ -1031,26 +1031,30 @@
             }
         }
 
-          async function deleteImage(index) {
-            if(!confirm("আপনি কি নিশ্চিতভাবে এই ছবিটি গ্যালারি থেকে মুছে ফেলতে চান?")) return;
-
-            let item = galleryData[index];
-            
-            try {
-                // যদি ফায়ারবেজে ডকুমেন্টের আইডি থাকে, তবে ডেটাবেস থেকে ডিলিট হবে
-                if(item && item.id) {
-                    await window.deleteDocRef(window.docRef(window.db, "gallery", item.id));
-                }
-                
-                // লোকাল অ্যারে থেকেও রিমুভ করে গ্যালারি রিফ্রেশ করা হবে
-                galleryData.splice(index, 1);
-                renderGallery();
-                alert('🗑️ ছবিটি সফলভাবে মুছে ফেলা হয়েছে!');
-            } catch(err) {
-                console.error("ছবি ডিলিট করতে সমস্যা হয়েছে:", err);
-                alert('❌ ত্রুটি: ছবি ডিলিট করা যায়নি।');
-            }
+ async function deleteImage(index) {
+    if(!confirm("আপনি কি নিশ্চিতভাবে এই ছবিটি গ্যালারি থেকে মুছে ফেলতে চান?")) return;
+    
+    try {
+        let itemToDelete = galleryData[index];
+        
+        // ফায়ারবেসের নির্দিষ্ট কালেকশন থেকে ডকুমেন্ট আইডি ধরে স্থায়ীভাবে ডিলিট করা হচ্ছে
+        if (itemToDelete && itemToDelete.id) {
+            await window.deleteDocRef(window.docRef(window.db, "school_gallery_items", itemToDelete.id));
         }
+
+        // লোকাল অ্যারে থেকে ছবিটি সরিয়ে ফেলা
+        galleryData.splice(index, 1);
+        
+        // গ্যালারি গ্রিড রিফ্রেশ করা
+        renderGallery();
+        
+        alert('🗑️ ছবিটি সফলভাবে ক্লাউড এবং গ্যালারি থেকে মুছে ফেলা হয়েছে!');
+    } catch(err) {
+        console.error("ডিলিট করতে সমস্যা:", err);
+        alert('❌ ত্রুটি: ' + err.message);
+    }
+}
+
       
 
         function showMedia(url) {
