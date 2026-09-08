@@ -561,6 +561,8 @@
       <!-- Section 10: স্মৃতিচারণ ও ফটো গ্যালারি -->
     <div id="sec10" class="section-view">
         <button class="back-btn" onclick="showDashboard()">← ড্যাশবোর্ডে ফিরে যান</button>
+   <button onclick="cleanAndSaveGallery()" style="background-color: #ff9800; color: white; padding: 8px 15px; border: none; border-radius: 4px;">পুরোনো ছবি পরিষ্কার করে সেভ করুন</button>
+    
 
   
     
@@ -1176,7 +1178,7 @@
         }
     
 
-        async function rejectUpdate(docId) {
+           async function rejectUpdate(docId) {
             if(!confirm('আপনি কি নিশ্চিতভাবে এই রিকুয়েস্টটি মুছে ফেলতে চান?')) return;
 
             try {
@@ -1193,21 +1195,38 @@
             const message = encodeURIComponent('আমাদের বিদ্যালয়ের ডিজিটাল পোর্টালটি দেখতে নিচের লিংকে ক্লিক করুন: ' + portalUrl);
             window.open('https://api.whatsapp.com/send?text=' + message, '_blank');
         }
-async function saveGalleryToCloud() {
-    try {
-        // গ্যালারির পুরো ডাটা বা অ্যারেটি ফায়ারবেজে সেভ করার জন্য setDoc ব্যবহার করা হচ্ছে
-        await window.setDocRef(window.docRef(window.db, "schoolPortal", "galleryData"), {
-            items: galleryData,
-            updatedAt: new Date().toISOString()
-        });
-        
-        alert('✅ গ্যালারির ডাটা সফলভাবে ক্লাউডে সেভ করা হয়েছে!');
-    } catch (err) {
-        console.error("ক্লাউডে সেভ করতে সমস্যা হয়েছে:", err);
-        alert('❌ ত্রুটি: ক্লাউডে সেভ করা যায়নি।');
-    }
-}
 
+        async function saveGalleryToCloud() {
+            try {
+                await window.setDocRef(window.docRef(window.db, "schoolPortal", "galleryData"), {
+                    items: galleryData,
+                    updatedAt: new Date().toISOString()
+                });
+                alert('✅ গ্যালারির ডাটা সফলভাবে ক্লাউডে সেভ করা হয়েছে!');
+            } catch (err) {
+                alert('❌ এরর: ' + err.message);
+                console.error("ক্লাউডে সেভ করতে সমস্যা হয়েছে:", err);
+            }
+        }
+
+        async function cleanAndSaveGallery() {
+            if (!confirm('আপনি কি পুরোনো কিছু ছবি মুছে গ্যালারির সাইজ ছোট করে ক্লাউডে সেভ করতে চান?')) return;
+            
+            if (galleryData && galleryData.length > 20) {
+                galleryData = galleryData.slice(-20); 
+            }
+
+            try {
+                await window.setDocRef(window.docRef(window.db, "schoolPortal", "galleryData"), {
+                    items: galleryData,
+                    updatedAt: new Date().toISOString()
+                });
+                alert('✅ পুরোনো ছবি পরিষ্কার করে গ্যালারি সফলভাবে ক্লাউডে সেভ করা হয়েছে!');
+            } catch (err) {
+                alert('❌ এরর: ' + err.message);
+                console.error("ক্লাউডে সেভ করতে সমস্যা:", err);
+            }
+        }
     </script>
 </body>
 </html>
