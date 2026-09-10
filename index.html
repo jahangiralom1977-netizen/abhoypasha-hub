@@ -258,6 +258,225 @@
     <div class="marquee-box">
         <marquee behavior="scroll" direction="left">✨ ৭ নং অভয়পাশা সরকারি প্রাথমিক বিদ্যালয় ডিজিটাল পোর্টালে স্বাগতম! থ্রি-ড্যাশ মেনু থেকে মূল ড্যাশবোর্ডে প্রবেশ করুন। ✨</marquee>
     </div>
+    
+    <!-- পুরো সেকশনটি ওয়েবসাইটের মাঝখানে (Center) দেখানোর জন্য বাইরের div-এ style ব্যবহার করা হয়েছে -->
+<div style="max-width: 1000px; margin: 0 auto; width: 100%;">
+
+    <!-- দৈনিক উপস্থিতি ও শ্রেণিভিত্তিক বিবরণী বোর্ড -->
+    <div class="card mb-3" style="background: #e3f2fd; padding: 20px; border-radius: 12px; margin-bottom: 25px; border: 2px solid #64b5f6; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 15px;">
+            <h3 style="color: #0d47a1; margin: 0; font-size: 20px;">
+                📅 দৈনিক উপস্থিতি ও শ্রেণিভিত্তিক বিবরণী <span id="currentDateDisplay" style="font-size: 15px; color: #1565c0; font-weight: normal; margin-left: 10px;"></span>
+            </h3>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                <button class="btn btn-success" onclick="addRowCorrected('tableDailyAttendance')" style="font-size: 13px; padding: 6px 12px; background: #2e7d32; color: #fff; border: none; border-radius: 4px; cursor: pointer;">+ সারি যোগ করুন</button>
+                <button class="btn btn-warning" onclick="addColumnCorrected('tableDailyAttendance')" style="font-size: 13px; padding: 6px 12px; background: #ef6c00; color: #fff; border: none; border-radius: 4px; cursor: pointer;">+ কলাম যোগ করুন</button>
+            </div>
+        </div>
+        
+        <div style="overflow-x: auto;">
+            <table id="tableDailyAttendance" style="width: 100%; border-collapse: collapse; background: #fff; text-align: center; font-size: 14px;">
+                <thead>
+                    <tr style="background: #bbdefb; color: #0d47a1;">
+                        <th rowspan="2" style="border: 1px solid #90caf9; padding: 8px; vertical-align: middle;">শ্রেণি</th>
+                        <th rowspan="2" style="border: 1px solid #90caf9; padding: 8px; vertical-align: middle;">ভর্তিকৃত ছাত্র</th>
+                        <th rowspan="2" style="border: 1px solid #90caf9; padding: 8px; vertical-align: middle;">ভর্তিকৃত ছাত্রী</th>
+                        <th rowspan="2" style="border: 1px solid #90caf9; padding: 8px; vertical-align: middle;">মোট ভর্তিকৃত</th>
+                        <th colspan="3" style="border: 1px solid #90caf9; padding: 8px;">গতকালের উপস্থিতি</th>
+                        <th colspan="3" style="border: 1px solid #90caf9; padding: 8px;">আজকের উপস্থিতি</th>
+                        <th rowspan="2" style="border: 1px solid #90caf9; padding: 8px; vertical-align: middle; width: 80px;">মুছুন</th>
+                    </tr>
+                    <tr style="background: #e3f2fd; color: #0d47a1;">
+                        <th style="border: 1px solid #90caf9; padding: 6px;">ছাত্র</th>
+                        <th style="border: 1px solid #90caf9; padding: 6px;">ছাত্রী</th>
+                        <th style="border: 1px solid #90caf9; padding: 6px;">মোট</th>
+                        <th style="border: 1px solid #90caf9; padding: 6px;">ছাত্র</th>
+                        <th style="border: 1px solid #90caf9; padding: 6px;">ছাত্রী</th>
+                        <th style="border: 1px solid #90caf9; padding: 6px;">মোট</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="border: 1px solid #90caf9; padding: 8px; font-weight: bold;" contenteditable="true">প্রাক প্রাথমিক</td>
+                        <td style="border: 1px solid #90caf9; padding: 8px;" contenteditable="true">০</td>
+                        <td style="border: 1px solid #90caf9; padding: 8px;" contenteditable="true">০</td>
+                        <td style="border: 1px solid #90caf9; padding: 8px;" contenteditable="true">০</td>
+                        <td style="border: 1px solid #90caf9; padding: 8px;" contenteditable="true">০</td>
+                        <td style="border: 1px solid #90caf9; padding: 8px;" contenteditable="true">০</td>
+                        <td style="border: 1px solid #90caf9; padding: 8px;" contenteditable="true">০</td>
+                        <td style="border: 1px solid #90caf9; padding: 8px;" contenteditable="true">০</td>
+                        <td style="border: 1px solid #90caf9; padding: 8px;" contenteditable="true">০</td>
+                        <td style="border: 1px solid #90caf9; padding: 8px;" contenteditable="true">০</td>
+                        <td style="border: 1px solid #90caf9; padding: 8px;"><button style="padding: 4px 8px; background: #c62828; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-size: 12px;" onclick="deleteRow(this)">মুছুন</button></td>
+                    </tr>
+                    <tr>
+                        <td style="border: 1px solid #90caf9; padding: 8px; font-weight: bold;" contenteditable="true">প্রথম</td>
+                        <td style="border: 1px solid #90caf9; padding: 8px;" contenteditable="true">০</td>
+                        <td style="border: 1px solid #90caf9; padding: 8px;" contenteditable="true">০</td>
+                        <td style="border: 1px solid #90caf9; padding: 8px;" contenteditable="true">০</td>
+                        <td style="border: 1px solid #90caf9; padding: 8px;" contenteditable="true">০</td>
+                        <td style="border: 1px solid #90caf9; padding: 8px;" contenteditable="true">০</td>
+                        <td style="border: 1px solid #90caf9; padding: 8px;" contenteditable="true">০</td>
+                        <td style="border: 1px solid #90caf9; padding: 8px;" contenteditable="true">০</td>
+                        <td style="border: 1px solid #90caf9; padding: 8px;" contenteditable="true">০</td>
+                        <td style="border: 1px solid #90caf9; padding: 8px;" contenteditable="true">০</td>
+                        <td style="border: 1px solid #90caf9; padding: 8px;"><button style="padding: 4px 8px; background: #c62828; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-size: 12px;" onclick="deleteRow(this)">মুছুন</button></td>
+                    </tr>
+                    <tr>
+                        <td style="border: 1px solid #90caf9; padding: 8px; font-weight: bold;" contenteditable="true">দ্বিতীয়</td>
+                        <td style="border: 1px solid #90caf9; padding: 8px;" contenteditable="true">০</td>
+                        <td style="border: 1px solid #90caf9; padding: 8px;" contenteditable="true">০</td>
+                        <td style="border: 1px solid #90caf9; padding: 8px;" contenteditable="true">০</td>
+                        <td style="border: 1px solid #90caf9; padding: 8px;" contenteditable="true">০</td>
+                        <td style="border: 1px solid #90caf9; padding: 8px;" contenteditable="true">০</td>
+                        <td style="border: 1px solid #90caf9; padding: 8px;" contenteditable="true">০</td>
+                        <td style="border: 1px solid #90caf9; padding: 8px;" contenteditable="true">০</td>
+                        <td style="border: 1px solid #90caf9; padding: 8px;" contenteditable="true">০</td>
+                        <td style="border: 1px solid #90caf9; padding: 8px;" contenteditable="true">০</td>
+                        <td style="border: 1px solid #90caf9; padding: 8px;"><button style="padding: 4px 8px; background: #c62828; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-size: 12px;" onclick="deleteRow(this)">মুছুন</button></td>
+                    </tr>
+                    <tr>
+                        <td style="border: 1px solid #90caf9; padding: 8px; font-weight: bold;" contenteditable="true">তৃতীয়</td>
+                        <td style="border: 1px solid #90caf9; padding: 8px;" contenteditable="true">০</td>
+                        <td style="border: 1px solid #90caf9; padding: 8px;" contenteditable="true">০</td>
+                        <td style="border: 1px solid #90caf9; padding: 8px;" contenteditable="true">০</td>
+                        <td style="border: 1px solid #90caf9; padding: 8px;" contenteditable="true">০</td>
+                        <td style="border: 1px solid #90caf9; padding: 8px;" contenteditable="true">০</td>
+                        <td style="border: 1px solid #90caf9; padding: 8px;" contenteditable="true">০</td>
+                        <td style="border: 1px solid #90caf9; padding: 8px;" contenteditable="true">০</td>
+                        <td style="border: 1px solid #90caf9; padding: 8px;" contenteditable="true">০</td>
+                        <td style="border: 1px solid #90caf9; padding: 8px;" contenteditable="true">০</td>
+                        <td style="border: 1px solid #90caf9; padding: 8px;"><button style="padding: 4px 8px; background: #c62828; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-size: 12px;" onclick="deleteRow(this)">মুছুন</button></td>
+                    </tr>
+                    <tr>
+                        <td style="border: 1px solid #90caf9; padding: 8px; font-weight: bold;" contenteditable="true">চতুর্থ</td>
+                        <td style="border: 1px solid #90caf9; padding: 8px;" contenteditable="true">০</td>
+                        <td style="border: 1px solid #90caf9; padding: 8px;" contenteditable="true">০</td>
+                        <td style="border: 1px solid #90caf9; padding: 8px;" contenteditable="true">০</td>
+                        <td style="border: 1px solid #90caf9; padding: 8px;" contenteditable="true">০</td>
+                        <td style="border: 1px solid #90caf9; padding: 8px;" contenteditable="true">০</td>
+                        <td style="border: 1px solid #90caf9; padding: 8px;" contenteditable="true">০</td>
+                        <td style="border: 1px solid #90caf9; padding: 8px;" contenteditable="true">০</td>
+                        <td style="border: 1px solid #90caf9; padding: 8px;" contenteditable="true">০</td>
+                        <td style="border: 1px solid #90caf9; padding: 8px;" contenteditable="true">০</td>
+                        <td style="border: 1px solid #90caf9; padding: 8px;"><button style="padding: 4px 8px; background: #c62828; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-size: 12px;" onclick="deleteRow(this)">মুছুন</button></td>
+                    </tr>
+                    <tr>
+                        <td style="border: 1px solid #90caf9; padding: 8px; font-weight: bold;" contenteditable="true">পঞ্চম</td>
+                        <td style="border: 1px solid #90caf9; padding: 8px;" contenteditable="true">০</td>
+                        <td style="border: 1px solid #90caf9; padding: 8px;" contenteditable="true">০</td>
+                        <td style="border: 1px solid #90caf9; padding: 8px;" contenteditable="true">০</td>
+                        <td style="border: 1px solid #90caf9; padding: 8px;" contenteditable="true">০</td>
+                        <td style="border: 1px solid #90caf9; padding: 8px;" contenteditable="true">০</td>
+                        <td style="border: 1px solid #90caf9; padding: 8px;" contenteditable="true">০</td>
+                        <td style="border: 1px solid #90caf9; padding: 8px;" contenteditable="true">০</td>
+                        <td style="border: 1px solid #90caf9; padding: 8px;" contenteditable="true">০</td>
+                        <td style="border: 1px solid #90caf9; padding: 8px;" contenteditable="true">০</td>
+                        <td style="border: 1px solid #90caf9; padding: 8px;"><button style="padding: 4px 8px; background: #c62828; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-size: 12px;" onclick="deleteRow(this)">মুছুন</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- ক্লাউডে বা সার্ভারে ডাটা সেভ করার বাটন -->
+        <div style="margin-top: 15px; text-align: right;">
+            <button onclick="saveToCloud()" style="padding: 10px 20px; background: #1976d2; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: bold;">
+                ☁️ ক্লাউডে ডেটা সেভ করুন
+            </button>
+        </div>
+    </div>
+
+    <!-- জাভাস্ক্রিপ্ট ফাংশন কোড -->
+    <script>
+        // স্বয়ংক্রয়ভাবে আজকের তারিখ দেখানোর কোড
+        window.onload = function() {
+            var options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };
+            var today = new Date().toLocaleDateString('bn-BD', options);
+            var dateElement = document.getElementById('currentDateDisplay');
+            if (dateElement) {
+                dateElement.innerText = "(" + today + ")";
+            }
+        };
+
+        function addRowCorrected(tableId) {
+            var table = document.getElementById(tableId).getElementsByTagName('tbody')[0];
+            var newRow = table.insertRow();
+            var colCount = table.rows[0].cells.length;
+            
+            for (var i = 0; i < colCount - 1; i++) {
+                var newCell = newRow.insertCell(i);
+                newCell.style.border = "1px solid #90caf9";
+                newCell.style.padding = "8px";
+                newCell.contentEditable = "true";
+                newCell.innerHTML = i === 0 ? "নতুন শ্রেণি" : "০";
+            }
+            
+            var actionCell = newRow.insertCell(colCount - 1);
+            actionCell.style.border = "1px solid #90caf9";
+            actionCell.style.padding = "8px";
+            actionCell.innerHTML = '<button style="padding: 4px 8px; background: #c62828; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-size: 12px;" onclick="deleteRow(this)">মুছুন</button>';
+        }
+
+        function addColumnCorrected(tableId) {
+            var table = document.getElementById(tableId);
+            var rows = table.rows;
+            
+            for (var i = 0; i < 2; i++) {
+                if(rows[i]) {
+                    var th = document.createElement('th');
+                    th.style.border = "1px solid #90caf9";
+                    th.style.padding = "8px";
+                    th.style.background = "#bbdefb";
+                    th.style.color = "#0d47a1";
+                    th.contentEditable = "true";
+                    th.innerHTML = "নতুন কলাম";
+                    rows[i].insertBefore(th, rows[i].cells[rows[i].cells.length - 1]);
+                }
+            }
+            
+            for (var i = 2; i < rows.length; i++) {
+                var td = document.createElement('td');
+                td.style.border = "1px solid #90caf9";
+                td.style.padding = "8px";
+                td.contentEditable = "true";
+                td.innerHTML = "০";
+                rows[i].insertBefore(td, rows[i].cells[rows[i].cells.length - 1]);
+            }
+        }
+
+        function deleteRow(btn) {
+            var row = btn.parentNode.parentNode;
+            row.parentNode.removeChild(row);
+        }
+
+        // ক্লাউডে বা ডাটাবেজে ডেটা সেভ করার ফাংশন
+        function saveToCloud() {
+            var table = document.getElementById('tableDailyAttendance');
+            var data = [];
+
+            // টেবিলের সব ডেটা সংগ্রহ করা
+            for (var i = 2; i < table.rows.length; i++) { // হেডার বাদ দিয়ে সারিগুলো নেওয়া হচ্ছে
+                var row = table.rows[i];
+                var rowData = [];
+                for (var j = 0; j < row.cells.length - 1; j++) { // মুছুন বাটন বাদে বাকি সেলগুলো
+                    rowData.push(row.cells[j].innerText);
+                }
+                data.push(rowData);
+            }
+
+            // এখানে আপনি সার্ভারে ডেটা পাঠানোর জন্য AJAX বা Fetch API ব্যবহার করতে পারেন
+            console.log("Saving data to cloud...", data);
+            
+            // সাময়িক নোটিফিকেশন (আপনার ব্যাকএন্ড API যুক্ত করার পর এটি সফল বা ব্যর্থ মেসেজ দেখাবে)
+            alert("সফলভাবে ডেটা ক্লাউডে সংরক্ষণের জন্য প্রস্তুত করা হয়েছে! (আপনার ব্যাকএন্ড সার্ভার বা ডাটাবেজ কানেকশন যুক্ত করুন)");
+            
+            // উদাহরণস্বরূপ লোকাল স্টোরেজে সাময়িকভাবে সেভ করে রাখার কোড (পেজ রিফ্রেশ করলেও আর হারাবে না):
+            localStorage.setItem('attendanceData', JSON.stringify(data));
+        }
+    </script>
+
+</div>
+
 
     <div class="container">
         
