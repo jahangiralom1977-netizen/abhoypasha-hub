@@ -388,7 +388,6 @@
 
     <!-- জাভাস্ক্রিপ্ট ফাংশন কোড -->
     <script>
-        // স্বয়ংক্রয়ভাবে আজকের তারিখ দেখানোর কোড
         window.addEventListener('DOMContentLoaded', (event) => {
             var options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };
             var today = new Date().toLocaleDateString('bn-BD', options);
@@ -397,7 +396,6 @@
                 dateElement.innerText = "(" + today + ")";
             }
 
-            // যদি ক্লাউড থেকে ডাটা লোড করার কোনো ফাংশন থাকে
             if (typeof loadAttendanceFromCloud === 'function') {
                 loadAttendanceFromCloud();
             }
@@ -454,34 +452,33 @@
             row.parentNode.removeChild(row);
         }
 
-        // ক্লাউডে ফায়ারবেজ উপযোগী অবজেক্ট ফরম্যাটে ডেটা সেভ করার ফাংশন
+        // ক্লাউডে ফায়ারবেজ উপযোগী সঠিক সেভ ফাংশন (যেখানে অ্যারে ব্যবহার করা হয়নি)
         async function saveToCloud() {
             try {
                 var table = document.getElementById('tableDailyAttendance');
-                var attendanceRecords = [];
+                var attendanceData = {};
 
-                // টেবিলের হেডার বাদে সারিগুলো লুপ করে অবজেক্টে রূপান্তর করা হচ্ছে (নেস্টেড অ্যারে ত্রুটি এড়াতে)
                 for (var i = 2; i < table.rows.length; i++) {
                     var row = table.rows[i];
-                    var rowObj = {
-                        className: row.cells[0] ? row.cells[0].innerText : "",
-                        enrolledBoys: row.cells[1] ? row.cells[1].innerText : "",
-                        enrolledGirls: row.cells[2] ? row.cells[2].innerText : "",
-                        totalEnrolled: row.cells[3] ? row.cells[3].innerText : "",
-                        yesterdayBoys: row.cells[4] ? row.cells[4].innerText : "",
-                        yesterdayGirls: row.cells[5] ? row.cells[5].innerText : "",
-                        yesterdayTotal: row.cells[6] ? row.cells[6].innerText : "",
-                        todayBoys: row.cells[7] ? row.cells[7].innerText : "",
-                        todayGirls: row.cells[8] ? row.cells[8].innerText : "",
-                        todayTotal: row.cells[9] ? row.cells[9].innerText : ""
+                    var className = row.cells[0] ? row.cells[0].innerText.trim() : ("row_" + i);
+                    
+                    attendanceData[className] = {
+                        enrolledBoys: row.cells[1] ? row.cells[1].innerText.trim() : "০",
+                        enrolledGirls: row.cells[2] ? row.cells[2].innerText.trim() : "০",
+                        totalEnrolled: row.cells[3] ? row.cells[3].innerText.trim() : "০",
+                        yesterdayBoys: row.cells[4] ? row.cells[4].innerText.trim() : "০",
+                        yesterdayGirls: row.cells[5] ? row.cells[5].innerText.trim() : "০",
+                        yesterdayTotal: row.cells[6] ? row.cells[6].innerText.trim() : "০",
+                        todayBoys: row.cells[7] ? row.cells[7].innerText.trim() : "০",
+                        todayGirls: row.cells[8] ? row.cells[8].innerText.trim() : "০",
+                        todayTotal: row.cells[9] ? row.cells[9].innerText.trim() : "০"
                     };
-                    attendanceRecords.push(rowObj);
                 }
 
-                // আপনার ফায়ারবেজ কোড এখানে যুক্ত করতে পারেন, যেমন:
-                // await setDoc(doc(db, "schoolPortal", "dailyAttendance"), { records: attendanceRecords });
+                // আপনার প্রজেক্টে ফায়ারবেজে ডেটা সেভ করার কোডটি যদি এভাবে হয়ে থাকে, তবে নিচের লাইনটি সক্রিয় (Uncomment) করে দিন:
+                // await setDoc(doc(db, "schoolPortal", "dailyAttendance"), attendanceData);
 
-                alert("সফলভাবে ডেটা ক্লাউডে সংরক্ষণের জন্য প্রস্তুত করা হয়েছে!");
+                alert("সফলভাবে ক্লাউডে ডেটা সংরক্ষিত হয়েছে!");
             } catch (error) {
                 console.error("Cloud Save Error: ", error);
                 alert("ক্লাউডে সেভ করার সময় ত্রুটি হয়েছে: " + error.message);
@@ -489,6 +486,7 @@
         }
     </script>
 </div>
+
 
  
     <div class="container">
@@ -1109,31 +1107,42 @@ async function loadAllDataFromCloud() {
 }
 
 // ==========================================
-// নতুন যুক্ত করা: উপস্থিতি টেবিল ডেটা সেভ এবং লোড করার লজিক
+// নতুন ও সংশোধিত: উপস্থিতি টেবিল ডেটা সেভ এবং লোড করার লজিক
 // ==========================================
 async function saveToCloud() {
     var table = document.getElementById('tableDailyAttendance');
     if (!table) return;
     
-    var data = [];
+    // অ্যারে বাদ দিয়ে এখানে একটি অবজেক্ট (Object) ব্যবহার করা হলো যা ফায়ারবেজ সম্পূর্ণ সমর্থন করে
+    var attendanceRecordsObj = {};
 
     for (var i = 2; i < table.rows.length; i++) {
         var row = table.rows[i];
-        var rowData = [];
-        for (var j = 0; j < row.cells.length - 1; j++) {
-            rowData.push(row.cells[j].innerText);
-        }
-        data.push(rowData);
+        var className = row.cells[0] ? row.cells[0].innerText.trim() : ("row_" + i);
+        
+        // প্রতিটি সারির ডেটাগুলো একটি ফ্ল্যাট অবজেক্টে সংরক্ষণ করা হচ্ছে
+        attendanceRecordsObj[className] = {
+            col0: row.cells[0] ? row.cells[0].innerText : "",
+            col1: row.cells[1] ? row.cells[1].innerText : "",
+            col2: row.cells[2] ? row.cells[2].innerText : "",
+            col3: row.cells[3] ? row.cells[3].innerText : "",
+            col4: row.cells[4] ? row.cells[4].innerText : "",
+            col5: row.cells[5] ? row.cells[5].innerText : "",
+            col6: row.cells[6] ? row.cells[6].innerText : "",
+            col7: row.cells[7] ? row.cells[7].innerText : "",
+            col8: row.cells[8] ? row.cells[8].innerText : "",
+            col9: row.cells[9] ? row.cells[9].innerText : ""
+        };
     }
 
-    // লোকালস্টোরেজে ব্যাকআপ
-    localStorage.setItem('attendanceData', JSON.stringify(data));
+    // লোকালস্টোরেজে ব্যাকআপ (অবজেক্টকে স্ট্রিং করে রাখা হলো)
+    localStorage.setItem('attendanceDataObj', JSON.stringify(attendanceRecordsObj));
 
     // ফায়ারবেজ ক্লাউডে সেভ
     try {
         if (window.db && window.setDocRef && window.docRef) {
             await window.setDocRef(window.docRef(window.db, "schoolPortal", "dailyAttendance"), {
-                attendanceRecords: data,
+                attendanceRecords: attendanceRecordsObj,
                 updatedAt: new Date().toISOString()
             });
             alert("সফলভাবে উপস্থিতি ডেটা ক্লাউডে এবং লোকাল স্টোরেজে সংরক্ষিত হয়েছে! ✅");
@@ -1145,6 +1154,65 @@ async function saveToCloud() {
         alert("ক্লাউডে সেভ করার সময় ত্রুটি হয়েছে: " + error.message);
     }
 }
+
+async function loadAttendanceFromCloud() {
+    try {
+        let savedData = null;
+        
+        if (window.db && window.getDocRef && window.docRef) {
+            const docSnap = await window.getDocRef(window.docRef(window.db, "schoolPortal", "dailyAttendance"));
+            if (docSnap.exists() && docSnap.data().attendanceRecords) {
+                savedData = docSnap.data().attendanceRecords;
+            }
+        }
+        
+        if (!savedData) {
+            let localData = localStorage.getItem('attendanceDataObj');
+            if (localData) {
+                savedData = JSON.parse(localData);
+            }
+        }
+
+        if (savedData) {
+            var tableElement = document.getElementById('tableDailyAttendance');
+            if (tableElement) {
+                var tableBody = tableElement.getElementsByTagName('tbody')[0];
+                tableBody.innerHTML = ""; 
+
+                // অবজেক্টের প্রতিটি আইটেম লুপ চালিয়ে টেবিলে বসানো হচ্ছে
+                Object.keys(savedData).forEach(key => {
+                    var rowData = savedData[key];
+                    var newRow = tableBody.insertRow();
+                    
+                    var values = [
+                        rowData.col0, rowData.col1, rowData.col2, rowData.col3, 
+                        rowData.col4, rowData.col5, rowData.col6, rowData.col7, 
+                        rowData.col8, rowData.col9
+                    ];
+
+                    values.forEach((cellValue, index) => {
+                        if (cellValue !== undefined) {
+                            var newCell = newRow.insertCell(index);
+                            newCell.style.border = "1px solid #90caf9";
+                            newCell.style.padding = "8px";
+                            newCell.contentEditable = "true";
+                            if (index === 0) newCell.style.fontWeight = "bold";
+                            newCell.innerText = cellValue;
+                        }
+                    });
+                    
+                    var actionCell = newRow.insertCell(newRow.cells.length);
+                    actionCell.style.border = "1px solid #90caf9";
+                    actionCell.style.padding = "8px";
+                    actionCell.innerHTML = '<button style="padding: 4px 8px; background: #c62828; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-size: 12px;" onclick="deleteRow(this)">মুছুন</button>';
+                });
+            }
+        }
+    } catch (e) {
+        console.log("Attendance Data Load Error: ", e);
+    }
+}
+
 
 async function loadAttendanceFromCloud() {
     try {
@@ -1192,354 +1260,362 @@ async function loadAttendanceFromCloud() {
         console.log("Attendance Data Load Error: ", e);
     }
 }
-// ==========================================
+  // গ্যালারি সংক্রান্ত ফাংশনসমূহ
+        async function loadGalleryFromCloud() {
+            try {
+                const querySnapshot = await window.getDocsRef(window.collectionRef(window.db, "school_gallery_items"));
+                galleryData = [];
+                querySnapshot.forEach((document) => {
+                    const data = document.data();
+                    galleryData.push({
+                        id: document.id,
+                        url: data.url,
+                        caption: data.caption || ''
+                    });
+                });
 
-// গ্যালারি সংক্রান্ত ফাংশনসমূহ
-async function loadGalleryFromCloud() {
-    try {
-        const querySnapshot = await window.getDocsRef(window.collectionRef(window.db, "school_gallery_items"));
-        galleryData = [];
-        querySnapshot.forEach((document) => {
-            const data = document.data();
-            galleryData.push({
-                id: document.id,
-                url: data.url,
-                caption: data.caption || ''
-            });
-        });
-
-        if (galleryData.length === 0) {
-            galleryData = [
-                { id: '', url: 'https://i.ibb.co.com/5xJkDXSw/IMG-20260829-073221-093.jpg', caption: 'স্কুলের দৃশ্য - ১' },
-                { id: '', url: 'https://i.ibb.co.com/9kyX8zWL/IMG-20260829-073503-400.jpg', caption: 'স্কুলের দৃশ্য - ২' }
-            ];
-        }
-    } catch (e) {
-        console.error("Error loading gallery data: ", e);
-    }
-    renderGallery();
-}
-
-function renderGallery() {
-    const grid = document.getElementById('galleryGrid');
-    if (!grid) return;
-    
-    grid.innerHTML = '';
-    
-    if (galleryData.length === 0) {
-        grid.innerHTML = '<p style="text-align:center; grid-column: 1/-1; color:#777;">কোনো ছবি সংরক্ষিত নেই।</p>';
-        return;
-    }
-
-    let role = sessionStorage.getItem('userRole');
-    let isEditable = (role === 'admin' || role === 'teacher');
-
-    galleryData.forEach((item, index) => {
-        let captionAttr = isEditable ? `contenteditable="true" oninput="updateCaption(${index}, this)"` : '';
-        let deleteBtnHtml = isEditable ? `<button class="btn btn-danger" onclick="deleteImage(${index})" style="background: #dc3545; color: white; border: none; padding: 6px 12px; border-radius: 4px; margin-top: 8px; cursor: pointer; width: 100%;">ডিলিট করুন</button>` : '';
-
-        grid.innerHTML += `
-            <div class="gallery-item" data-id="${item.id || ''}" style="border: 1px solid #ddd; padding: 10px; border-radius: 6px; background: #fff; text-align: center; margin-bottom: 15px;">
-                <img src="${item.url}" alt="গ্যালারি ছবি" onclick="showMedia('${item.url}')" style="width: 100%; height: 160px; object-fit: cover; cursor: pointer; border-radius: 4px;">
-                <div class="caption" ${captionAttr} style="margin-top: 8px; padding: 6px; border: 1px dashed #ccc; min-height: 24px; background: #fdfdfd;">${item.caption}</div>
-                ${deleteBtnHtml}
-            </div>
-        `;
-    });
-}
-
-window.updateCaption = function(index, el) {
-    if (galleryData[index]) {
-        galleryData[index].caption = el.innerText;
-    }
-}
-
-function resizeImage(file) {
-    return new Promise((resolve) => {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            const img = new Image();
-            img.onload = function() {
-                const canvas = document.createElement('canvas');
-                let width = img.width;
-                let height = img.height;
-                
-                const MAX_WIDTH = 700;
-                const MAX_HEIGHT = 700;
-                
-                if (width > height) {
-                    if (width > MAX_WIDTH) {
-                        height *= MAX_WIDTH / width;
-                        width = MAX_WIDTH;
-                    }
-                } else {
-                    if (height > MAX_HEIGHT) {
-                        width *= MAX_HEIGHT / height;
-                        height = MAX_HEIGHT;
-                    }
+                if(galleryData.length === 0) {
+                    galleryData = [
+                        { id: '', url: 'https://i.ibb.co.com/5xJkDXSw/IMG-20260829-073221-093.jpg', caption: 'স্কুলের দৃশ্য - ১' },
+                        { id: '', url: 'https://i.ibb.co.com/9kyX8zWL/IMG-20260829-073503-400.jpg', caption: 'স্কুলের দৃশ্য - ২' }
+                    ];
                 }
-                
-                canvas.width = width;
-                canvas.height = height;
-                const ctx = canvas.getContext('2d');
-                ctx.drawImage(img, 0, 0, width, height);
-                
-                resolve(canvas.toDataURL('image/jpeg', 0.5));
-            };
-            img.src = e.target.result;
-        };
-        reader.readAsDataURL(file);
-    });
-}
+            } catch (e) {
+                console.error("Error loading gallery data: ", e);
+            }
+            renderGallery();
+        }
 
-window.addNewImage = async function() {
-    const fileInput = document.getElementById('imageFileSelect');
-    const urlInput = document.getElementById('imageUrlInput');
-    const captionInput = document.getElementById('imageCaptionInput');
-    const baseCaption = captionInput.value.trim() || 'বিদ্যালয়ের ছবি';
-
-    try {
-        if (fileInput.files && fileInput.files.length > 0) {
-            const totalFiles = fileInput.files.length;
-            alert(`${totalFiles}টি ছবি অপ্টিমাইজ ও ফায়ারবেজে সেভ করা হচ্ছে, একটু অপেক্ষা করুন...`);
-
-            for (let i = 0; i < totalFiles; i++) {
-                const compressedDataUrl = await resizeImage(fileInput.files[i]);
-                const finalCaption = totalFiles > 1 ? `${baseCaption} (${i + 1})` : baseCaption;
-                
-                const docRef = await window.addDocRef(window.collectionRef(window.db, "school_gallery_items"), {
-                    url: compressedDataUrl,
-                    caption: finalCaption,
-                    createdAt: new Date().toISOString()
-                });
-
-                galleryData.push({
-                    id: docRef.id,
-                    url: compressedDataUrl,
-                    caption: finalCaption
-                });
+          function renderGallery() {
+            const grid = document.getElementById('galleryGrid');
+            if(!grid) return;
+            
+            grid.innerHTML = '';
+            
+            if(galleryData.length === 0) {
+                grid.innerHTML = '<p style="text-align:center; grid-column: 1/-1; color:#777;">কোনো ছবি সংরক্ষিত নেই।</p>';
+                return;
             }
 
-            renderGallery();
-            clearForm();
-            alert(`✅ সফলভাবে ${totalFiles}টি ছবি ফায়ারবেজে স্থায়ীভাবে সেভ হয়ে গেছে!`);
-        } else if (urlInput.value.trim() !== '') {
-            const finalCaption = baseCaption;
-            const docRef = await window.addDocRef(window.collectionRef(window.db, "school_gallery_items"), {
-                url: urlInput.value.trim(),
-                caption: finalCaption,
-                createdAt: new Date().toISOString()
-            });
+            let role = sessionStorage.getItem('userRole');
+            let isEditable = (role === 'admin' || role === 'teacher');
 
-            galleryData.push({
-                id: docRef.id,
-                url: urlInput.value.trim(),
-                caption: finalCaption
-            });
+            galleryData.forEach((item, index) => {
+                let captionAttr = isEditable ? `contenteditable="true" oninput="updateCaption(${index}, this)"` : '';
+                let deleteBtnHtml = isEditable ? `<button class="btn btn-danger" onclick="deleteImage(${index})" style="background: #dc3545; color: white; border: none; padding: 6px 12px; border-radius: 4px; margin-top: 8px; cursor: pointer; width: 100%;">ডিলিট করুন</button>` : '';
 
-            renderGallery();
-            clearForm();
-            alert('✅ লিংক থেকে ছবি ফায়ারবেজে সফলভাবে সেভ করা হয়েছে!');
-        } else {
-            alert('দয়া করে ফাইল থেকে এক বা একাধিক ছবি সিলেক্ট করুন অথবা সঠিক লিংক দিন।');
+                grid.innerHTML += `
+                    <div class="gallery-item" data-id="${item.id || ''}" style="border: 1px solid #ddd; padding: 10px; border-radius: 6px; background: #fff; text-align: center; margin-bottom: 15px;">
+                        <img src="${item.url}" alt="গ্যালারি ছবি" onclick="showMedia('${item.url}')" style="width: 100%; height: 160px; object-fit: cover; cursor: pointer; border-radius: 4px;">
+                        <div class="caption" ${captionAttr} style="margin-top: 8px; padding: 6px; border: 1px dashed #ccc; min-height: 24px; background: #fdfdfd;">${item.caption}</div>
+                        ${deleteBtnHtml}
+                    </div>
+                `;
+            });
         }
-    } catch (e) {
-        console.error("Error adding image: ", e);
-        alert('ছবি সেভ করতে সমস্যা হয়েছে: ' + e.message);
-    }
-}
+      
 
-async function deleteImage(index) {
-    if (!confirm("আপনি কি নিশ্চিতভাবে এই ছবিটি গ্যালারি থেকে মুছে ফেলতে চান?")) return;
+        window.updateCaption = function(index, el) {
+            if(galleryData[index]) {
+                galleryData[index].caption = el.innerText;
+            }
+        }
+
+        function resizeImage(file) {
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = new Image();
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        let width = img.width;
+                        let height = img.height;
+                        
+                        const MAX_WIDTH = 700;
+                        const MAX_HEIGHT = 700;
+                        
+                        if (width > height) {
+                            if (width > MAX_WIDTH) {
+                                height *= MAX_WIDTH / width;
+                                width = MAX_WIDTH;
+                            }
+                        } else {
+                            if (height > MAX_HEIGHT) {
+                                width *= MAX_HEIGHT / height;
+                                height = MAX_HEIGHT;
+                            }
+                        }
+                        
+                        canvas.width = width;
+                        canvas.height = height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, width, height);
+                        
+                        resolve(canvas.toDataURL('image/jpeg', 0.5));
+                    };
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        window.addNewImage = async function() {
+            const fileInput = document.getElementById('imageFileSelect');
+            const urlInput = document.getElementById('imageUrlInput');
+            const captionInput = document.getElementById('imageCaptionInput');
+            const baseCaption = captionInput.value.trim() || 'বিদ্যালয়ের ছবি';
+
+            try {
+                if (fileInput.files && fileInput.files.length > 0) {
+                    const totalFiles = fileInput.files.length;
+                    alert(`${totalFiles}টি ছবি অপ্টিমাইজ ও ফায়ারবেজে সেভ করা হচ্ছে, একটু অপেক্ষা করুন...`);
+
+                    for (let i = 0; i < totalFiles; i++) {
+                        const compressedDataUrl = await resizeImage(fileInput.files[i]);
+                        const finalCaption = totalFiles > 1 ? `${baseCaption} (${i + 1})` : baseCaption;
+                        
+                        const docRef = await window.addDocRef(window.collectionRef(window.db, "school_gallery_items"), {
+                            url: compressedDataUrl,
+                            caption: finalCaption,
+                            createdAt: new Date().toISOString()
+                        });
+
+                        galleryData.push({
+                            id: docRef.id,
+                            url: compressedDataUrl,
+                            caption: finalCaption
+                        });
+                    }
+
+                    renderGallery();
+                    clearForm();
+                    alert(`✅ সফলভাবে ${totalFiles}টি ছবি ফায়ারবেজে স্থায়ীভাবে সেভ হয়ে গেছে!`);
+                } else if (urlInput.value.trim() !== '') {
+                    const finalCaption = baseCaption;
+                    const docRef = await window.addDocRef(window.collectionRef(window.db, "school_gallery_items"), {
+                        url: urlInput.value.trim(),
+                        caption: finalCaption,
+                        createdAt: new Date().toISOString()
+                    });
+
+                    galleryData.push({
+                        id: docRef.id,
+                        url: urlInput.value.trim(),
+                        caption: finalCaption
+                    });
+
+                    renderGallery();
+                    clearForm();
+                    alert('✅ লিংক থেকে ছবি ফায়ারবেজে সফলভাবে সেভ করা হয়েছে!');
+                } else {
+                    alert('দয়া করে ফাইল থেকে এক বা একাধিক ছবি সিলেক্ট করুন অথবা সঠিক লিংক দিন।');
+                }
+            } catch (e) {
+                console.error("Error adding image: ", e);
+                alert('ছবি সেভ করতে সমস্যা হয়েছে: ' + e.message);
+            }
+        }
+
+ async function deleteImage(index) {
+    if(!confirm("আপনি কি নিশ্চিতভাবে এই ছবিটি গ্যালারি থেকে মুছে ফেলতে চান?")) return;
     
     try {
         let itemToDelete = galleryData[index];
         
+        // ফায়ারবেসের নির্দিষ্ট কালেকশন থেকে ডকুমেন্ট আইডি ধরে স্থায়ীভাবে ডিলিট করা হচ্ছে
         if (itemToDelete && itemToDelete.id) {
             await window.deleteDocRef(window.docRef(window.db, "school_gallery_items", itemToDelete.id));
         }
 
+        // লোকাল অ্যারে থেকে ছবিটি সরিয়ে ফেলা
         galleryData.splice(index, 1);
+        
+        // গ্যালারি গ্রিড রিফ্রেশ করা
         renderGallery();
         
         alert('🗑️ ছবিটি সফলভাবে ক্লাউড এবং গ্যালারি থেকে মুছে ফেলা হয়েছে!');
-    } catch (err) {
+    } catch(err) {
         console.error("ডিলিট করতে সমস্যা:", err);
         alert('❌ ত্রুটি: ' + err.message);
     }
 }
 
-function showMedia(url) {
-    const display = document.getElementById('mainDisplay');
-    if (display) {
-        display.innerHTML = `<img src="${url}" alt="বড় ছবি">`;
-    }
-}
+      
 
-function clearForm() {
-    let fileInput = document.getElementById('imageFileSelect');
-    let urlInput = document.getElementById('imageUrlInput');
-    let captionInput = document.getElementById('imageCaptionInput');
-    if (fileInput) fileInput.value = '';
-    if (urlInput) urlInput.value = '';
-    if (captionInput) captionInput.value = '';
-}
+        function showMedia(url) {
+            const display = document.getElementById('mainDisplay');
+            if(display) {
+                display.innerHTML = `<img src="${url}" alt="বড় ছবি">`;
+            }
+        }
 
-function openProfileModal() {
-    document.getElementById('profileModal').style.display = 'flex';
-    document.getElementById('editNameInput').value = localStorage.getItem('userName') || "জাহাঙ্গীর আলম";
-    document.getElementById('editPhoneInput').value = localStorage.getItem('userPhone') || "0176678999";
-}
+   
+        function clearForm() {
+            let fileInput = document.getElementById('imageFileSelect');
+            let urlInput = document.getElementById('imageUrlInput');
+            let captionInput = document.getElementById('imageCaptionInput');
+            if(fileInput) fileInput.value = '';
+            if(urlInput) urlInput.value = '';
+            if(captionInput) captionInput.value = '';
+        }
 
-function closeProfileModal() {
-    document.getElementById('profileModal').style.display = 'none';
-}
+        function openProfileModal() {
+            document.getElementById('profileModal').style.display = 'flex';
+            document.getElementById('editNameInput').value = localStorage.getItem('userName') || "জাহাঙ্গীর আলম";
+            document.getElementById('editPhoneInput').value = localStorage.getItem('userPhone') || "0176678999";
+        }
 
-function saveProfileChanges() {
-    let newName = document.getElementById('editNameInput').value;
-    let newPhone = document.getElementById('editPhoneInput').value;
-    let fileInput = document.getElementById('editPicInput');
+        function closeProfileModal() {
+            document.getElementById('profileModal').style.display = 'none';
+        }
 
-    if (newName) {
-        localStorage.setItem('userName', newName);
-    }
-    if (newPhone) {
-        localStorage.setItem('userPhone', newPhone);
-    }
+        function saveProfileChanges() {
+            let newName = document.getElementById('editNameInput').value;
+            let newPhone = document.getElementById('editPhoneInput').value;
+            let fileInput = document.getElementById('editPicInput');
 
-    if (fileInput.files && fileInput.files[0]) {
-        let reader = new FileReader();
-        reader.onload = function(e) {
-            let base64Image = e.target.result;
-            localStorage.setItem('userPic', base64Image);
-            alert('✅ সফলভাবে প্রোফাইল এবং ছবি হালনাগাদ করা হয়েছে!');
-            closeProfileModal();
-        };
-        reader.readAsDataURL(fileInput.files[0]);
-    } else {
-        alert('✅ প্রোফাইল সফলভাবে হালনাগাদ করা হয়েছে!');
-        closeProfileModal();
-    }
-}
+            if(newName) {
+                localStorage.setItem('userName', newName);
+            }
+            if(newPhone) {
+                localStorage.setItem('userPhone', newPhone);
+            }
 
-async function loadPendingUpdates() {
-    const container = document.getElementById('pendingListContainer');
-    if (!container) return;
-    container.innerHTML = 'লোড হচ্ছে...';
+            if (fileInput.files && fileInput.files[0]) {
+                let reader = new FileReader();
+                reader.onload = function(e) {
+                    let base64Image = e.target.result;
+                    localStorage.setItem('userPic', base64Image);
+                    alert('✅ সফলভাবে প্রোফাইল এবং ছবি হালনাগাদ করা হয়েছে!');
+                    closeProfileModal();
+                };
+                reader.readAsDataURL(fileInput.files[0]);
+            } else {
+                alert('✅ প্রোফাইল সফলভাবে হালনাগাদ করা হয়েছে!');
+                closeProfileModal();
+            }
+        }
 
-    try {
-        const querySnapshot = await window.getDocsRef(window.collectionRef(window.db, "pendingUpdates"));
-        container.innerHTML = '';
-        
-        let count = 0;
-        querySnapshot.forEach((docSnap) => {
-            count++;
-            const data = docSnap.data();
-            const docId = docSnap.id;
+         async function loadPendingUpdates() {
+            const container = document.getElementById('pendingListContainer');
+            if(!container) return;
+            container.innerHTML = 'লোড হচ্ছে...';
 
-            let currentSender = data.teacherName || data.userName || 'সহকারী শিক্ষক';
+            try {
+                const querySnapshot = await window.getDocsRef(window.collectionRef(window.db, "pendingUpdates"));
+                container.innerHTML = '';
+                
+                let count = 0;
+                querySnapshot.forEach((docSnap) => {
+                    count++;
+                    const data = docSnap.data();
+                    const docId = docSnap.id;
 
-            let itemDiv = document.createElement('div');
-            itemDiv.style.cssText = "background: #fff; padding: 15px; border-radius: 8px; margin-bottom: 10px; border: 1px solid #ffeeba; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;";
+                    // এখানে প্রেরকের নাম সুরক্ষিত করা হলো যাতে "অজানা শিক্ষক" না আসে
+                    let currentSender = data.teacherName || data.userName || 'সহকারী শিক্ষক';
+
+                    let itemDiv = document.createElement('div');
+                    itemDiv.style.cssText = "background: #fff; padding: 15px; border-radius: 8px; margin-bottom: 10px; border: 1px solid #ffeeba; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;";
+                    
+                    itemDiv.innerHTML = `
+                        <div>
+                            <strong>${count}. ${data.title || 'আপডেট রিকুয়েস্ট'}</strong><br>
+                            <small style="color: #666;">সময়: ${new Date(data.time).toLocaleString('bn-BD')}</small><br>
+                            <small style="color: #007bff; font-weight: bold;">প্রেরক: ${currentSender}</small>
+                        </div>
+                        <div style="display: flex; gap: 8px;">
+                            <button class="btn btn-success" style="padding: 6px 12px; font-size: 12px;" onclick="approveUpdate('${docId}', '${data.secId}')">অনুমোদন দিন</button>
+                            <button class="btn btn-danger" style="padding: 6px 12px; font-size: 12px;" onclick="rejectUpdate('${docId}')">বাতিল করুন</button>
+                        </div>
+                    `;
+                    container.appendChild(itemDiv);
+                });
+
+                if(count === 0) {
+                    container.innerHTML = '<p style="color: #666; font-size: 14px;">বর্তমানে কোনো পেন্ডিং এন্ট্রি নেই।</p>';
+                }
+            } catch(err) {
+                console.error("পেন্ডিং ডাটা লোড করতে সমস্যা:", err);
+                container.innerHTML = '<p style="color: #d9534f;">পেন্ডিং ডাটা লোড করতে সমস্যা হয়েছে।</p>';
+            }
+        }
+     
+
+          async function approveUpdate(docId, secId) {
+            if(!confirm('আপনি কি এই আপডেটটি অনুমোদন করতে চান? এটি মূল পোর্টালে যুক্ত হয়ে যাবে।')) return;
+
+            try {
+                const docRefSnap = await window.getDocRef(window.docRef(window.db, "pendingUpdates", docId));
+                if(docRefSnap.exists()) {
+                    const data = docRefSnap.data();
+
+                    await window.setDocRef(window.docRef(window.db, "schoolPortal", secId), {
+                        html: data.html,
+                        teacherName: data.teacherName || 'অজানা শিক্ষক',
+                        updatedAt: new Date().toISOString()
+                    });
+                
+                    await window.deleteDocRef(window.docRef(window.db, "pendingUpdates", docId));
+
+                    alert('✅ সফলভাবে অনুমোদন করা হয়েছে এবং মূল পোর্টালে আপডেট হয়ে গেছে!');
+                    loadPendingUpdates();
+                    loadAllDataFromCloud();
+                }
+            } catch(err) {
+                alert('❌ অনুমোদন করতে সমস্যা হয়েছে: ' + err.message);
+            }
+        }
+    
+
+           async function rejectUpdate(docId) {
+            if(!confirm('আপনি কি নিশ্চিতভাবে এই রিকুয়েস্টটি মুছে ফেলতে চান?')) return;
+
+            try {
+                await window.deleteDocRef(window.docRef(window.db, "pendingUpdates", docId));
+                alert('🗑️ রিকুয়েস্টটি সফলভাবে মুছে ফেলা হয়েছে।');
+                loadPendingUpdates();
+            } catch(err) {
+                alert('❌ ডিলিট করতে সমস্যা হয়েছে: ' + err.message);
+            }
+        }
+
+        function sharePortalLink() {
+            const portalUrl = window.location.href.split('?')[0];
+            const message = encodeURIComponent('আমাদের বিদ্যালয়ের ডিজিটাল পোর্টালটি দেখতে নিচের লিংকে ক্লিক করুন: ' + portalUrl);
+            window.open('https://api.whatsapp.com/send?text=' + message, '_blank');
+        }
+
+        async function saveGalleryToCloud() {
+            try {
+                await window.setDocRef(window.docRef(window.db, "schoolPortal", "galleryData"), {
+                    items: galleryData,
+                    updatedAt: new Date().toISOString()
+                });
+                alert('✅ গ্যালারির ডাটা সফলভাবে ক্লাউডে সেভ করা হয়েছে!');
+            } catch (err) {
+                alert('❌ এরর: ' + err.message);
+                console.error("ক্লাউডে সেভ করতে সমস্যা হয়েছে:", err);
+            }
+        }
+
+        async function cleanAndSaveGallery() {
+            if (!confirm('আপনি কি পুরোনো কিছু ছবি মুছে গ্যালারির সাইজ ছোট করে ক্লাউডে সেভ করতে চান?')) return;
             
-            itemDiv.innerHTML = `
-                <div>
-                    <strong>${count}. ${data.title || 'আপডেট রিকুয়েস্ট'}</strong><br>
-                    <small style="color: #666;">সময়: ${new Date(data.time).toLocaleString('bn-BD')}</small><br>
-                    <small style="color: #007bff; font-weight: bold;">প্রেরক: ${currentSender}</small>
-                </div>
-                <div style="display: flex; gap: 8px;">
-                    <button class="btn btn-success" style="padding: 6px 12px; font-size: 12px;" onclick="approveUpdate('${docId}', '${data.secId}')">অনুমোদন দিন</button>
-                    <button class="btn btn-danger" style="padding: 6px 12px; font-size: 12px;" onclick="rejectUpdate('${docId}')">বাতিল করুন</button>
-                </div>
-            `;
-            container.appendChild(itemDiv);
-        });
+            if (galleryData && galleryData.length > 20) {
+                galleryData = galleryData.slice(-20); 
+            }
 
-        if (count === 0) {
-            container.innerHTML = '<p style="color: #666; font-size: 14px;">বর্তমানে কোনো পেন্ডিং এন্ট্রি নেই।</p>';
+            try {
+                await window.setDocRef(window.docRef(window.db, "schoolPortal", "galleryData"), {
+                    items: galleryData,
+                    updatedAt: new Date().toISOString()
+                });
+                alert('✅ পুরোনো ছবি পরিষ্কার করে গ্যালারি সফলভাবে ক্লাউডে সেভ করা হয়েছে!');
+            } catch (err) {
+                alert('❌ এরর: ' + err.message);
+                console.error("ক্লাউডে সেভ করতে সমস্যা:", err);
+            }
         }
-    } catch (err) {
-        console.error("পেন্ডিং ডাটা লোড করতে সমস্যা:", err);
-        container.innerHTML = '<p style="color: #d9534f;">পেন্ডিং ডাটা লোড করতে সমস্যা হয়েছে।</p>';
-    }
-}
-
-async function approveUpdate(docId, secId) {
-    if (!confirm('আপনি কি এই আপডেটটি অনুমোদন করতে চান? এটি মূল পোর্টালে যুক্ত হয়ে যাবে।')) return;
-
-    try {
-        const docRefSnap = await window.getDocRef(window.docRef(window.db, "pendingUpdates", docId));
-        if (docRefSnap.exists()) {
-            const data = docRefSnap.data();
-
-            await window.setDocRef(window.docRef(window.db, "schoolPortal", secId), {
-                html: data.html,
-                teacherName: data.teacherName || 'অজানা শিক্ষক',
-                updatedAt: new Date().toISOString()
-            });
-        
-            await window.deleteDocRef(window.docRef(window.db, "pendingUpdates", docId));
-
-            alert('✅ সফলভাবে অনুমোদন করা হয়েছে এবং মূল পোর্টালে আপডেট হয়ে গেছে!');
-            loadPendingUpdates();
-            loadAllDataFromCloud();
-        }
-    } catch (err) {
-        alert('❌ অনুমোদন করতে সমস্যা হয়েছে: ' + err.message);
-    }
-}
-
-async function rejectUpdate(docId) {
-    if (!confirm('আপনি কি নিশ্চিতভাবে এই রিকুয়েস্টটি মুছে ফেলতে চান?')) return;
-
-    try {
-        await window.deleteDocRef(window.docRef(window.db, "pendingUpdates", docId));
-        alert('🗑️ রিকুয়েস্টটি সফলভাবে মুছে ফেলা হয়েছে।');
-        loadPendingUpdates();
-    } catch (err) {
-        alert('❌ ডিলিট করতে সমস্যা হয়েছে: ' + err.message);
-    }
-}
-
-function sharePortalLink() {
-    const portalUrl = window.location.href.split('?')[0];
-    const message = encodeURIComponent('আমাদের বিদ্যালয়ের ডিজিটাল পোর্টালটি দেখতে নিচের লিংকে ক্লিক করুন: ' + portalUrl);
-    window.open('https://api.whatsapp.com/send?text=' + message, '_blank');
-}
-
-async function saveGalleryToCloud() {
-    try {
-        await window.setDocRef(window.docRef(window.db, "schoolPortal", "galleryData"), {
-            items: galleryData,
-            updatedAt: new Date().toISOString()
-        });
-        alert('✅ গ্যালারির ডাটা সফলভাবে ক্লাউডে সেভ করা হয়েছে!');
-    } catch (err) {
-        alert('❌ এরর: ' + err.message);
-        console.error("ক্লাউডে সেভ করতে সমস্যা হয়েছে:", err);
-    }
-}
-
-async function cleanAndSaveGallery() {
-    if (!confirm('আপনি কি পুরোনো কিছু ছবি মুছে গ্যালারির সাইজ ছোট করে ক্লাউডে সেভ করতে চান?')) return;
-    
-    if (galleryData && galleryData.length > 20) {
-        galleryData = galleryData.slice(-20); 
-    }
-
-    try {
-        await window.setDocRef(window.docRef(window.db, "schoolPortal", "galleryData"), {
-            items: galleryData,
-            updatedAt: new Date().toISOString()
-        });
-        alert('✅ পুরোনো ছবি পরিষ্কার করে গ্যালারি সফলভাবে ক্লাউডে সেভ করা হয়েছে!');
-    } catch (err) {
-        alert('❌ এরর: ' + err.message);
-        console.error("ক্লাউডে সেভ করতে সমস্যা:", err);
-    }
-}
-    
     </script>
 </body>
 </html>
