@@ -258,6 +258,9 @@
     <div class="marquee-box">
         <marquee behavior="scroll" direction="left">✨ ৭ নং অভয়পাশা সরকারি প্রাথমিক বিদ্যালয় ডিজিটাল পোর্টালে স্বাগতম! থ্রি-ড্যাশ মেনু থেকে মূল ড্যাশবোর্ডে প্রবেশ করুন। ✨</marquee>
     </div>
+  
+ 
+
     
  <!-- পুরো সেকশনটি ওয়েবসাইটের মাঝখানে (Center) দেখানোর জন্য বাইরের div-এ style ব্যবহার করা হয়েছে -->
 <div style="max-width: 1000px; margin: 0 auto; width: 100%;">
@@ -487,6 +490,190 @@
     </script>
 </div>
 
+
+<!-- মূল্যায়ন ও বৃত্তি সংক্রান্ত সম্পূর্ণ টেবিল ও ফায়ারবেজ কোড -->
+<div id="evaluationSection" style="margin-bottom: 30px; width: 100%;">
+    
+    <!-- টেবিল ১: মূল্যায়ন সংক্রান্ত -->
+    <h3 contenteditable="true" id="evalMainTitle" style="background: #e8f5e9; padding: 8px; border-radius: 4px; border: 1px dashed #81c784; outline: none;" title="এডিট করতে ক্লিক করুন">মূল্যায়ন সংক্রান্ত : ১ম প্রান্তিক, ২য় প্রান্তিক, ৩য় প্রান্তিক ও বৃত্তি পরীক্ষা সংক্রান্ত</h3>
+
+    <table id="tableEvaluation" style="width: 100%; table-layout: fixed; border-collapse: collapse; text-align: center; margin-bottom: 10px;">
+        <thead>
+            <tr style="background: #aed581;">
+                <th style="border: 1px solid #90caf9; padding: 8px;">মূল্যায়ন সূচক</th>
+                <th style="border: 1px solid #90caf9; padding: 8px;">১ম শ্রেণি</th>
+                <th style="border: 1px solid #90caf9; padding: 8px;">২য় শ্রেণি</th>
+                <th style="border: 1px solid #90caf9; padding: 8px;">৩য় শ্রেণি</th>
+                <th style="border: 1px solid #90caf9; padding: 8px;">৪র্থ শ্রেণি</th>
+                <th style="border: 1px solid #90caf9; padding: 8px;">৫ম শ্রেণি</th>
+                <th style="border: 1px solid #90caf9; padding: 8px;">মোট</th>
+                <th style="border: 1px solid #90caf9; padding: 8px; width: 80px;">অ্যাকশন</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td contenteditable="true" style="border: 1px solid #90caf9; padding: 8px; font-weight: bold;">পঠিত পরীক্ষার্থী</td>
+                <td contenteditable="true" style="border: 1px solid #90caf9; padding: 8px;">০</td>
+                <td contenteditable="true" style="border: 1px solid #90caf9; padding: 8px;">০</td>
+                <td contenteditable="true" style="border: 1px solid #90caf9; padding: 8px;">০</td>
+                <td contenteditable="true" style="border: 1px solid #90caf9; padding: 8px;">০</td>
+                <td contenteditable="true" style="border: 1px solid #90caf9; padding: 8px;">০</td>
+                <td contenteditable="true" style="border: 1px solid #90caf9; padding: 8px;">০</td>
+                <td style="border: 1px solid #90caf9; padding: 8px;"><button onclick="deleteRow(this)" style="background: #c62828; color: #fff; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer;">মুছুন</button></td>
+            </tr>
+            <tr>
+                <td contenteditable="true" style="border: 1px solid #90caf9; padding: 8px; font-weight: bold;">উত্তীর্ণ</td>
+                <td contenteditable="true" style="border: 1px solid #90caf9; padding: 8px;">০</td>
+                <td contenteditable="true" style="border: 1px solid #90caf9; padding: 8px;">০</td>
+                <td contenteditable="true" style="border: 1px solid #90caf9; padding: 8px;">০</td>
+                <td contenteditable="true" style="border: 1px solid #90caf9; padding: 8px;">০</td>
+                <td contenteditable="true" style="border: 1px solid #90caf9; padding: 8px;">০</td>
+                <td contenteditable="true" style="border: 1px solid #90caf9; padding: 8px;">০</td>
+                <td style="border: 1px solid #90caf9; padding: 8px;"><button onclick="deleteRow(this)" style="background: #c62828; color: #fff; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer;">মুছুন</button></td>
+            </tr>
+        </tbody>
+    </table>
+    <button onclick="addEvaluationRow()" style="background: #2e7d32; color: #fff; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; margin-bottom: 25px;">+ মূল্যায়ন সারি যোগ করুন</button>
+
+
+    <!-- টেবিল ২: বৃত্তি পরীক্ষার্থীর সংখ্যা -->
+    <table id="tableScholarship" style="width: 100%; table-layout: fixed; border-collapse: collapse; text-align: center; margin-bottom: 10px;">
+        <thead>
+            <tr style="background: #aed581;">
+                <th colspan="7" contenteditable="true" id="scholarshipMainTitle" style="border: 1px solid #90caf9; padding: 10px; font-size: 16px; outline: none;" title="এডিট করতে ক্লিক করুন">বৃত্তি পরীক্ষার্থীর সংখ্যা</th>
+                <th rowspan="2" style="border: 1px solid #90caf9; padding: 10px; vertical-align: middle; width: 80px;">অ্যাকশন</th>
+            </tr>
+            <tr style="background: #c5e1a5;">
+                <th colspan="3" contenteditable="true" style="border: 1px solid #90caf9; padding: 8px; outline: none;">সাধারণ</th>
+                <th colspan="4" contenteditable="true" style="border: 1px solid #90caf9; padding: 8px; outline: none;">ট্যালেন্ট</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td colspan="3" contenteditable="true" style="border: 1px solid #90caf9; padding: 8px;">১</td>
+                <td colspan="4" contenteditable="true" style="border: 1px solid #90caf9; padding: 8px;">১</td>
+                <td style="border: 1px solid #90caf9; padding: 8px;"><button onclick="deleteRow(this)" style="background: #c62828; color: #fff; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer;">মুছুন</button></td>
+            </tr>
+            <tr>
+                <td colspan="3" contenteditable="true" style="border: 1px solid #90caf9; padding: 8px;">২</td>
+                <td colspan="4" contenteditable="true" style="border: 1px solid #90caf9; padding: 8px;">২</td>
+                <td style="border: 1px solid #90caf9; padding: 8px;"><button onclick="deleteRow(this)" style="background: #c62828; color: #fff; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer;">মুছুন</button></td>
+            </tr>
+            <tr>
+                <td colspan="3" contenteditable="true" style="border: 1px solid #90caf9; padding: 8px;">৩</td>
+                <td colspan="4" contenteditable="true" style="border: 1px solid #90caf9; padding: 8px;">৩</td>
+                <td style="border: 1px solid #90caf9; padding: 8px;"><button onclick="deleteRow(this)" style="background: #c62828; color: #fff; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer;">মুছুন</button></td>
+            </tr>
+        </tbody>
+    </table>
+    <button onclick="addScholarshipRow()" style="background: #2e7d32; color: #fff; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; margin-bottom: 20px;">+ বৃত্তি সারি যোগ করুন</button>
+
+    <br>
+    <!-- সরাসরি ক্লাউডে সেভ করার বাটন -->
+    <button id="saveCloudBtn" style="background: #2e7d32; color: #fff; border: none; padding: 10px 20px; font-size: 15px; border-radius: 5px; cursor: pointer; font-weight: bold;">সরাসরি ক্লাউডে সেভ করুন</button>
+</div>
+
+<!-- সমস্ত স্ক্রিপ্ট ও ফায়ারবেজ লজিক একত্রে -->
+<script type="module">
+    import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+    import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyBgArM-MAHLbHwipkVCC5Di-SirEhTCn0",
+        authDomain: "abhoypashaschool.firebaseapp.com",
+        projectId: "abhoypashaschool",
+        storageBucket: "abhoypashaschool.appspot.com",
+        messagingSenderId: "135944324445",
+        appId: "1:135944324445:web:e24dfde29dbbf31af6d4b4"
+    };
+
+    const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
+    const db = getFirestore(app);
+
+    window.deleteRow = function(btn) {
+        var row = btn.parentNode.parentNode;
+        row.parentNode.removeChild(row);
+    }
+
+    window.addEvaluationRow = function() {
+        var tableBody = document.getElementById('tableEvaluation').getElementsByTagName('tbody')[0];
+        var newRow = tableBody.insertRow();
+        
+        for (var i = 0; i < 7; i++) {
+            var newCell = newRow.insertCell(i);
+            newCell.style.border = "1px solid #90caf9";
+            newCell.style.padding = "8px";
+            newCell.contentEditable = "true";
+            newCell.innerText = (i === 0) ? "নতুন সূচক" : "০";
+        }
+        
+        var actionCell = newRow.insertCell(7);
+        actionCell.style.border = "1px solid #90caf9";
+        actionCell.style.padding = "8px";
+        actionCell.innerHTML = '<button onclick="deleteRow(this)" style="background: #c62828; color: #fff; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer;">মুছুন</button>';
+    }
+
+    window.addScholarshipRow = function() {
+        var tableBody = document.getElementById('tableScholarship').getElementsByTagName('tbody')[0];
+        var newRow = tableBody.insertRow();
+        
+        var cell1 = newRow.insertCell(0);
+        cell1.colSpan = 3;
+        cell1.style.border = "1px solid #90caf9";
+        cell1.style.padding = "8px";
+        cell1.contentEditable = "true";
+        cell1.innerText = "";
+
+        var cell2 = newRow.insertCell(1);
+        cell2.colSpan = 4;
+        cell2.style.border = "1px solid #90caf9";
+        cell2.style.padding = "8px";
+        cell2.contentEditable = "true";
+        cell2.innerText = "";
+        
+        var actionCell = newRow.insertCell(2);
+        actionCell.style.border = "1px solid #90caf9";
+        actionCell.style.padding = "8px";
+        actionCell.innerHTML = '<button onclick="deleteRow(this)" style="background: #c62828; color: #fff; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer;">মুছুন</button>';
+    }
+
+    document.getElementById('saveCloudBtn').addEventListener('click', async function() {
+        try {
+            var evalSectionHTML = document.getElementById('evaluationSection').innerHTML;
+            
+            var evaluationData = {
+                title: document.getElementById('evalMainTitle').innerText,
+                scholarshipTitle: document.getElementById('scholarshipMainTitle').innerText,
+                html: evalSectionHTML,
+                lastUpdated: new Date().toISOString()
+            };
+
+            const docRef = doc(db, "schoolPortal", "evaluationAndScholarship");
+            await setDoc(docRef, evaluationData);
+
+            alert("মূল্যায়ন ও বৃত্তি পরীক্ষার ডেটা সফলভাবে ক্লাউডে সংরক্ষিত হয়েছে!");
+        } catch (error) {
+            console.error("Cloud Save Error: ", error);
+            alert("ক্লাউডে সেভ করার সময় ত্রুটি হয়েছে: " + error.message);
+        }
+    });
+
+    window.addEventListener('DOMContentLoaded', async () => {
+        try {
+            const docRef = doc(db, "schoolPortal", "evaluationAndScholarship");
+            const docSnap = await getDoc(docRef);
+
+            if (docSnap.exists()) {
+                const data = docSnap.data();
+                if (data && data.html) {
+                    document.getElementById('evaluationSection').innerHTML = data.html;
+                }
+            }
+        } catch (error) {
+            console.error("Cloud Load Error: ", error);
+        }
+    });
+</script>
 
  
     <div class="container">
