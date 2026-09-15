@@ -1265,45 +1265,52 @@ body.admin-logged-in div.admin-only {
      container.appendChild(div);
  }
 
- async function saveToCloud() {
-     var table = document.getElementById('tableDailyAttendance');
-     if (!table) return;
-     
-     var attendanceRecords = [];
-     for (var i = 2; i < table.rows.length; i++) {
-         var row = table.rows[i];
-         var rowObj = {
-             col0: row.cells[0] ? row.cells[0].innerText.trim() : "",
-             col1: row.cells[1] ? row.cells[1].innerText.trim() : "০",
-             col2: row.cells[2] ? row.cells[2].innerText.trim() : "০",
-             col3: row.cells[3] ? row.cells[3].innerText.trim() : "০",
-             col4: row.cells[4] ? row.cells[4].innerText.trim() : "০",
-             col5: row.cells[5] ? row.cells[5].innerText.trim() : "০",
-             col6: row.cells[6] ? row.cells[6].innerText.trim() : "০",
-             col7: row.cells[7] ? row.cells[7].innerText.trim() : "০",
-             col8: row.cells[8] ? row.cells[8].innerText.trim() : "০",
-             col9: row.cells[9] ? row.cells[9].innerText.trim() : "০"
-         };
-         attendanceRecords.push(rowObj);
-     }
+ // ==========================================
+// চূড়ান্ত ও নিখুঁত উপস্থিতি টেবিল ডেটা সেভ এবং লোড করার লজিক
+// ==========================================
+async function saveToCloud() {
+    var table = document.getElementById('tableDailyAttendance');
+    if (!table) return;
+    
+    var attendanceRecords = [];
 
-     localStorage.setItem('attendanceRecordsArrayFinal', JSON.stringify(attendanceRecords));
+    // টেবিলের সারিগুলো সিরিয়াল অনুযায়ী অ্যারে ফরম্যাটে সংরক্ষণ করা হচ্ছে
+    for (var i = 2; i < table.rows.length; i++) {
+        var row = table.rows[i];
+        var rowObj = {
+            col0: row.cells[0] ? row.cells[0].innerText.trim() : "",
+            col1: row.cells[1] ? row.cells[1].innerText.trim() : "০",
+            col2: row.cells[2] ? row.cells[2].innerText.trim() : "০",
+            col3: row.cells[3] ? row.cells[3].innerText.trim() : "০",
+            col4: row.cells[4] ? row.cells[4].innerText.trim() : "০",
+            col5: row.cells[5] ? row.cells[5].innerText.trim() : "০",
+            col6: row.cells[6] ? row.cells[6].innerText.trim() : "০",
+            col7: row.cells[7] ? row.cells[7].innerText.trim() : "০",
+            col8: row.cells[8] ? row.cells[8].innerText.trim() : "০",
+            col9: row.cells[9] ? row.cells[9].innerText.trim() : "০"
+        };
+        attendanceRecords.push(rowObj);
+    }
 
-     try {
-         if (window.db && window.setDocRef && window.docRef) {
-             await window.setDocRef(window.docRef(window.db, "schoolPortal", "dailyAttendance"), {
-                 records: attendanceRecords,
-                 updatedAt: new Date().toISOString()
-             });
-             alert("সফলভাবে উপস্থিতি ডেটা ক্লাউডে এবং লোকাল স্টোরেজে সংরক্ষিত হয়েছে! ✅");
-         } else {
-             alert("ডেটা লোকাল স্টোরেজে সেভ হয়েছে, তবে ফায়ারবেজ কানেকশন পাওয়া যায়নি।");
-         }
-     } catch (error) {
-         console.error("Cloud Save Error: ", error);
-         alert("ক্লাউডে সেভ করার সময় ত্রুটি হয়েছে: " + error.message);
-     }
- }
+    // লোকালস্টোরেজে ব্যাকআপ
+    localStorage.setItem('attendanceRecordsArrayFinal', JSON.stringify(attendanceRecords));
+
+    // ফায়ারবেজ ক্লাউডে সেভ
+    try {
+        if (window.db && window.setDocRef && window.docRef) {
+            await window.setDocRef(window.docRef(window.db, "schoolPortal", "dailyAttendance"), {
+                records: attendanceRecords,
+                updatedAt: new Date().toISOString()
+            });
+            alert("সফলভাবে উপস্থিতি ডেটা ক্লাউডে এবং লোকাল স্টোরেজে সংরক্ষিত হয়েছে! ✅");
+        } else {
+            alert("ডেটা লোকাল স্টোরেজে সেভ হয়েছে, তবে ফায়ারবেজ কানেকশন পাওয়া যায়নি।");
+        }
+    } catch (error) {
+        console.error("Cloud Save Error: ", error);
+        alert("ক্লাউডে সেভ করার সময় ত্রুটি হয়েছে: " + error.message);
+    }
+}
 
  async function loadAttendanceFromCloud() {
      try {
