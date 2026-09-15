@@ -418,18 +418,134 @@ body.admin-logged-in div.admin-only {
         console.error("Firebase Init Error: ", e);
     }
 
-    window.addEventListener('DOMContentLoaded', () => {
-        var options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };
-        var today = new Date().toLocaleDateString('bn-BD', options);
-        var dateElement = document.getElementById('currentDateDisplay');
-        if (dateElement) {
-            dateElement.innerText = "(" + today + ")";
+       // ১. দৈনিক উপস্থিতি নিখুঁতভাবে সেভ করার সংশোধিত ফাংশন
+    window.saveAttendanceToCloud = async function() {
+        if (!db) {
+            alert("ফায়ারবেজ ডেটাবেজ কানেকশন পাওয়া যায়নি!");
+            return;
         }
-        
-        loadAttendanceFromCloud();
-        loadEvaluationFromCloud();
-    });
+        try {
+            var table = document.getElementById('tableDailyAttendance');
+            if (!table) return;
 
+            var rowsObj = {};
+            var trs = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+            
+            for (let i = 0; i < trs.length; i++) {
+                var tds = trs[i].getElementsByTagName('td');
+                var rowCells = [];
+                for (let j = 0; j < tds.length; j++) {
+                    if (!tds[j].classList.contains('admin-only')) {
+                        rowCells.push(tds[j].innerText.trim());
+                    }
+                }
+                // নেস্টেড অ্যারে এড়াতে অবজেক্টের চাবি (key) হিসেবে row_0, row_1 ব্যবহার করা হলো
+                rowsObj["row_" + i] = rowCells;
+            }
+
+            const docRef = doc(db, "schoolPortal", "dailyAttendanceOnlyRows");
+            await setDoc(docRef, {
+                rowsMap: rowsObj,
+                totalRows: trs.length,
+                lastUpdated: new Date().toISOString()
+            });
+            alert("দৈনিক উপস্থিতির ডেটা সফলভাবে ক্লাউডে সংরক্ষিত হয়েছে! ✅");
+        } catch (error) {
+            console.error("Attendance Save Error: ", error);
+            alert("ত্রুটি: " + error.message);
+        }
+    };
+  
+    // ২. ক্লাউড থেকে উপস্থিতি লোড করার সংশোধিত ফাংশন
+    async function loadAttendanceFromCloud() {
+        if (!db) return;
+        try {
+            const docRef = doc(db, "schoolPortal", "dailyAttendanceOnlyRows");
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists() && docSnap.data().rowsMap) {
+                var rowsMap = docSnap.data().rowsMap;
+                var totalRows = docSnap.data().totalRows || 0;
+                var table = document.getElementById('tableDailyAttendance');
+                if (!table) return;
+                var tbody = table.getElementsByTagName('tbody')[0];
+                if (!tbody) return;
+
+                tbody.innerHTML = ""; 
+
+                for (let i = 0; i < totalRows; i++) {
+                    var rowCells = rowsMap["row_" + i];
+                    if (rowCells) {
+                        var newRow = tbody.insertRow();
+                        rowCells.forEach((cellText, index) => {
+                            var newCell = newRow.insertCell();
+                            newCell.style.border = "1px solid #90caf9";
+                            newCell.style.padding = "8px";
+                            newCell.contentEditable = "true";
+                            if (index === 0) newCell.style.fontWeight = "bold";
+                            newCell.innerText = cellText;
+                        });
+
+                        var actionCell = newRow.insertCell();
+                        actionCell.style.border = "1px solid #90caf9";
+                        actionCell.style.padding = "8px";
+                        actionCell.className = "admin-only";
+                        actionCell.innerHTML = '<button style="padding: 4px 8px; background: #c62828; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-size: 12px;" onclick="deleteRow(this)">মুছুন</button>';
+                    }
+                }
+            }
+        } catch (error) {
+            console.error("Attendance Load Error: ", error);
+        }
+    }
+
+    // ৩. মূল্যায়ন ও বৃত্তি সেকশন সেভ করার ফাংশন
+    window.saveEvaluationToCloud = async function() {
+        if (!db) {
+            alert("ফায়ারবেজ ডেটাবেজ কানেকশন পাওয়া যায়নি!");
+            return;
+        }
+        try {
+            const docRef = doc(db, "schoolPortal", "evaluationAndScholarshipOnly");
+            await setDoc(docRef, {
+                evalTitle: document.getElementById('evalMainTitle').innerHTML,
+                evalTableHtml: document.getElementById('tableEvaluation').outerHTML,
+                scholarshipTableHtml: document.getElementById('tableScholarship').outerHTML,
+                lastUpdated: new Date().toISOString()
+            });
+            alert("মূল্যায়ন ও বৃত্তির সমস্ত ডেটা সফলভাবে ক্লাউডে সংরক্ষিত হয়েছে!");
+        } catch (error) {
+            console.error("Evaluation Save Error: ", error);
+            alert("ত্রুটি: " + error.message);
+        }
+    };
+
+    // ৪. ক্লাউড থেকে মূল্যায়ন ও বৃত্তি লোড করার ফাংশন
+    async function loadEvaluationFromCloud() {
+        if (!db) return;
+        try {
+            const docRef = doc(db, "schoolPortal", "evaluationAndScholarshipOnly");
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists()) {
+                const data = docSnap.data();
+                if (data.evalTitle) {
+                    var titleEl = document.getElementById('evalMainTitle');
+                    if (titleEl) titleEl.innerHTML = data.evalTitle;
+                }
+                if (data.evalTableHtml) {
+                    var evalTable = document.getElementById('tableEvaluation');
+                    if (evalTable) evalTable.outerHTML = data.evalTableHtml;
+                }
+                if (data.scholarshipTableHtml) {
+                    var schTable = document.getElementById('tableScholarship');
+                    if (schTable) schTable.outerHTML = data.scholarshipTableHtml;
+                }
+            }
+        } catch (error) {
+            console.error("Evaluation Load Error: ", error);
+        }
+    }
+
+    // গ্লোবাল ফাংশনগুলো উইন্ডোতে বাইন্ড করা
     window.deleteRow = function(btn) {
         var row = btn.parentNode.parentNode;
         row.parentNode.removeChild(row);
@@ -518,86 +634,18 @@ body.admin-logged-in div.admin-only {
         actionCell.innerHTML = '<button onclick="deleteRow(this)" style="background: #c62828; color: #fff; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer;">মুছুন</button>';
     }
 
-    // ১. দৈনিক উপস্থিতি সেভ করার ফাংশন
-    window.saveAttendanceToCloud = async function() {
-        if (!db) {
-            alert("ফায়ারবেজ ডেটাবেজ কানেকশন পাওয়া যায়নি!");
-            return;
+    // পেজ লোড ইভেন্ট
+    window.addEventListener('DOMContentLoaded', () => {
+        var options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };
+        var today = new Date().toLocaleDateString('bn-BD', options);
+        var dateElement = document.getElementById('currentDateDisplay');
+        if (dateElement) {
+            dateElement.innerText = "(" + today + ")";
         }
-        try {
-            const docRef = doc(db, "schoolPortal", "dailyAttendanceOnly");
-            await setDoc(docRef, {
-                html: document.getElementById('tableDailyAttendance').outerHTML,
-                lastUpdated: new Date().toISOString()
-            });
-            alert("দৈনিক উপস্থিতির ডেটা সফলভাবে ক্লাউডে সংরক্ষিত হয়েছে!");
-        } catch (error) {
-            console.error("Attendance Save Error: ", error);
-            alert("ত্রুটি: " + error.message);
-        }
-    };
-
-    // ২. মূল্যায়ন ও বৃত্তি সেকশন সেভ করার ফাংশন (উভয় টেবিল আলাদাভাবে সেভ হবে যাতে কোনো লস না হয়)
-    window.saveEvaluationToCloud = async function() {
-        if (!db) {
-            alert("ফায়ারবেজ ডেটাবেজ কানেকশন পাওয়া যায়নি!");
-            return;
-        }
-        try {
-            const docRef = doc(db, "schoolPortal", "evaluationAndScholarshipOnly");
-            await setDoc(docRef, {
-                evalTitle: document.getElementById('evalMainTitle').innerHTML,
-                evalTableHtml: document.getElementById('tableEvaluation').outerHTML,
-                scholarshipTableHtml: document.getElementById('tableScholarship').outerHTML,
-                lastUpdated: new Date().toISOString()
-            });
-            alert("মূল্যায়ন ও বৃত্তির সমস্ত ডেটা সফলভাবে ক্লাউডে সংরক্ষিত হয়েছে!");
-        } catch (error) {
-            console.error("Evaluation Save Error: ", error);
-            alert("ত্রুটি: " + error.message);
-        }
-    };
-
-    // ক্লাউড থেকে উপস্থিতি লোড করার ফাংশন
-    async function loadAttendanceFromCloud() {
-        if (!db) return;
-        try {
-            const docRef = doc(db, "schoolPortal", "dailyAttendanceOnly");
-            const docSnap = await getDoc(docRef);
-            if (docSnap.exists() && docSnap.data().html) {
-                var tableContainer = document.getElementById('tableDailyAttendance');
-                if (tableContainer) tableContainer.outerHTML = docSnap.data().html;
-            }
-        } catch (error) {
-            console.error("Attendance Load Error: ", error);
-        }
-    }
-
-    // ক্লাউড থেকে মূল্যায়ন ও বৃত্তি নিরাপদভাবে আলাদা পার্ট হিসেবে লোড করার ফাংশন (যা আর কখনো ব্লিঙ্ক বা লাল কালি দেখাবে না)
-    async function loadEvaluationFromCloud() {
-        if (!db) return;
-        try {
-            const docRef = doc(db, "schoolPortal", "evaluationAndScholarshipOnly");
-            const docSnap = await getDoc(docRef);
-            if (docSnap.exists()) {
-                const data = docSnap.data();
-                if (data.evalTitle) {
-                    var titleEl = document.getElementById('evalMainTitle');
-                    if (titleEl) titleEl.innerHTML = data.evalTitle;
-                }
-                if (data.evalTableHtml) {
-                    var evalTable = document.getElementById('tableEvaluation');
-                    if (evalTable) evalTable.outerHTML = data.evalTableHtml;
-                }
-                if (data.scholarshipTableHtml) {
-                    var schTable = document.getElementById('tableScholarship');
-                    if (schTable) schTable.outerHTML = data.scholarshipTableHtml;
-                }
-            }
-        } catch (error) {
-            console.error("Evaluation Load Error: ", error);
-        }
-    }
+        
+        loadAttendanceFromCloud();
+        loadEvaluationFromCloud();
+    });
 </script>
 
 
